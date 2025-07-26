@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://3qq00hkyqqmh" path="res://Scenes/main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://jbb3quf3ec23" path="res://Systems/Animals/conejo.tscn" id="3_jjvhh"]
-[ext_resource type="PackedScene" uid="uid://b3rt0b5mfdaqk" path="res://node_2d.tscn" id="9_ynf5e"]
+[ext_resource type="PackedScene" uid="uid://cwwbkexo7lung" path="res://Systems/Inventory/inventory.tscn" id="4_jjvhh"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0xm2m")
@@ -11,5 +11,4 @@ script = ExtResource("1_0xm2m")
 position = Vector2(330, 394)
 input_pickable = false
 
-[node name="Node2D" parent="." instance=ExtResource("9_ynf5e")]
-position = Vector2(217, 283)
+[node name="Inventory" parent="." instance=ExtResource("4_jjvhh")]

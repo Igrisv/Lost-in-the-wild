@@ -17,7 +17,7 @@ config/icon="res://Assets/icon.svg"
 
 [autoload]
 
-Inventory="*res://Systems/Inventory/inventory.tscn"
+Inventory="*res://Systems/Inventory/inventory.gd"
 
 [input]
 

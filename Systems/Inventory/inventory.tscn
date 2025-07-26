@@ -1,19 +1,17 @@
 [gd_scene load_steps=4 format=3 uid="uid://cwwbkexo7lung"]
 
-[ext_resource type="Script" uid="uid://cgv6arplpyrfc" path="res://Systems/Inventory/inventory.gd" id="1_u4th5"]
 [ext_resource type="PackedScene" uid="uid://dhlu67wniw7vv" path="res://Systems/Inventory/slot.tscn" id="1_u36e3"]
+[ext_resource type="Script" uid="uid://cqiwgtrqdtvsc" path="res://Systems/Inventory/inventory_ui.gd" id="1_ulfck"]
 [ext_resource type="Script" uid="uid://dv1731vfxas6n" path="res://Systems/Inventory/hotbar.gd" id="2_ulfck"]
 
-[node name="Inventory" type="Control" node_paths=PackedStringArray("hotbar", "grid")]
+[node name="Inventory" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_u4th5")
-hotbar = NodePath("Ui/Hotbar")
-grid = NodePath("Ui/Inventario")
+script = ExtResource("1_ulfck")
 metadata/_edit_lock_ = true
 
 [node name="Ui" type="CanvasLayer" parent="."]
