@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjq3yoq160v4k"]
+
+[ext_resource type="Texture2D" uid="uid://ceuaogynhsn54" path="res://Assets/icon.svg" id="1_8jgc1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8jgc1"]
+radius = 89.5879
+
+[node name="Comida" type="CharacterBody2D" groups=["Food"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_8jgc1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Food"]]
+shape = SubResource("CircleShape2D_8jgc1")

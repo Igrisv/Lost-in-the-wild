@@ -1,0 +1,117 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwwbkexo7lung"]
+
+[ext_resource type="Script" uid="uid://cgv6arplpyrfc" path="res://Systems/Inventory/inventory.gd" id="1_u4th5"]
+[ext_resource type="PackedScene" uid="uid://dhlu67wniw7vv" path="res://Systems/Inventory/slot.tscn" id="1_u36e3"]
+[ext_resource type="Script" uid="uid://dv1731vfxas6n" path="res://Systems/Inventory/hotbar.gd" id="2_ulfck"]
+
+[node name="Inventory" type="Control" node_paths=PackedStringArray("hotbar", "grid")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_u4th5")
+hotbar = NodePath("Ui/Hotbar")
+grid = NodePath("Ui/Inventario")
+metadata/_edit_lock_ = true
+
+[node name="Ui" type="CanvasLayer" parent="."]
+
+[node name="Inventario" type="GridContainer" parent="Ui"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 215.0
+offset_top = -271.0
+offset_right = 507.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 4
+
+[node name="Slot" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot2" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot3" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot4" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot5" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot6" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot7" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot8" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot9" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot10" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot11" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot12" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot13" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot14" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot15" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot16" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Hotbar" type="HBoxContainer" parent="Ui"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -257.0
+offset_top = -70.0
+offset_right = 257.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("2_ulfck")
+
+[node name="Slot" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot2" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot3" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot4" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot5" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot6" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[node name="Slot7" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+
+[connection signal="equip" from="Ui/Hotbar" to="." method="_on_hotbar_equip"]

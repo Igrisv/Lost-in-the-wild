@@ -1,0 +1,109 @@
+[gd_scene load_steps=14 format=3 uid="uid://jbb3quf3ec23"]
+
+[ext_resource type="PackedScene" uid="uid://b8i1drhl2d12v" path="res://Systems/Animals/animal_base.tscn" id="1_0jp3c"]
+[ext_resource type="Texture2D" uid="uid://dq8i6ak16sdpm" path="res://Assets/Animals_Outline/MiniBunny.png" id="2_s77la"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wb78c"]
+atlas = ExtResource("2_s77la")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eblo5"]
+atlas = ExtResource("2_s77la")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqapc"]
+atlas = ExtResource("2_s77la")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxexc"]
+atlas = ExtResource("2_s77la")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wbwlj"]
+atlas = ExtResource("2_s77la")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fw4tb"]
+atlas = ExtResource("2_s77la")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jl4kv"]
+atlas = ExtResource("2_s77la")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84kxe"]
+atlas = ExtResource("2_s77la")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ov32h"]
+atlas = ExtResource("2_s77la")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h36cp"]
+atlas = ExtResource("2_s77la")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y3t7f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wb78c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eblo5")
+}],
+"loop": true,
+"name": &"Acariciarse",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqapc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jxexc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wbwlj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fw4tb")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jl4kv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84kxe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ov32h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h36cp")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 5.0
+}]
+
+[node name="Animal_Base" instance=ExtResource("1_0jp3c")]
+animal_name = "Conejo"
+animal_species = 1
+behavior = 2
+
+[node name="CollisionShape2D" parent="." index="0"]
+position = Vector2(-0.5, 1)
+
+[node name="DetectionArea" parent="." index="1" groups=["Animals"]]
+
+[node name="Sprite2D" parent="." index="2"]
+texture_filter = 1
+position = Vector2(1, -11)
+scale = Vector2(0.976563, 1.03906)
+sprite_frames = SubResource("SpriteFrames_y3t7f")
+animation = &"Acariciarse"

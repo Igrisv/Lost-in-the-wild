@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AnimalInteraction" load_steps=2 format=3 uid="uid://1diujwuvvd1q"]
+
+[ext_resource type="Script" uid="uid://dn51n3appjrj0" path="res://Systems/Animals/Animal_Interaction.gd" id="1_08hlk"]
+
+[resource]
+script = ExtResource("1_08hlk")
+target_species = Array[int]([1, 2])
+interaction_type = "Atacar"
+interaction_range = 150.0
+priority = 1.0
+metadata/_custom_type_script = "uid://dn51n3appjrj0"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AnimalInteraction" load_steps=2 format=3 uid="uid://bre0jp5xn6scr"]
+
+[ext_resource type="Script" uid="uid://dn51n3appjrj0" path="res://Systems/Animals/Animal_Interaction.gd" id="1_3ml1b"]
+
+[resource]
+script = ExtResource("1_3ml1b")
+target_species = Array[int]([5])
+interaction_type = "Huir"
+interaction_range = 150.0
+priority = 0.8
+metadata/_custom_type_script = "uid://dn51n3appjrj0"

@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://cokyqa1sqmon0"]
+
+[ext_resource type="Script" uid="uid://crsqym6x7i1np" path="res://Scenes/jugador.gd" id="1_mo433"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tgxhv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mo433"]
+radius = 27.1662
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_mo433"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["Player"]]
+script = ExtResource("1_mo433")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_tgxhv")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_mo433")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -4.76837e-07)
+scale = Vector2(13.25, 12.75)
+texture = SubResource("PlaceholderTexture2D_mo433")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -35.0
+offset_top = 11.0
+offset_right = 29.0
+offset_bottom = 38.0
+scale = Vector2(1.09253, 0.446433)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_InteractionArea_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_InteractionArea_body_exited"]

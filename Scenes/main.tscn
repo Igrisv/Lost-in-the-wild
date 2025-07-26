@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bag2l1wvhorit"]
+
+[ext_resource type="Script" uid="uid://3qq00hkyqqmh" path="res://Scenes/main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://jbb3quf3ec23" path="res://Systems/Animals/conejo.tscn" id="3_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://b3rt0b5mfdaqk" path="res://node_2d.tscn" id="9_ynf5e"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_0xm2m")
+
+[node name="Animal_Base" parent="." instance=ExtResource("3_jjvhh")]
+position = Vector2(330, 394)
+input_pickable = false
+
+[node name="Node2D" parent="." instance=ExtResource("9_ynf5e")]
+position = Vector2(217, 283)
