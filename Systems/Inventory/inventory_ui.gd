@@ -37,7 +37,3 @@ func hide_inventory():
 	canvas_layer.visible = false
 	hotbar.visible = false
 	grid.visible = false
-
-
-func _on_button_pressed() -> void:
-	pass # Replace with function body.

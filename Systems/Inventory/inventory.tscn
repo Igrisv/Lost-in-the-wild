@@ -79,7 +79,7 @@ layout_mode = 2
 [node name="Slot16" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
 
-[node name="Hotbar" type="HBoxContainer" parent="Ui"]
+[node name="Hotbar" type="HBoxContainer" parent="Ui" groups=["Hotbar"]]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0

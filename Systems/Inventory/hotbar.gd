@@ -25,10 +25,8 @@ func _input(event):
 	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			index -= 1
-			print(index)
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			index += 1
-			print(index)
 		# Detectar clic izquierdo en un slot
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			for i in range(get_child_count()):
