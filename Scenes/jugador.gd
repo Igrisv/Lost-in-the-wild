@@ -48,7 +48,7 @@ func _input(event):
 							target.start_observing(self)
 						elif target.taming_stage == target.TamingStage.OBSERVACION:
 							if Inventory.has_item_in_hotbar(target.preferred_resource):
-								if Inventory.use_stackable_item(target.preferred_resource):
+								if Inventory.use_stackable_item(target.preferred_resource,1):
 									start_taming(target)
 								else:
 									print("Error al usar %s para domesticar a %s" % [target.preferred_resource, target.animal_name])

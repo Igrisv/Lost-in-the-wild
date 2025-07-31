@@ -1,14 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://bag2l1wvhorit"]
+[gd_scene load_steps=6 format=3 uid="uid://bag2l1wvhorit"]
 
 [ext_resource type="Script" uid="uid://3qq00hkyqqmh" path="res://Scenes/main.gd" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://jbb3quf3ec23" path="res://Systems/Animals/conejo.tscn" id="3_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://dr5kuuer5oimd" path="res://Systems/Resources-node/resource_node.tscn" id="4_21xkr"]
 [ext_resource type="PackedScene" uid="uid://cwwbkexo7lung" path="res://Systems/Inventory/inventory.tscn" id="4_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://cokyqa1sqmon0" path="res://Scenes/Jugador.tscn" id="4_kry3j"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_8gbba"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0xm2m")
 
-[node name="Animal_Base" parent="." instance=ExtResource("3_jjvhh")]
-position = Vector2(330, 394)
-input_pickable = false
-
 [node name="Inventory" parent="." instance=ExtResource("4_jjvhh")]
+
+[node name="Player" parent="." instance=ExtResource("4_kry3j")]
+position = Vector2(455, 396)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(509, 332)
+scale = Vector2(-56.4545, 47.8636)
+texture = SubResource("PlaceholderTexture2D_8gbba")
+
+[node name="Resource_Node" parent="." instance=ExtResource("4_21xkr")]
+position = Vector2(353, 371)
+
+[node name="Resource_Node2" parent="." instance=ExtResource("4_21xkr")]
+position = Vector2(398, 344)
+
+[node name="Resource_Node3" parent="." instance=ExtResource("4_21xkr")]
+position = Vector2(363, 429)

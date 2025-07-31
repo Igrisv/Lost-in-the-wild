@@ -7,7 +7,9 @@ var grid_slots := []
 func _ready():
 	# Preload de ítems
 	item_map = {
-		"Carne": preload("res://items/stone.tres")
+		"Carne": preload("res://items/stone.tres"),
+		"Troncon": preload("res://items/troncon.tres"),
+		"Rosa": preload("res://items/rosa.tres")
 	}
 
 	for item_name in item_map.keys():
@@ -65,14 +67,18 @@ func add_item(item: Item, amount: float = 1.0):
 	if remaining_amount > 0:
 		print("Inventario lleno. Sobran %.1f de %s" % [remaining_amount, item.name])
 
-func use_stackable_item(item_name: String) -> bool:
-	for slot in hotbar_slots:
-		if slot.item != null and slot.item.name == item_name and slot.amount > 0:
-			slot.add_amount(-1)
+func use_stackable_item(item: Item, amount: int) -> bool:
+	var remaining = amount
+	for slot in hotbar_slots + grid_slots:
+		if slot.item != null and slot.item.id == item.id:
+			var to_remove = min(remaining, slot.amount)
+			slot.add_amount(-to_remove)
+			remaining -= to_remove
 			if slot.amount <= 0:
 				slot.item = null
-			return true
-	return false
+			if remaining <= 0:
+				return true
+	return remaining <= 0
 
 func has_item_in_hotbar(item_name: String) -> bool:
 	for slot in hotbar_slots:
@@ -85,3 +91,10 @@ func set_hotbar_slots(slots: Array):
 
 func set_grid_slots(slots: Array):
 	grid_slots = slots
+
+func count_item(item: Item) -> int:
+	var total = 0
+	for slot in hotbar_slots + grid_slots:
+		if slot.item != null and slot.item.id == item.id:
+			total += slot.amount
+	return total

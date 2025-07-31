@@ -18,6 +18,7 @@ config/icon="res://Assets/icon.svg"
 [autoload]
 
 Inventory="*res://Systems/Inventory/inventory.gd"
+CraftingManager="*res://Systems/Crafteo/Crafting_Manager.gd"
 
 [input]
 
