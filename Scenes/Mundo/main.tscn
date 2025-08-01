@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://bag2l1wvhorit"]
 
-[ext_resource type="Script" uid="uid://3qq00hkyqqmh" path="res://Scenes/main.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://3qq00hkyqqmh" path="res://Scenes/Mundo/main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://b3x8iqpxo30ys" path="res://Systems/Criaturas/creature.tscn" id="4_21xkr"]
 [ext_resource type="PackedScene" uid="uid://cwwbkexo7lung" path="res://Systems/Inventory/inventory.tscn" id="4_jjvhh"]
-[ext_resource type="PackedScene" uid="uid://cokyqa1sqmon0" path="res://Scenes/Jugador.tscn" id="4_kry3j"]
+[ext_resource type="PackedScene" uid="uid://cokyqa1sqmon0" path="res://Scenes/Jugador/Jugador.tscn" id="4_kry3j"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_8gbba"]
 

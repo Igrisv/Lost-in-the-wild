@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Lostwild"
-run/main_scene="uid://bag2l1wvhorit"
+run/main_scene="uid://c5n02nfk3vas1"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://Assets/icon.svg"
 
@@ -19,6 +19,7 @@ config/icon="res://Assets/icon.svg"
 
 Inventory="*res://Systems/Inventory/inventory.gd"
 CraftingManager="*res://Systems/Crafteo/Crafting_Manager.gd"
+ManagerMovil="*res://Scenes/Main_Menu/Manager_Movil.gd"
 
 [input]
 

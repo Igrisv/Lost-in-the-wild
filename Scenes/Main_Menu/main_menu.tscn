@@ -1,0 +1,141 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5n02nfk3vas1"]
+
+[ext_resource type="Script" uid="uid://bopfal4ataqia" path="res://Scenes/Main_Menu/main_menu.gd" id="1_e582s"]
+
+[node name="Main_Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e582s")
+
+[node name="Nueva_Partida" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="Nueva_Partida"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Nueva_partida" type="Button" parent="Nueva_Partida"]
+layout_mode = 0
+offset_left = 1002.0
+offset_top = 597.0
+offset_right = 1121.0
+offset_bottom = 628.0
+text = "Nueva partida"
+
+[node name="Atras_Nueva_Partida" type="Button" parent="Nueva_Partida"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 597.0
+offset_right = 81.0
+offset_bottom = 628.0
+text = "Atras"
+
+[node name="Opciones" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 1153.0
+offset_bottom = 648.0
+metadata/_edit_lock_ = true
+
+[node name="Atras_Opciones" type="Button" parent="Opciones"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 597.0
+offset_right = 81.0
+offset_bottom = 628.0
+text = "Atras"
+
+[node name="Movil_" type="Label" parent="Opciones"]
+layout_mode = 0
+offset_left = 148.0
+offset_top = 106.0
+offset_right = 246.0
+offset_bottom = 129.0
+text = "Desactivado"
+
+[node name="Label" type="Label" parent="Opciones"]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 58.0
+offset_right = 311.0
+offset_bottom = 81.0
+text = "Activar/Desactivar modo ui movil"
+
+[node name="Id_Movil" type="Button" parent="Opciones"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 102.0
+offset_right = 124.0
+offset_bottom = 133.0
+text = "Mode"
+
+[node name="Creditos" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+metadata/_edit_lock_ = true
+
+[node name="Atras_Creditos" type="Button" parent="Creditos"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 597.0
+offset_right = 81.0
+offset_bottom = 628.0
+text = "Atras"
+
+[node name="Main_Menu" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 1149.0
+offset_bottom = 648.0
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main_Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -59.0
+offset_top = -68.0
+offset_right = 59.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Nueva_partida_Menu" type="Button" parent="Main_Menu/VBoxContainer"]
+layout_mode = 2
+text = "Nueva Partida"
+
+[node name="Opciones" type="Button" parent="Main_Menu/VBoxContainer"]
+layout_mode = 2
+text = "Opciones"
+
+[node name="Creditos" type="Button" parent="Main_Menu/VBoxContainer"]
+layout_mode = 2
+text = "Creditos"
+
+[node name="Salir" type="Button" parent="Main_Menu/VBoxContainer"]
+layout_mode = 2
+text = "Salir
+"
+
+[connection signal="pressed" from="Nueva_Partida/Nueva_partida" to="." method="_on_nueva_partida_pressed"]
+[connection signal="pressed" from="Nueva_Partida/Atras_Nueva_Partida" to="." method="_on_atras_nueva_partida_pressed"]
+[connection signal="pressed" from="Opciones/Atras_Opciones" to="." method="_on_atras_opciones_pressed"]
+[connection signal="pressed" from="Opciones/Id_Movil" to="." method="_on_id_movil_pressed"]
+[connection signal="pressed" from="Creditos/Atras_Creditos" to="." method="_on_atras_creditos_pressed"]
+[connection signal="pressed" from="Main_Menu/VBoxContainer/Nueva_partida_Menu" to="." method="_on_nueva_partida_menu_pressed"]
+[connection signal="pressed" from="Main_Menu/VBoxContainer/Opciones" to="." method="_on_opciones_pressed"]
+[connection signal="pressed" from="Main_Menu/VBoxContainer/Creditos" to="." method="_on_creditos_pressed"]
+[connection signal="pressed" from="Main_Menu/VBoxContainer/Salir" to="." method="_on_salir_pressed"]
