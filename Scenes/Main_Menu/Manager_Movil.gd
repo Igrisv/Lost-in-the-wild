@@ -4,9 +4,6 @@ extends Node
 var id_movil : bool = false
 var sting_id_status : String = ""
 
-
-func _ready() -> void:
-	switch()
 	
 func _process(delta: float) -> void:
 	switch()

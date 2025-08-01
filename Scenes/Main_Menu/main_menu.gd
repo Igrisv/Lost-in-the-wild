@@ -10,7 +10,7 @@ extends Control
 
 #region Nueva_Partida
 func _on_nueva_partida_pressed() -> void:
-	get_tree().change_scene_to_file("res://Scenes/main.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Mundo/main.tscn")
 #endregion
 
 

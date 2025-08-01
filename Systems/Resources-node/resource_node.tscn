@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dr5kuuer5oimd"]
 
 [ext_resource type="Script" uid="uid://daxtulp1mo1wp" path="res://Systems/Resources-node/Resources-node.gd" id="1_4psne"]
-[ext_resource type="Texture2D" uid="uid://dmvr2wnc6sjhi" path="res://Assets/Tree.png" id="1_rigcg"]
+[ext_resource type="Texture2D" uid="uid://dmvr2wnc6sjhi" path="res://Assets/Mundo/Tree.png" id="1_rigcg"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rigcg"]
 radius = 18.0

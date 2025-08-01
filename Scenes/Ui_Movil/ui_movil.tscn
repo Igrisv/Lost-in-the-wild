@@ -1,4 +1,14 @@
-[gd_scene format=3 uid="uid://bm03qstksvuqk"]
+[gd_scene load_steps=10 format=3 uid="uid://bm03qstksvuqk"]
+
+[ext_resource type="Texture2D" uid="uid://b8inhxkmu6sup" path="res://Assets/Controles/Buttons/Random/Arrows/Big/05_Up.png" id="1_o4g3n"]
+[ext_resource type="Script" uid="uid://c7n0hk42s0lqc" path="res://Scenes/Ui_Movil/ui_movil.gd" id="1_pjqd4"]
+[ext_resource type="Texture2D" uid="uid://dpnsce7l6cwsn" path="res://Assets/Controles/Buttons/Random/Arrows/Big/06_Up_Pressed.png" id="2_pjqd4"]
+[ext_resource type="Texture2D" uid="uid://blo825e7d878h" path="res://Assets/Controles/Buttons/Random/Arrows/Big/07_Down.png" id="3_j6ivf"]
+[ext_resource type="Texture2D" uid="uid://dkscpkk68yma1" path="res://Assets/Controles/Buttons/Random/Arrows/Big/08_Down_Pressed.png" id="4_f3h1i"]
+[ext_resource type="Texture2D" uid="uid://bnobtnb8f1gsk" path="res://Assets/Controles/Buttons/Random/Arrows/Big/01_Left.png" id="5_p1a6j"]
+[ext_resource type="Texture2D" uid="uid://cyak2kb6c787r" path="res://Assets/Controles/Buttons/Random/Arrows/Big/02_Left_Pressed.png" id="6_nxxsn"]
+[ext_resource type="Texture2D" uid="uid://052p5rujtiu6" path="res://Assets/Controles/Buttons/Random/Arrows/Big/03_Right.png" id="7_bvp56"]
+[ext_resource type="Texture2D" uid="uid://co7ikb7wjmhwc" path="res://Assets/Controles/Buttons/Random/Arrows/Big/04_Right_Pressed.png" id="8_a640b"]
 
 [node name="Ui_Movil" type="Control"]
 layout_mode = 3
@@ -7,3 +17,37 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_pjqd4")
+metadata/_edit_lock_ = true
+
+[node name="Arriba" type="TouchScreenButton" parent="."]
+texture_filter = 1
+position = Vector2(162, 347)
+scale = Vector2(4, 4)
+texture_normal = ExtResource("1_o4g3n")
+texture_pressed = ExtResource("2_pjqd4")
+action = "arriba"
+
+[node name="Abajo" type="TouchScreenButton" parent="."]
+texture_filter = 1
+position = Vector2(165, 479)
+scale = Vector2(4, 4)
+texture_normal = ExtResource("3_j6ivf")
+texture_pressed = ExtResource("4_f3h1i")
+action = "abajo"
+
+[node name="Izquierda" type="TouchScreenButton" parent="."]
+texture_filter = 1
+position = Vector2(101, 411)
+scale = Vector2(4, 4)
+texture_normal = ExtResource("5_p1a6j")
+texture_pressed = ExtResource("6_nxxsn")
+action = "izquierda"
+
+[node name="Derecha" type="TouchScreenButton" parent="."]
+texture_filter = 1
+position = Vector2(227, 412)
+scale = Vector2(4, 4)
+texture_normal = ExtResource("7_bvp56")
+texture_pressed = ExtResource("8_a640b")
+action = "derecha"
