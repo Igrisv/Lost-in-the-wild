@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://clrr5o0cj0b02"]
+
+[ext_resource type="Texture2D" uid="uid://ca3go1aohsb70" path="res://Assets/Mundo/Decoracion/Trees_Free/Forage Items/Singles/Forage Items/08_Oak_Log.png" id="1_ys4yc"]
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="2_uxphv"]
+
+[resource]
+script = ExtResource("2_uxphv")
+max_stack = 5
+id = "Tronco"
+name = "Tronco"
+icon = ExtResource("1_ys4yc")
+metadata/_custom_type_script = "uid://b2jetr72aoe3x"

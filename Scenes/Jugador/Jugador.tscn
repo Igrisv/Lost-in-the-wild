@@ -1,18 +1,207 @@
-[gd_scene load_steps=5 format=3 uid="uid://cokyqa1sqmon0"]
+[gd_scene load_steps=39 format=3 uid="uid://cokyqa1sqmon0"]
 
 [ext_resource type="Script" uid="uid://crsqym6x7i1np" path="res://Scenes/Jugador/jugador.gd" id="1_mo433"]
+[ext_resource type="Texture2D" uid="uid://cvtu51wu6r73t" path="res://Assets/Player/Steve animación/Idle/Steve f_idle.png" id="2_1orn5"]
+[ext_resource type="Texture2D" uid="uid://ckvky6jeyoby" path="res://Assets/Player/Steve animación/hit/Steve f_hit_1.png" id="2_40dyg"]
+[ext_resource type="Texture2D" uid="uid://bnrg85wvq36de" path="res://Assets/Player/Steve animación/hit/Steve s_hit_1.png" id="2_mmf1l"]
+[ext_resource type="Texture2D" uid="uid://dfxc7rwpd6ej0" path="res://Assets/Player/Steve animación/Idle/Steve b_idle.png" id="3_a2p5v"]
+[ext_resource type="Texture2D" uid="uid://7j04ikq6h6dh" path="res://Assets/Player/Steve animación/hit/Steve f_hit_2.png" id="3_d6qlk"]
+[ext_resource type="Texture2D" uid="uid://bipcik4wqy3tb" path="res://Assets/Player/Steve animación/hit/Steve s_hit_2.png" id="3_m63dc"]
+[ext_resource type="Texture2D" uid="uid://dwh56x67tucpo" path="res://Assets/Player/Steve animación/hit/Steve f_hit_3.png" id="4_5ifwu"]
+[ext_resource type="Texture2D" uid="uid://bh4tvklfycye1" path="res://Assets/Player/Steve animación/Idle/Steve s_idle.png" id="4_71ncw"]
+[ext_resource type="Texture2D" uid="uid://ccherayahtsi5" path="res://Assets/Player/Steve animación/hit/Steve s_hit_3.png" id="4_g8rdd"]
+[ext_resource type="Texture2D" uid="uid://dxb8dnyf4etg2" path="res://Assets/Player/Steve animación/hit/Steve f_hit_4.png" id="5_34frb"]
+[ext_resource type="Texture2D" uid="uid://cq5frfy1kepj3" path="res://Assets/Player/Steve animación/hit/Steve s_hit_4.png" id="5_he2gq"]
+[ext_resource type="Texture2D" uid="uid://c0tf6yfoq6s22" path="res://Assets/Player/Steve animación/run/Steve f_run_1.png" id="5_n4i7h"]
+[ext_resource type="Texture2D" uid="uid://0sqg6465y1tf" path="res://Assets/Player/Steve animación/run/Steve f_run_2.png" id="6_1xayc"]
+[ext_resource type="Texture2D" uid="uid://bs3flsnvakb47" path="res://Assets/Player/Steve animación/hit/Steve s_hit_5.png.png" id="6_2dm6x"]
+[ext_resource type="Texture2D" uid="uid://ok82v61xec7e" path="res://Assets/Player/Steve animación/hit/Steve f_hit_5.png" id="6_3dqgc"]
+[ext_resource type="Texture2D" uid="uid://ciu1rnjj2mrpw" path="res://Assets/Player/Steve animación/run/Steve f_run_3.png" id="7_6jcyf"]
+[ext_resource type="Texture2D" uid="uid://d2lrcdxbfsqgd" path="res://Assets/Player/Steve animación/hit/Steve f_hit_6.png" id="7_anx1v"]
+[ext_resource type="Texture2D" uid="uid://b10bxtd4gf5rh" path="res://Assets/Player/Steve animación/hit/Steve b_hit_1.png" id="8_acsug"]
+[ext_resource type="Texture2D" uid="uid://btagv13wjbs7p" path="res://Assets/Player/Steve animación/run/Steve f_run_4.png" id="8_mmf1l"]
+[ext_resource type="Texture2D" uid="uid://dd35wr0djvqtq" path="res://Assets/Player/Steve animación/hit/Steve b_hit_2.png" id="9_i7wpf"]
+[ext_resource type="Texture2D" uid="uid://4hcem73r6e6x" path="res://Assets/Player/Steve animación/run/Steve b_run_1.png" id="9_m63dc"]
+[ext_resource type="Texture2D" uid="uid://bj376a2bmfg6h" path="res://Assets/Player/Steve animación/run/Steve b_run_2.png" id="10_g8rdd"]
+[ext_resource type="Texture2D" uid="uid://c7v18hswrdaik" path="res://Assets/Player/Steve animación/hit/Steve b_hit_3.png" id="10_ll47u"]
+[ext_resource type="Texture2D" uid="uid://b8fyv034p5lp6" path="res://Assets/Player/Steve animación/hit/Steve b_hit_4.png" id="11_35vdi"]
+[ext_resource type="Texture2D" uid="uid://c0hc0qb6wcxn8" path="res://Assets/Player/Steve animación/run/Steve b_run_3.png" id="11_he2gq"]
+[ext_resource type="Texture2D" uid="uid://bwbnjjrnay2qy" path="res://Assets/Player/Steve animación/run/Steve b_run_4.png" id="12_2dm6x"]
+[ext_resource type="Texture2D" uid="uid://cgg61kae3j6x5" path="res://Assets/Player/Steve animación/hit/Steve b_hit_5.png" id="12_qlq86"]
+[ext_resource type="Texture2D" uid="uid://dgumqcvxcqrxu" path="res://Assets/Player/Steve animación/run/Steve s_run_2.png" id="13_0orn6"]
+[ext_resource type="Texture2D" uid="uid://bf2mejsymst2t" path="res://Assets/Player/Steve animación/hit/Steve b_hit_6.png" id="13_1x5ql"]
+[ext_resource type="Texture2D" uid="uid://88tt2w3oyw8k" path="res://Assets/Player/Steve animación/run/Steve s_run_1.png" id="13_a2p5v"]
+[ext_resource type="Texture2D" uid="uid://b5n8lidnk08ah" path="res://Assets/Player/Steve animación/run/Steve s_run_3.png" id="14_vjh8h"]
+[ext_resource type="Texture2D" uid="uid://bdcydmg8oag45" path="res://Assets/Player/Steve animación/run/Steve s_run_4.png" id="15_tcr33"]
+[ext_resource type="Texture2D" uid="uid://p0etpoainl1e" path="res://Assets/Player/Steve animación/run/Steve s_run_5.png" id="16_f457o"]
+[ext_resource type="Texture2D" uid="uid://bhlymev16xfyr" path="res://Assets/Player/Steve animación/run/Steve s_run_6.png" id="17_1orn5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_761u7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_40dyg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_d6qlk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5ifwu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_34frb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_3dqgc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_anx1v")
+}],
+"loop": true,
+"name": &"Atacar_Abajo",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_acsug")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_i7wpf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ll47u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_35vdi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_qlq86")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_1x5ql")
+}],
+"loop": true,
+"name": &"Atacar_Arriba",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_mmf1l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_m63dc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_g8rdd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_he2gq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_2dm6x")
+}],
+"loop": true,
+"name": &"Atacar_Derecha",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_1orn5")
+}],
+"loop": true,
+"name": &"Idle_Abajo",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_a2p5v")
+}],
+"loop": true,
+"name": &"Idle_Arriba",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_71ncw")
+}],
+"loop": true,
+"name": &"Idle_Derecha",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_6jcyf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_1xayc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_n4i7h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_mmf1l")
+}],
+"loop": true,
+"name": &"Moverse_Abajo",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_he2gq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_g8rdd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_m63dc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_2dm6x")
+}],
+"loop": true,
+"name": &"Moverse_Arriba",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_a2p5v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_0orn6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_vjh8h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_tcr33")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_f457o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_1orn5")
+}],
+"loop": true,
+"name": &"Moverse_Derecha",
+"speed": 8.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tgxhv"]
+size = Vector2(18, 25)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mo433"]
 radius = 27.1662
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_mo433"]
-
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 script = ExtResource("1_mo433")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_761u7")
+animation = &"Idle_Abajo"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 2.5)
 shape = SubResource("RectangleShape2D_tgxhv")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -20,14 +209,8 @@ shape = SubResource("RectangleShape2D_tgxhv")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_mo433")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -4.76837e-07)
-scale = Vector2(13.25, 12.75)
-texture = SubResource("PlaceholderTexture2D_mo433")
-
 [node name="ProgressBar" type="ProgressBar" parent="."]
+visible = false
 offset_left = -35.0
 offset_top = 11.0
 offset_right = 29.0

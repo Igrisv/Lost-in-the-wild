@@ -7,9 +7,9 @@ var grid_slots := []
 func _ready():
 	# Preload de ítems
 	item_map = {
-		"Carne": preload("res://items/stone.tres"),
-		"Troncon": preload("res://items/troncon.tres"),
-		"Rosa": preload("res://items/rosa.tres")
+		"Tronco": preload("res://items/Tronco.tres"),
+		#"Troncon": preload("res://items/troncon.tres"),
+		#"Rosa": preload("res://items/rosa.tres")
 	}
 
 	for item_name in item_map.keys():

@@ -5,7 +5,7 @@ var recipe_list: Array = []
 func _ready():
 	# Puedes cargar recetas desde archivos
 	recipe_list = [
-		preload("res://Systems/Crafteo/Recetas/rosa.tres"),
+		#preload("res://Systems/Crafteo/Recetas/rosa.tres"),
 	]
 
 func get_available_recipes() -> Array:

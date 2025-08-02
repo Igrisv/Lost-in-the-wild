@@ -1,12 +1,13 @@
 extends Control
 
-
 @onready var nueva_partida: Control = $Nueva_Partida
 @onready var opciones: Control = $Opciones
 @onready var creditos: Control = $Creditos
 @onready var main_menu: Control = $Main_Menu
 @onready var Movil_: Label = $Opciones/Movil_
 
+
+var modo_edicion_activado := false
 
 #region Nueva_Partida
 func _on_nueva_partida_pressed() -> void:
@@ -48,12 +49,19 @@ func _on_salir_pressed() -> void:
 	get_tree().quit()
 #endregion
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	Movil_.text = ManagerMovil.sting_id_status
 
+#region Verificaciones
 func _on_id_movil_pressed() -> void:
 	if ManagerMovil.id_movil:
 		ManagerMovil.id_movil = false
 	else:
 		ManagerMovil.id_movil = true
 		
+#endregion
+
+func _on_edit_pressed():
+	ManagerMovil.id_movil = true
+	ManagerMovil.camera_on_editable_controls = true
+	get_tree().change_scene_to_file("res://Scenes/Ui_Movil/ui_movil.tscn")

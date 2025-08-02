@@ -1,14 +1,21 @@
-[gd_scene load_steps=10 format=3 uid="uid://bm03qstksvuqk"]
+[gd_scene load_steps=17 format=3 uid="uid://bm03qstksvuqk"]
 
-[ext_resource type="Texture2D" uid="uid://b8inhxkmu6sup" path="res://Assets/Controles/Buttons/Random/Arrows/Big/05_Up.png" id="1_o4g3n"]
+[ext_resource type="Texture2D" uid="uid://b8inhxkmu6sup" path="res://Assets/Ui/Controles/Buttons/Random/Arrows/Big/05_Up.png" id="1_o4g3n"]
 [ext_resource type="Script" uid="uid://c7n0hk42s0lqc" path="res://Scenes/Ui_Movil/ui_movil.gd" id="1_pjqd4"]
-[ext_resource type="Texture2D" uid="uid://dpnsce7l6cwsn" path="res://Assets/Controles/Buttons/Random/Arrows/Big/06_Up_Pressed.png" id="2_pjqd4"]
-[ext_resource type="Texture2D" uid="uid://blo825e7d878h" path="res://Assets/Controles/Buttons/Random/Arrows/Big/07_Down.png" id="3_j6ivf"]
-[ext_resource type="Texture2D" uid="uid://dkscpkk68yma1" path="res://Assets/Controles/Buttons/Random/Arrows/Big/08_Down_Pressed.png" id="4_f3h1i"]
-[ext_resource type="Texture2D" uid="uid://bnobtnb8f1gsk" path="res://Assets/Controles/Buttons/Random/Arrows/Big/01_Left.png" id="5_p1a6j"]
-[ext_resource type="Texture2D" uid="uid://cyak2kb6c787r" path="res://Assets/Controles/Buttons/Random/Arrows/Big/02_Left_Pressed.png" id="6_nxxsn"]
-[ext_resource type="Texture2D" uid="uid://052p5rujtiu6" path="res://Assets/Controles/Buttons/Random/Arrows/Big/03_Right.png" id="7_bvp56"]
-[ext_resource type="Texture2D" uid="uid://co7ikb7wjmhwc" path="res://Assets/Controles/Buttons/Random/Arrows/Big/04_Right_Pressed.png" id="8_a640b"]
+[ext_resource type="Texture2D" uid="uid://dpnsce7l6cwsn" path="res://Assets/Ui/Controles/Buttons/Random/Arrows/Big/06_Up_Pressed.png" id="2_pjqd4"]
+[ext_resource type="Texture2D" uid="uid://blo825e7d878h" path="res://Assets/Ui/Controles/Buttons/Random/Arrows/Big/07_Down.png" id="3_j6ivf"]
+[ext_resource type="Texture2D" uid="uid://dkscpkk68yma1" path="res://Assets/Ui/Controles/Buttons/Random/Arrows/Big/08_Down_Pressed.png" id="4_f3h1i"]
+[ext_resource type="Script" uid="uid://dlvtglwpyxkhy" path="res://Scenes/Ui_Movil/Edit_Button.gd" id="4_ilh0b"]
+[ext_resource type="Texture2D" uid="uid://bnobtnb8f1gsk" path="res://Assets/Ui/Controles/Buttons/Random/Arrows/Big/01_Left.png" id="5_p1a6j"]
+[ext_resource type="Texture2D" uid="uid://cyak2kb6c787r" path="res://Assets/Ui/Controles/Buttons/Random/Arrows/Big/02_Left_Pressed.png" id="6_nxxsn"]
+[ext_resource type="Texture2D" uid="uid://052p5rujtiu6" path="res://Assets/Ui/Controles/Buttons/Random/Arrows/Big/03_Right.png" id="7_bvp56"]
+[ext_resource type="Texture2D" uid="uid://co7ikb7wjmhwc" path="res://Assets/Ui/Controles/Buttons/Random/Arrows/Big/04_Right_Pressed.png" id="8_a640b"]
+[ext_resource type="Texture2D" uid="uid://d0sec4elarr6j" path="res://Assets/Ui/Controles/Buttons/Random/General/Big/Shoot.png" id="10_f3h1i"]
+[ext_resource type="Texture2D" uid="uid://blpwff0q4602s" path="res://Assets/Ui/Controles/Buttons/Random/General/Big/Shoot_Pressed.png" id="11_p1a6j"]
+[ext_resource type="Texture2D" uid="uid://c7axem3hinde2" path="res://Assets/Ui/Controles/Buttons/Random/Options/Options2.png" id="12_nxxsn"]
+[ext_resource type="Texture2D" uid="uid://b0jt6icqkaeni" path="res://Assets/Ui/Controles/Buttons/Random/Options/Options2_Pressedpng.png" id="13_bvp56"]
+[ext_resource type="Texture2D" uid="uid://bnmcow7poasw5" path="res://Assets/Ui/Controles/Buttons/Random/Options/Options1.png" id="14_a640b"]
+[ext_resource type="Texture2D" uid="uid://diohb7lpfwt4c" path="res://Assets/Ui/Controles/Buttons/Random/Options/Options1_Pressed.png" id="15_ddsco"]
 
 [node name="Ui_Movil" type="Control"]
 layout_mode = 3
@@ -20,34 +27,209 @@ grow_vertical = 2
 script = ExtResource("1_pjqd4")
 metadata/_edit_lock_ = true
 
-[node name="Arriba" type="TouchScreenButton" parent="."]
+[node name="Arriba" type="Control" parent="." groups=["editable_ui"]]
+anchors_preset = 0
+offset_left = 161.0
+offset_top = 349.0
+offset_right = 235.0
+offset_bottom = 426.0
+script = ExtResource("4_ilh0b")
+
+[node name="Arriba" type="TouchScreenButton" parent="Arriba"]
 texture_filter = 1
-position = Vector2(162, 347)
+position = Vector2(3, 3)
 scale = Vector2(4, 4)
 texture_normal = ExtResource("1_o4g3n")
 texture_pressed = ExtResource("2_pjqd4")
 action = "arriba"
 
-[node name="Abajo" type="TouchScreenButton" parent="."]
+[node name="Abajo" type="Control" parent="." groups=["editable_ui"]]
+anchors_preset = 0
+offset_left = 182.0
+offset_top = 477.0
+offset_right = 247.0
+offset_bottom = 552.0
+script = ExtResource("4_ilh0b")
+
+[node name="Abajo" type="TouchScreenButton" parent="Abajo"]
 texture_filter = 1
-position = Vector2(165, 479)
+position = Vector2(-2, -2)
 scale = Vector2(4, 4)
 texture_normal = ExtResource("3_j6ivf")
 texture_pressed = ExtResource("4_f3h1i")
 action = "abajo"
 
-[node name="Izquierda" type="TouchScreenButton" parent="."]
+[node name="Izquierda" type="Control" parent="." groups=["editable_ui"]]
+anchors_preset = 0
+offset_left = 95.0
+offset_top = 439.0
+offset_right = 167.0
+offset_bottom = 520.0
+script = ExtResource("4_ilh0b")
+
+[node name="Izquierda" type="TouchScreenButton" parent="Izquierda"]
 texture_filter = 1
-position = Vector2(101, 411)
+position = Vector2(2, 4)
 scale = Vector2(4, 4)
 texture_normal = ExtResource("5_p1a6j")
 texture_pressed = ExtResource("6_nxxsn")
 action = "izquierda"
 
-[node name="Derecha" type="TouchScreenButton" parent="."]
+[node name="Derecha" type="Control" parent="." groups=["editable_ui"]]
+anchors_preset = 0
+offset_left = 274.0
+offset_top = 452.0
+offset_right = 344.0
+offset_bottom = 525.0
+script = ExtResource("4_ilh0b")
+
+[node name="Derecha" type="TouchScreenButton" parent="Derecha"]
 texture_filter = 1
-position = Vector2(227, 412)
+position = Vector2(2, -1)
 scale = Vector2(4, 4)
 texture_normal = ExtResource("7_bvp56")
 texture_pressed = ExtResource("8_a640b")
 action = "derecha"
+
+[node name="Interactuar" type="Control" parent="." groups=["editable_ui"]]
+anchors_preset = 0
+offset_left = 1040.0
+offset_top = 436.0
+offset_right = 1109.0
+offset_bottom = 513.0
+script = ExtResource("4_ilh0b")
+
+[node name="Interactuar" type="TouchScreenButton" parent="Interactuar"]
+texture_filter = 1
+position = Vector2(1, 2)
+scale = Vector2(4, 4)
+texture_normal = ExtResource("10_f3h1i")
+texture_pressed = ExtResource("11_p1a6j")
+action = "interactuar"
+
+[node name="Menu" type="Control" parent="." groups=["editable_ui"]]
+anchors_preset = 0
+offset_left = 19.0
+offset_top = 9.0
+offset_right = 82.0
+offset_bottom = 73.0
+script = ExtResource("4_ilh0b")
+
+[node name="Menu" type="TouchScreenButton" parent="Menu"]
+texture_filter = 1
+position = Vector2(0, -1)
+scale = Vector2(4, 4)
+texture_normal = ExtResource("12_nxxsn")
+texture_pressed = ExtResource("13_bvp56")
+action = "menu"
+
+[node name="Iventario" type="Control" parent="." groups=["editable_ui"]]
+anchors_preset = 0
+offset_left = 894.0
+offset_top = 439.0
+offset_right = 955.0
+offset_bottom = 503.0
+script = ExtResource("4_ilh0b")
+
+[node name="Iventario" type="TouchScreenButton" parent="Iventario"]
+texture_filter = 1
+position = Vector2(-1, 1)
+scale = Vector2(4, 4)
+texture_normal = ExtResource("14_a640b")
+texture_pressed = ExtResource("15_ddsco")
+action = "inventario"
+
+[node name="Pause_Menu" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_left = 124.0
+offset_top = 30.0
+offset_right = 345.0
+offset_bottom = 335.0
+
+[node name="Panel" type="Panel" parent="Pause_Menu"]
+layout_mode = 0
+offset_right = 152.0
+offset_bottom = 190.0
+
+[node name="Resume" type="Button" parent="Pause_Menu"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 17.0
+offset_right = 108.0
+offset_bottom = 48.0
+text = "Resume"
+
+[node name="Options" type="Button" parent="Pause_Menu"]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 69.0
+offset_right = 109.0
+offset_bottom = 100.0
+text = "Options"
+
+[node name="To_menu" type="Button" parent="Pause_Menu"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 122.0
+offset_right = 130.0
+offset_bottom = 153.0
+text = "Exit to menu
+"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 358)
+enabled = false
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 1017.0
+offset_top = 36.0
+offset_right = 1157.0
+offset_bottom = 76.0
+
+[node name="Save" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 4.0
+offset_right = 59.0
+offset_bottom = 35.0
+text = "Save"
+
+[node name="Load" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 73.0
+offset_top = 4.0
+offset_right = 119.0
+offset_bottom = 35.0
+text = "Load"
+
+[node name="Aumentar" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = -30.0
+offset_top = 55.0
+offset_right = 76.0
+offset_bottom = 86.0
+text = "Aumentar(+)"
+
+[node name="Disminuir" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 83.0
+offset_top = 54.0
+offset_right = 186.0
+offset_bottom = 85.0
+text = "Disminuir (-)"
+
+[node name="Btn_Seleccionado" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 90.0
+offset_right = 46.0
+offset_bottom = 113.0
+
+[connection signal="pressed" from="Pause_Menu/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Pause_Menu/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Pause_Menu/To_menu" to="." method="_on_to_menu_pressed"]
+[connection signal="pressed" from="Panel/Save" to="." method="guardar_configuracion"]
+[connection signal="pressed" from="Panel/Aumentar" to="." method="_on_aumentar_pressed"]
+[connection signal="pressed" from="Panel/Disminuir" to="." method="_on_disminuir_pressed"]

@@ -16,6 +16,7 @@ script = ExtResource("1_ulfck")
 metadata/_edit_lock_ = true
 
 [node name="Ui" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="Inventario" type="GridContainer" parent="Ui"]
 anchors_preset = 8

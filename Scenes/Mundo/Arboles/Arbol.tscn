@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://rgo1mwodebg7"]
+
+[ext_resource type="PackedScene" uid="uid://dr5kuuer5oimd" path="res://Systems/Resources-node/resource_node.tscn" id="1_6nha6"]
+[ext_resource type="Texture2D" uid="uid://dcadadbtacjfy" path="res://Assets/Mundo/Decoracion/Pixel Tree Animated Pack - Helm3t/Sheets/With Shadow/Tree2_anim_sheet_s.png" id="2_sr3cv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8mbfd"]
+atlas = ExtResource("2_sr3cv")
+region = Rect2(0, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_miskr"]
+atlas = ExtResource("2_sr3cv")
+region = Rect2(0, 128, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kf6uy"]
+atlas = ExtResource("2_sr3cv")
+region = Rect2(48, 128, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ip7sm"]
+atlas = ExtResource("2_sr3cv")
+region = Rect2(96, 128, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fi3ge"]
+atlas = ExtResource("2_sr3cv")
+region = Rect2(144, 128, 48, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1m5vg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8mbfd")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_miskr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kf6uy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ip7sm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fi3ge")
+}],
+"loop": true,
+"name": &"Talar_Derecha",
+"speed": 5.0
+}]
+
+[node name="Arbol" instance=ExtResource("1_6nha6")]
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(-1.00001, -24)
+scale = Vector2(1.65918, 1.59785)
+texture = null
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_1m5vg")
+animation = &"Idle"
+
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2(0, 11)
+
+[node name="CollisionShape2D" parent="." index="4"]
+position = Vector2(0, 17)

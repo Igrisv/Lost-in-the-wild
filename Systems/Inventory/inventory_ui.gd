@@ -16,13 +16,13 @@ func _ready():
 	inventory_manager.set_grid_slots(grid.get_children())
 
 func _input(event):
-	if event is InputEventKey and event.is_pressed():
-		match event.keycode:
-			KEY_I:
+	if event.is_action_pressed("inventario"):
 				if canvas_layer.visible:
 					hide_inventory()
 				else:
 					show_inventory()
+	if event is InputEventKey and event.is_pressed():
+		match event.keycode:
 			KEY_SPACE:
 				var item_keys = inventory_manager.item_map.keys()
 				var random_item = inventory_manager.item_map[item_keys[randi() % item_keys.size()]]
