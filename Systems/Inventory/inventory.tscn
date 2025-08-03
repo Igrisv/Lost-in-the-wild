@@ -33,67 +33,51 @@ columns = 4
 
 [node name="Slot" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot2" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot3" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot4" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot5" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot6" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot7" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot8" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot9" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot10" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot11" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot12" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot13" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot14" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot15" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot16" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Hotbar" type="HBoxContainer" parent="Ui" groups=["Hotbar"]]
 anchors_preset = 7
@@ -110,31 +94,24 @@ script = ExtResource("2_ulfck")
 
 [node name="Slot" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot2" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot3" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot4" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot5" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot6" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="Slot7" parent="Ui/Hotbar" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-is_safe_slot = true
 
 [node name="CraftingPanel" type="VBoxContainer" parent="Ui"]
 offset_left = 406.0
@@ -203,7 +180,6 @@ offset_top = 61.0
 offset_right = 185.0
 offset_bottom = 131.0
 equipment_slot = "Head"
-is_safe_slot = true
 
 [node name="Slot5" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
 layout_mode = 2
@@ -212,7 +188,6 @@ offset_top = 250.0
 offset_right = 187.0
 offset_bottom = 320.0
 equipment_slot = "Legs"
-is_safe_slot = true
 
 [node name="Slot3" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
 layout_mode = 2
@@ -221,7 +196,6 @@ offset_top = 152.0
 offset_right = 278.0
 offset_bottom = 222.0
 equipment_slot = "Hand"
-is_safe_slot = true
 
 [node name="Slot4" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
 layout_mode = 2
@@ -230,7 +204,6 @@ offset_top = 152.0
 offset_right = 91.0
 offset_bottom = 222.0
 equipment_slot = "Hand"
-is_safe_slot = true
 
 [node name="Slot" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
 layout_mode = 2
@@ -239,7 +212,6 @@ offset_top = 153.0
 offset_right = 185.0
 offset_bottom = 223.0
 equipment_slot = "Body"
-is_safe_slot = true
 
 [node name="Slot" parent="Ui" instance=ExtResource("1_u36e3")]
 offset_left = 448.0
