@@ -8,6 +8,7 @@ custom_minimum_size = Vector2(70, 70)
 offset_right = 69.0
 offset_bottom = 67.0
 script = ExtResource("1_8ki70")
+is_safe_slot = true
 
 [node name="Icon" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(70, 70)

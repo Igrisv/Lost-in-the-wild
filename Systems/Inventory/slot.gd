@@ -8,6 +8,11 @@ extends Panel
 			$Amount.text = ""
 			return
 		$Icon.texture = value.icon
+		var slot_size = custom_minimum_size if custom_minimum_size != Vector2.ZERO else size
+		$Icon.size = slot_size * 0.6
+		$Icon.position = (slot_size - $Icon.size) / 2
+		$Icon.queue_redraw()
+		print("Ítem asignado: ", value.name, ", Slot size: ", slot_size, ", Icon size: ", $Icon.size)
 
 @export var amount: int = 0:
 	set(value):
@@ -16,9 +21,9 @@ extends Panel
 		if amount <= 0:
 			item = null
 
-@export var equipment_slot: String = ""  # Define si es un slot de equipamiento (ej. "Hand", "Head", "Body")
+@export var equipment_slot: String = ""
+@export var is_safe_slot: bool = false  # Marca los slots válidos para evitar destrucción
 
-# Variable temporal para el arrastre
 var _drag_data_cache = null
 
 signal item_equipped(item, slot)
@@ -36,42 +41,45 @@ func _can_drop_data(_at_position, data):
 	return false
 
 func _drop_data(_at_position, data):
-	# Si el slot está vacío, manejamos según sea equipamiento o no
+	print("Drop data iniciado, slot equipment_slot: ", equipment_slot, ", item recibido: ", data.item.name if data and data.item else "null")
+	if not data or not data.item:
+		print("Datos de arrastre inválidos o ítem nulo")
+		return
+
 	if item == null:
-		if equipment_slot != "" and data.item and data.item.is_equippable and data.item.equipment_slot == equipment_slot:
-			# Equipar solo 1 unidad
-			item = data.item
-			amount = 1
-			if data.amount > 1:
-				data.amount -= 1  # Restar 1 del stack original
-			else:
-				data.item = null
-				data.amount = 0
-			emit_signal("item_equipped", item, self)
+		if equipment_slot != "" and data.item.is_equippable and data.item.equipment_slot == equipment_slot:
+			var inventory = get_node("/root/Inventory")  # Adjust the path as needed
+			if inventory.equip_item(data.item, data):
+				print("Ítem equipado en slot: ", equipment_slot)
+			return
 		elif equipment_slot == "":
-			# Slot normal (hotbar o grid), comportamiento existente
 			item = data.item
 			amount = data.amount
 			data.item = null
 			data.amount = 0
+			print("Ítem asignado a slot normal, amount: ", amount)
 		return
-	
-	# Si el slot tiene un ítem, manejamos según el caso
-	if item.id == data.item.id:  # Fusionar cantidades
+
+	# Si el slot ya tiene un ítem, no permitir apilamiento ni intercambio en slots de equipamiento
+	if equipment_slot != "":
+		print("Slot de equipamiento ya ocupado, no se permite agregar más ítems")
+		return
+
+	if item.id == data.item.id:
 		var max_stack = item.max_stack if "max_stack" in item else 99
 		var total = amount + data.amount
-		
+
 		if total <= max_stack:
 			amount = total
 			data.item = null
 			data.amount = 0
+			print("Stacks fusionados, nuevo amount: ", amount)
 		else:
 			amount = max_stack
 			data.amount = total - max_stack
+			print("Stack limitado, sobrante: ", data.amount)
 	else:
-		# Intercambio o desequipamiento
 		if equipment_slot != "" and not data.item.is_equippable:
-			# Desequipar: mover el ítem equipado a un slot normal
 			var temp_item = item
 			var temp_amount = amount
 			item = data.item
@@ -80,67 +88,86 @@ func _drop_data(_at_position, data):
 			data.amount = temp_amount
 			if temp_item:
 				emit_signal("item_unequipped", temp_item, self)
-		elif equipment_slot == "" and data.item.is_equippable and data.item.equipment_slot == equipment_slot:
-			# Equipar desde un slot normal a un slot de equipamiento
-			Inventory.equip_item(data.item, data)
+				print("Ítem desequipado de: ", equipment_slot)
+		elif equipment_slot == "" and data.item.is_equippable and data.item.equipment_slot != "":
+			var inventory = get_node("/root/Inventory")  # Adjust the path as needed
+			if inventory.equip_item(data.item, data):
+				print("Ítem equipado desde slot normal")
+			return
 		else:
-			# Intercambio normal entre slots
 			var temp_item = item
 			var temp_amount = amount
 			item = data.item
 			amount = data.amount
 			data.item = temp_item
 			data.amount = temp_amount
+			print("Intercambio realizado")
 
 func _get_drag_data(_at_position):
-	if item:
-		_drag_data_cache = {"item": item, "amount": amount}
-		
-		var preview_texture = TextureRect.new()
-		preview_texture.texture = item.icon
-		preview_texture.size = Vector2(16, 16) 
-		preview_texture.position = -Vector2(8, 8)
-		var preview = Control.new()
-		preview.add_child(preview_texture)
-		set_drag_preview(preview)
-		return self
-	return null
+	if not item:
+		print("No hay ítem para arrastrar")
+		return null
+
+	_drag_data_cache = {"item": item, "amount": amount}
+
+	var preview_texture = TextureRect.new()
+	preview_texture.texture = item.icon
+	preview_texture.size = Vector2(16, 16)
+	preview_texture.position = -Vector2(8, 8)
+	var preview = Control.new()
+	preview.add_child(preview_texture)
+	set_drag_preview(preview)
+	return self
 
 func _notification(what):
-	if what == NOTIFICATION_DRAG_END && _drag_data_cache:
-		var drop_pos = get_global_mouse_position()
-		var is_outside = true
-		
+	if what == NOTIFICATION_DRAG_END and _drag_data_cache:
+		var drop_successful := false
+
+		# Verificar si el ítem fue soltado en un slot válido
 		for slot in get_tree().get_nodes_in_group("slots"):
-			if slot.get_global_rect().has_point(drop_pos):
-				is_outside = false
+			if slot == self:
+				continue
+			var slot_rect: Rect2 = slot.get_global_rect()
+			var dummy_data = {"item": _drag_data_cache.item, "amount": _drag_data_cache.amount}
+			if slot_rect.has_point(get_global_mouse_position()) and slot._can_drop_data(Vector2.ZERO, dummy_data):
+				drop_successful = true
 				break
-		
-		if is_outside:
+
+		# Si no se soltó en un slot válido, mostrar diálogo de confirmación
+		if not drop_successful and not is_safe_slot:
 			_show_destroy_confirmation()
-		
+
+		# Limpiar caché de arrastre
+		_drag_data_cache = null
+
+		# Limpiar caché de arrastre
 		_drag_data_cache = null
 
 func _show_destroy_confirmation():
-	var dialog = ConfirmationDialog.new()
-	dialog.title = "Confirmar"
-	dialog.dialog_text = "¿Deseas destruir este ítem?"
-	
-	dialog.get_ok_button().text = "Destruir"
-	dialog.get_cancel_button().text = "Cancelar"
-	
-	dialog.confirmed.connect(
-		func():
-			item = null
-			amount = 0
-			print("Ítem destruido")
-			dialog.queue_free()
+	# Evitar múltiples diálogos
+	if get_tree().get_nodes_in_group("destroy_dialog").size() > 0:
+		return
+
+	var dialog := ConfirmationDialog.new()
+	dialog.add_to_group("destroy_dialog")  # Agregar al grupo para rastreo
+	dialog.title = "Confirmar Destrucción"
+	dialog.dialog_text = "¿Deseas destruir el ítem '" + (_drag_data_cache.item.name if _drag_data_cache.item else "Ítem") + "'?"
+	dialog.ok_button_text = "Destruir"
+	dialog.cancel_button_text = "Cancelar"
+	dialog.min_size = Vector2(300, 150)  # Tamaño mínimo para mejor visibilidad
+
+	# Conectar señales
+	dialog.confirmed.connect(func():
+		item = null
+		amount = 0
+		print("Ítem destruido: ", _drag_data_cache.item.name if _drag_data_cache.item else "null")
+		dialog.queue_free()
 	)
-	
-	dialog.canceled.connect(
-		func():
-			dialog.queue_free()
+
+	dialog.canceled.connect(func():
+		dialog.queue_free()
 	)
-	
+
+	# Agregar diálogo al árbol y centrarlo
 	get_tree().root.add_child(dialog)
 	dialog.popup_centered()

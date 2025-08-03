@@ -31,4 +31,6 @@ name = "Comida"
 icon = ExtResource("2_8lh2o")
 item_type = 0
 consumable_data = SubResource("Resource_cpu5x")
+is_equippable = false
+equipment_slot = ""
 metadata/_custom_type_script = "uid://b2jetr72aoe3x"
