@@ -209,18 +209,52 @@ shape = SubResource("RectangleShape2D_tgxhv")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_mo433")
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
-visible = false
-offset_left = -35.0
-offset_top = 11.0
-offset_right = 29.0
-offset_bottom = 38.0
+[node name="Hambre_Bar" type="ProgressBar" parent="."]
+offset_left = -92.0
+offset_top = -22.0
+offset_right = -28.0
+offset_bottom = 5.0
+scale = Vector2(1.09253, 0.446433)
+
+[node name="Sueño_Bar" type="ProgressBar" parent="."]
+offset_left = -90.0
+offset_top = -47.0
+offset_right = -26.0
+offset_bottom = -20.0
+scale = Vector2(1.09253, 0.446433)
+
+[node name="Sed_Bar" type="ProgressBar" parent="."]
+offset_left = -105.0
+offset_top = 4.99999
+offset_right = -41.0
+offset_bottom = 32.0
 scale = Vector2(1.09253, 0.446433)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
 [node name="ActionManager" type="Node" parent="."]
+
+[node name="Hambre" type="Label" parent="."]
+offset_left = -157.0
+offset_top = -30.0
+offset_right = -94.0
+offset_bottom = -7.0
+text = "Hambre"
+
+[node name="Sueño" type="Label" parent="."]
+offset_left = -148.0
+offset_top = -55.0
+offset_right = -99.0
+offset_bottom = -32.0
+text = "Sueño"
+
+[node name="Sed" type="Label" parent="."]
+offset_left = -144.0
+offset_top = -1.0
+offset_right = -104.0
+offset_bottom = 22.0
+text = "Sed"
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_InteractionArea_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_InteractionArea_body_exited"]

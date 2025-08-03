@@ -7,15 +7,13 @@ var id_movil: bool = false
 var sting_id_status: String = ""
 var camera_on_editable_controls: bool = false
 var modo_edicion: bool = false
-# Guarda posiciones y escalas de botones por nombre
+var activar_edicion_al_entrar: bool = false  # Bandera para activar edición al entrar
 var posiciones_botones: Dictionary = {}
 var escala_botones: Dictionary = {}
-
-# Control actualmente seleccionado
 var contenedor_activo: Control = null
 
+# Resto del código permanece igual
 func _ready():
-	# Cargar configuración inicial desde el archivo
 	cargar_configuracion()
 
 func _process(_delta: float) -> void:
@@ -26,6 +24,7 @@ func switch():
 
 func alternar_modo_edicion():
 	modo_edicion = !modo_edicion
+	print("Modo edición cambiado a: ", modo_edicion)  # Depuración
 	emit_signal("modo_edicion_cambiado", modo_edicion)
 
 func guardar_posicion(nombre: String, posicion: Vector2) -> void:
@@ -38,11 +37,10 @@ func cargar_posicion(nombre: String) -> Vector2:
 	return posiciones_botones.get(nombre, Vector2.ZERO)
 
 func cargar_escala(nombre: String) -> Vector2:
-	return escala_botones.get(nombre, Vector2(1.0, 1.0)) # Escala predeterminada de 1.0
+	return escala_botones.get(nombre, Vector2(1.0, 1.0))
 
 func set_boton_seleccionado(nuevo: Control) -> void:
 	if contenedor_activo and contenedor_activo != nuevo:
-		# Desactiva la selección visual del anterior
 		contenedor_activo.modulate = Color.WHITE
 	contenedor_activo = nuevo
 	if contenedor_activo:
@@ -53,7 +51,7 @@ func set_boton_seleccionado(nuevo: Control) -> void:
 
 func cargar_configuracion():
 	var config = ConfigFile.new()
-	var err = config.load("res://Scenes/Ui_Movil/Ui_Controles_Movil.cfg")
+	var err = config.load("user://Ui_Controles_Movil.cfg")
 	if err != OK:
 		print("No se pudo cargar archivo de configuración:", err)
 		return

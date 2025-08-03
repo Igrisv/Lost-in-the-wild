@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5n02nfk3vas1"]
+[gd_scene load_steps=3 format=3 uid="uid://c5n02nfk3vas1"]
 
 [ext_resource type="Script" uid="uid://bopfal4ataqia" path="res://Scenes/Main_Menu/main_menu.gd" id="1_e582s"]
+[ext_resource type="AudioStream" uid="uid://cf4fs2w4fc2r3" path="res://Musics/LW Intro theme.mp3" id="2_ev4p5"]
 
 [node name="Main_Menu" type="Control"]
 layout_mode = 3
@@ -40,6 +41,7 @@ offset_bottom = 628.0
 text = "Atras"
 
 [node name="Opciones" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 offset_right = 1153.0
 offset_bottom = 648.0
@@ -118,10 +120,18 @@ offset_bottom = 628.0
 text = "Atras"
 
 [node name="Main_Menu" type="Control" parent="."]
-visible = false
-anchors_preset = 0
-offset_right = 1149.0
-offset_bottom = 648.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -639.5
+offset_top = -359.5
+offset_right = 639.5
+offset_bottom = 359.5
+grow_horizontal = 2
+grow_vertical = 2
 metadata/_edit_lock_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Main_Menu"]
@@ -154,6 +164,10 @@ text = "Creditos"
 layout_mode = 2
 text = "Salir
 "
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_ev4p5")
+autoplay = true
 
 [connection signal="pressed" from="Nueva_Partida/Nueva_partida" to="." method="_on_nueva_partida_pressed"]
 [connection signal="pressed" from="Nueva_Partida/Atras_Nueva_Partida" to="." method="_on_atras_nueva_partida_pressed"]

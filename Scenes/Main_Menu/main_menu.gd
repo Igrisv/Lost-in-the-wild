@@ -64,4 +64,5 @@ func _on_id_movil_pressed() -> void:
 func _on_edit_pressed():
 	ManagerMovil.id_movil = true
 	ManagerMovil.camera_on_editable_controls = true
+	ManagerMovil.activar_edicion_al_entrar = true  # Activar modo edición al entrar
 	get_tree().change_scene_to_file("res://Scenes/Ui_Movil/ui_movil.tscn")

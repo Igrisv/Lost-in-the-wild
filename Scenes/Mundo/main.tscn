@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bag2l1wvhorit"]
+[gd_scene load_steps=24 format=3 uid="uid://bag2l1wvhorit"]
 
 [ext_resource type="Script" uid="uid://3qq00hkyqqmh" path="res://Scenes/Mundo/main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cwwbkexo7lung" path="res://Systems/Inventory/inventory.tscn" id="4_jjvhh"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dhac2t4fe01pd" path="res://Assets/Mundo/Tileset/Props/Bush.png" id="10_irt6n"]
 [ext_resource type="Texture2D" uid="uid://b3wm64cftogqf" path="res://Assets/Mundo/Tileset/Props/Grass.png" id="11_oi44u"]
 [ext_resource type="PackedScene" uid="uid://csw6m1li7jjgf" path="res://Scenes/Mundo/Arboles/arbol_goty.tscn" id="13_ba2ea"]
+[ext_resource type="Script" uid="uid://de1vscje7cvhh" path="res://Scenes/Mundo/Ciclo_Dia_Noche.gd" id="14_irt6n"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ugfh3"]
 texture = ExtResource("6_002uo")
@@ -178,6 +179,8 @@ sources/4 = SubResource("TileSetAtlasSource_5v27u")
 sources/5 = SubResource("TileSetAtlasSource_2x4d3")
 sources/6 = SubResource("TileSetAtlasSource_7g1o7")
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_irt6n"]
+
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0xm2m")
 
@@ -199,10 +202,18 @@ layer_1/tile_data = PackedInt32Array(2359337, 65538, 3, 2162710, 65538, 3, 11796
 [node name="Player" parent="." instance=ExtResource("4_kry3j")]
 position = Vector2(455, 394)
 
-[node name="Arbol" parent="." instance=ExtResource("5_fivlv")]
-position = Vector2(399, 401)
-resource_type = "Tronco"
-
 [node name="Arbol_Goty" parent="." instance=ExtResource("13_ba2ea")]
 position = Vector2(480, 329)
+resource_type = "Tronco"
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+script = ExtResource("14_irt6n")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(322, 288)
+scale = Vector2(25.5, 30.5)
+texture = SubResource("PlaceholderTexture2D_irt6n")
+
+[node name="Arbol" parent="." instance=ExtResource("5_fivlv")]
+position = Vector2(403, 266)
 resource_type = "Tronco"

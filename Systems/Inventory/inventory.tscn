@@ -127,4 +127,45 @@ layout_mode = 2
 [node name="FeedbackLabel" type="Label" parent="Ui/CraftingPanel"]
 layout_mode = 2
 
+[node name="Pause_Menu" type="Control" parent="Ui"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 29.0
+offset_top = 26.0
+offset_right = 182.0
+offset_bottom = 218.0
+
+[node name="Panel" type="Panel" parent="Ui/Pause_Menu"]
+layout_mode = 0
+offset_right = 152.0
+offset_bottom = 190.0
+
+[node name="Resume" type="Button" parent="Ui/Pause_Menu"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 17.0
+offset_right = 108.0
+offset_bottom = 48.0
+text = "Resume"
+
+[node name="Options" type="Button" parent="Ui/Pause_Menu"]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 69.0
+offset_right = 109.0
+offset_bottom = 100.0
+text = "Options"
+
+[node name="To_menu" type="Button" parent="Ui/Pause_Menu"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 122.0
+offset_right = 130.0
+offset_bottom = 153.0
+text = "Exit to menu
+"
+
 [connection signal="equip" from="Ui/Hotbar" to="." method="_on_hotbar_equip"]
+[connection signal="pressed" from="Ui/Pause_Menu/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Ui/Pause_Menu/To_menu" to="." method="_on_to_menu_pressed"]

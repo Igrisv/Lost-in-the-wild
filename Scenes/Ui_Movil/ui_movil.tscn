@@ -181,14 +181,14 @@ text = "Exit to menu
 position = Vector2(640, 358)
 enabled = false
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Movil_Config" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 1017.0
 offset_top = 36.0
 offset_right = 1157.0
 offset_bottom = 76.0
 
-[node name="Save" type="Button" parent="Panel"]
+[node name="Save" type="Button" parent="Movil_Config"]
 layout_mode = 0
 offset_left = 15.0
 offset_top = 4.0
@@ -196,7 +196,7 @@ offset_right = 59.0
 offset_bottom = 35.0
 text = "Save"
 
-[node name="Load" type="Button" parent="Panel"]
+[node name="Load" type="Button" parent="Movil_Config"]
 layout_mode = 0
 offset_left = 73.0
 offset_top = 4.0
@@ -204,7 +204,7 @@ offset_right = 119.0
 offset_bottom = 35.0
 text = "Load"
 
-[node name="Aumentar" type="Button" parent="Panel"]
+[node name="Aumentar" type="Button" parent="Movil_Config"]
 layout_mode = 0
 offset_left = -30.0
 offset_top = 55.0
@@ -212,7 +212,7 @@ offset_right = 76.0
 offset_bottom = 86.0
 text = "Aumentar(+)"
 
-[node name="Disminuir" type="Button" parent="Panel"]
+[node name="Disminuir" type="Button" parent="Movil_Config"]
 layout_mode = 0
 offset_left = 83.0
 offset_top = 54.0
@@ -220,7 +220,7 @@ offset_right = 186.0
 offset_bottom = 85.0
 text = "Disminuir (-)"
 
-[node name="Btn_Seleccionado" type="Label" parent="Panel"]
+[node name="Btn_Seleccionado" type="Label" parent="Movil_Config"]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 90.0
@@ -230,6 +230,6 @@ offset_bottom = 113.0
 [connection signal="pressed" from="Pause_Menu/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Pause_Menu/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Pause_Menu/To_menu" to="." method="_on_to_menu_pressed"]
-[connection signal="pressed" from="Panel/Save" to="." method="guardar_configuracion"]
-[connection signal="pressed" from="Panel/Aumentar" to="." method="_on_aumentar_pressed"]
-[connection signal="pressed" from="Panel/Disminuir" to="." method="_on_disminuir_pressed"]
+[connection signal="pressed" from="Movil_Config/Save" to="." method="guardar_configuracion"]
+[connection signal="pressed" from="Movil_Config/Aumentar" to="." method="_on_aumentar_pressed"]
+[connection signal="pressed" from="Movil_Config/Disminuir" to="." method="_on_disminuir_pressed"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://gmskmb8ahgok"]
 
-[ext_resource type="Script" uid="uid://2pt80uawy6lw" path="res://Systems/Botones_Interactuables/interaccion_panel.gd" id="1_n52ph"]
+[ext_resource type="Script" uid="uid://2pt80uawy6lw" path="res://Systems/Animals/Botones_Interactuables/interaccion_panel.gd" id="1_n52ph"]
 
 [node name="Interaccion_Panel" type="Control"]
 layout_mode = 3
