@@ -3,12 +3,14 @@ extends Node
 var item_map: Dictionary = {}
 var hotbar_slots := []
 var grid_slots := []
+var equipment_slots := []
 
 func _ready():
 	# Cargar recursos de ítems
 	item_map = {
 		"Tronco": preload("res://items/Tronco.tres"),
-		"Comida": preload("res://items/Comida.tres")
+		"Comida": preload("res://items/Comida.tres"),
+		"Espada": preload("res://items/Espada.tres")
 	}
 	for item_name in item_map.keys():
 		if item_map[item_name] == null:
@@ -57,7 +59,6 @@ func use_stackable_item(item: Item, amount: int) -> bool:
 	return remaining <= 0
 
 func consume_item(item: Item) -> bool:
-	
 	if item.item_type != Item.ItemType.CONSUMABLE:
 		print("Este ítem no es consumible.")
 		return false
@@ -76,7 +77,6 @@ func consume_item(item: Item) -> bool:
 		print("Consumiste: %s" % item.name)
 		jugador.apply_consumable_effect(item.consumable_data)
 
-		# Consumir solo UNA unidad del ítem de la pila
 		var success := use_stackable_item(item, 1)
 		if not success:
 			print("Error al consumir ítem: no se encontró en el inventario.")
@@ -86,7 +86,6 @@ func consume_item(item: Item) -> bool:
 		print("Jugador no encontrado. No se pueden aplicar efectos.")
 		return false
 
-
 func has_item_in_hotbar(item_name: String) -> bool:
 	for slot in hotbar_slots:
 		if slot.item != null and slot.item.name == item_name and slot.amount > 0:
@@ -95,13 +94,25 @@ func has_item_in_hotbar(item_name: String) -> bool:
 
 func set_hotbar_slots(slots: Array):
 	hotbar_slots = slots
+	for slot in hotbar_slots:
+		slot.connect("item_equipped", _on_item_equipped)
+		slot.connect("item_unequipped", _on_item_unequipped)
 
 func set_grid_slots(slots: Array):
 	grid_slots = slots
+	for slot in grid_slots:
+		slot.connect("item_equipped", _on_item_equipped)
+		slot.connect("item_unequipped", _on_item_unequipped)
+
+func set_equipment_slots(slots: Array):
+	equipment_slots = slots
+	for slot in equipment_slots:
+		slot.connect("item_equipped", _on_item_equipped)
+		slot.connect("item_unequipped", _on_item_unequipped)
 
 func count_item(item: Item) -> int:
 	var total = 0
-	for slot in hotbar_slots + grid_slots:
+	for slot in hotbar_slots + grid_slots + equipment_slots:
 		if slot.item != null and slot.item.id == item.id:
 			total += slot.amount
 	return total
@@ -111,3 +122,48 @@ func get_jugador() -> CharacterBody2D:
 	if jugadores.size() > 0:
 		return jugadores[0]
 	return null
+
+func equip_item(item: Item, source_slot):  # Ajustado
+	if not item or not item.is_equippable:
+		print("Ítem no equipable:", item.name if item else "null")
+		return false
+
+	for slot in equipment_slots:
+		if not slot.item and slot.equipment_slot == item.equipment_slot:
+			source_slot.amount -= 1  # Restar solo 1 unidad
+			if source_slot.amount <= 0:
+				source_slot.item = null
+				source_slot.amount = 0
+			slot.item = item
+			slot.amount = 1  # Equipar solo 1 unidad
+			emit_signal("item_equipped", item, slot)
+			return true
+
+	print("No hay slot de equipamiento disponible para:", item.name)
+	return false
+
+func unequip_item(item: Item, equipment_slot):
+	for slot in equipment_slots:
+		if slot.item == item:
+			for target_slot in hotbar_slots + grid_slots:
+				if not target_slot.item:
+					target_slot.item = item
+					target_slot.amount = 1
+					slot.item = null
+					slot.amount = 0
+					emit_signal("item_unequipped", item, target_slot)
+					return true
+			print("Inventario lleno, no se pudo desequipar:", item.name)
+			return false
+	return false
+
+func _on_item_equipped(item, slot):
+	print("Ítem equipado:", item.name, "en slot:", slot.equipment_slot)
+	# Aquí puedes añadir lógica adicional (ej. aplicar efectos al jugador)
+
+func _on_item_unequipped(item, slot):
+	print("Ítem desequipado:", item.name, "de slot:", slot.equipment_slot)
+	# Aquí puedes añadir lógica adicional (ej. quitar efectos al jugador)
+
+signal item_equipped(item, slot)
+signal item_unequipped(item, slot)

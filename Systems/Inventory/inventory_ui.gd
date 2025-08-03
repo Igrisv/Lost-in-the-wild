@@ -4,6 +4,7 @@ extends Control
 @onready var hotbar: HBoxContainer = $Ui/Hotbar
 @onready var grid: GridContainer = $Ui/Inventario
 @onready var pause_menu: Control = $Ui/Pause_Menu
+@onready var equipment_slots: Control = $Ui/EquipmentSlots  # Aseguramos que sea un Control con hijos Slot
 
 var is_paused = false
 var inventory_manager
@@ -18,11 +19,13 @@ func _ready():
 	hotbar.visible = false
 	grid.visible = false
 	pause_menu.visible = false
+	equipment_slots.visible = false  # Ocultar equipment_slots inicialmente
 
 	# Asumimos que el manager está en un autoload llamado "InventoryManager"
 	inventory_manager = Inventory
 	inventory_manager.set_hotbar_slots(hotbar.get_children())
 	inventory_manager.set_grid_slots(grid.get_children())
+	inventory_manager.set_equipment_slots(equipment_slots.get_children())  # Añadimos equipment_slots
 
 func _input(event):
 	if event.is_action_pressed("inventario"):
@@ -53,14 +56,15 @@ func update_visibility():
 	hotbar.visible = is_inventory_visible
 	grid.visible = is_inventory_visible
 	pause_menu.visible = is_pause_menu_visible
+	equipment_slots.visible = is_inventory_visible  # Mostrar equipment_slots junto con el inventario
 
 func hide_all():
 	is_inventory_visible = false
 	is_pause_menu_visible = false
 	update_visibility()
+
 func _on_to_menu_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/Main_Menu/main_menu.tscn")
-
 
 func _on_resume_pressed() -> void:
 	is_paused = false

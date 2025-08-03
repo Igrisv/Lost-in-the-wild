@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://rgo1mwodebg7"]
+[gd_scene load_steps=9 format=3 uid="uid://rgo1mwodebg7"]
 
 [ext_resource type="PackedScene" uid="uid://dr5kuuer5oimd" path="res://Systems/Resources-node/resource_node.tscn" id="1_6nha6"]
 [ext_resource type="Texture2D" uid="uid://dcadadbtacjfy" path="res://Assets/Mundo/Decoracion/Pixel Tree Animated Pack - Helm3t/Sheets/With Shadow/Tree2_anim_sheet_s.png" id="2_sr3cv"]
@@ -51,9 +51,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_sr3cv"]
-polygon = PackedVector2Array(-7, 6, 7, 6, 7, 28, -7, 28)
-
 [node name="Arbol" instance=ExtResource("1_6nha6")]
 
 [node name="Sprite2D" parent="." index="0"]
@@ -70,6 +67,3 @@ position = Vector2(0, 11)
 
 [node name="CollisionShape2D" parent="." index="4"]
 position = Vector2(0, 17)
-
-[node name="LightOccluder2D" parent="." index="5"]
-occluder = SubResource("OccluderPolygon2D_sr3cv")

@@ -1,11 +1,8 @@
 extends HBoxContainer
 
-var currently_equipped : Item:
-	set(value):
-		currently_equipped = value
-		equip.emit(value)
-
+var currently_equipped: Item
 signal equip(item)
+signal unequip(item)
 
 var index = 0:
 	set(value):
@@ -19,7 +16,7 @@ var index = 0:
 
 # Cooldown entre usos
 var last_use_time := 0.0
-const USE_COOLDOWN := 0.3 # Segundos (un poco más para seguridad)
+const USE_COOLDOWN := 0.3  # Segundos
 
 func _draw():
 	draw_rect(Rect2(get_child(index).position, get_child(index).size), Color.WHITE, false, 1)
@@ -35,6 +32,13 @@ func _input(event):
 				var slot = get_child(i)
 				if slot.get_global_rect().has_point(event.global_position):
 					index = i
+					break
+		if event.button_index == MOUSE_BUTTON_RIGHT:  # Equipar con clic derecho
+			for i in range(get_child_count()):
+				var slot = get_child(i)
+				if slot.get_global_rect().has_point(event.global_position) and slot.item and slot.item.is_equippable:
+					if Inventory.equip_item(slot.item, slot):
+						update()
 					break
 
 func update():
@@ -56,7 +60,6 @@ func use_current():
 		Item.ItemType.CONSUMABLE:
 			print("Usando consumible:", slot.item.name)
 			if Inventory.consume_item(slot.item):
-				# No necesitas restar slot.amount aquí, ya se hizo en use_stackable_item()
 				update()
 			else:
 				print("No se pudo consumir el ítem.")

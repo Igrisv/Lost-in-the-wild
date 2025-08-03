@@ -31,7 +31,5 @@ shape = SubResource("CapsuleShape2D_rigcg")
 position = Vector2(1, 10.5)
 shape = SubResource("RectangleShape2D_4psne")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-
 [connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_body_exited"]

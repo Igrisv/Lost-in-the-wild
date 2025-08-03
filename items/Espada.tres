@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://c47wdpebqfc5c"]
+
+[ext_resource type="Texture2D" uid="uid://cw5llv55el8g6" path="res://Assets/Items/Weapons Asset 16x16/003.png" id="1_gaamf"]
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="2_nipwm"]
+
+[resource]
+script = ExtResource("2_nipwm")
+max_stack = 2
+id = "Espada"
+name = "Espada"
+icon = ExtResource("1_gaamf")
+item_type = 2
+is_equippable = true
+equipment_slot = "Body"
+metadata/_custom_type_script = "uid://b2jetr72aoe3x"

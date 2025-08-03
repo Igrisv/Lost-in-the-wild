@@ -166,6 +166,54 @@ offset_bottom = 153.0
 text = "Exit to menu
 "
 
+[node name="EquipmentSlots" type="Control" parent="Ui"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 74.0
+offset_top = 113.0
+offset_right = 390.0
+offset_bottom = 275.0
+
+[node name="Slot2" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+offset_left = 115.0
+offset_top = 61.0
+offset_right = 185.0
+offset_bottom = 131.0
+equipment_slot = "Head"
+
+[node name="Slot5" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+offset_left = 117.0
+offset_top = 250.0
+offset_right = 187.0
+offset_bottom = 320.0
+equipment_slot = "Legs"
+
+[node name="Slot3" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+offset_left = 208.0
+offset_top = 152.0
+offset_right = 278.0
+offset_bottom = 222.0
+equipment_slot = "Hand"
+
+[node name="Slot4" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+offset_left = 21.0
+offset_top = 152.0
+offset_right = 91.0
+offset_bottom = 222.0
+equipment_slot = "Hand"
+
+[node name="Slot" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+offset_left = 115.0
+offset_top = 153.0
+offset_right = 185.0
+offset_bottom = 223.0
+equipment_slot = "Body"
+
 [connection signal="equip" from="Ui/Hotbar" to="." method="_on_hotbar_equip"]
 [connection signal="pressed" from="Ui/Pause_Menu/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Ui/Pause_Menu/To_menu" to="." method="_on_to_menu_pressed"]

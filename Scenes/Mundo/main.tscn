@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bag2l1wvhorit"]
+[gd_scene load_steps=23 format=3 uid="uid://bag2l1wvhorit"]
 
 [ext_resource type="Script" uid="uid://3qq00hkyqqmh" path="res://Scenes/Mundo/main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cwwbkexo7lung" path="res://Systems/Inventory/inventory.tscn" id="4_jjvhh"]
@@ -179,8 +179,6 @@ sources/4 = SubResource("TileSetAtlasSource_5v27u")
 sources/5 = SubResource("TileSetAtlasSource_2x4d3")
 sources/6 = SubResource("TileSetAtlasSource_7g1o7")
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_irt6n"]
-
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0xm2m")
 
@@ -189,6 +187,7 @@ script = ExtResource("1_0xm2m")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Ui_Movil" parent="CanvasLayer" instance=ExtResource("5_aorjo")]
+visible = false
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
@@ -208,11 +207,6 @@ resource_type = "Tronco"
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 script = ExtResource("14_irt6n")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(322, 288)
-scale = Vector2(25.5, 30.5)
-texture = SubResource("PlaceholderTexture2D_irt6n")
 
 [node name="Arbol" parent="." instance=ExtResource("5_fivlv")]
 position = Vector2(403, 266)
