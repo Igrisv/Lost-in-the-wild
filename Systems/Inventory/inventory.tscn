@@ -17,7 +17,14 @@ metadata/_edit_lock_ = true
 
 [node name="Ui" type="CanvasLayer" parent="."]
 
+[node name="Panel_Inventory" type="Panel" parent="Ui"]
+offset_left = 836.0
+offset_top = 74.0
+offset_right = 1166.0
+offset_bottom = 402.0
+
 [node name="Inventario" type="GridContainer" parent="Ui"]
+z_index = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -79,7 +86,14 @@ layout_mode = 2
 [node name="Slot16" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
 
+[node name="Panel_Hotbar" type="Panel" parent="Ui"]
+offset_left = 354.0
+offset_top = 636.0
+offset_right = 923.0
+offset_bottom = 720.0
+
 [node name="Hotbar" type="HBoxContainer" parent="Ui" groups=["Hotbar"]]
+z_index = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -165,53 +179,74 @@ offset_bottom = 153.0
 text = "Exit to menu
 "
 
+[node name="Panel_Equip" type="Panel" parent="Ui"]
+offset_left = 91.0
+offset_top = 106.0
+offset_right = 345.0
+offset_bottom = 389.0
+
 [node name="EquipmentSlots" type="Control" parent="Ui"]
+z_index = 1
 layout_mode = 3
 anchors_preset = 0
-offset_left = 74.0
-offset_top = 113.0
-offset_right = 390.0
-offset_bottom = 275.0
+offset_left = 73.0
+offset_top = 47.0
+offset_right = 389.0
+offset_bottom = 410.0
 
-[node name="Slot2" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
+[node name="Head" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-offset_left = 115.0
-offset_top = 61.0
-offset_right = 185.0
-offset_bottom = 131.0
+offset_left = 119.0
+offset_top = 65.0
+offset_right = 189.0
+offset_bottom = 135.0
+scale = Vector2(0.8, 0.8)
 equipment_slot = "Head"
 
-[node name="Slot5" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
+[node name="Hand" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-offset_left = 117.0
-offset_top = 250.0
-offset_right = 187.0
-offset_bottom = 320.0
+offset_left = 191.0
+offset_top = 137.0
+offset_right = 261.0
+offset_bottom = 207.0
+scale = Vector2(0.8, 0.8)
+equipment_slot = "Hand"
+
+[node name="Hand2" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+offset_left = 47.0
+offset_top = 137.0
+offset_right = 117.0
+offset_bottom = 207.0
+scale = Vector2(0.8, 0.8)
+equipment_slot = "Hand"
+
+[node name="Body" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+offset_left = 119.0
+offset_top = 137.0
+offset_right = 189.0
+offset_bottom = 207.0
+scale = Vector2(0.8, 0.8)
+equipment_slot = "Body"
+
+[node name="Legs" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
+layout_mode = 2
+offset_left = 119.0
+offset_top = 209.0
+offset_right = 189.0
+offset_bottom = 279.0
+scale = Vector2(0.8, 0.8)
 equipment_slot = "Legs"
 
-[node name="Slot3" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
+[node name="Feet" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
 layout_mode = 2
-offset_left = 208.0
-offset_top = 152.0
-offset_right = 278.0
-offset_bottom = 222.0
-equipment_slot = "Hand"
-
-[node name="Slot4" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
-layout_mode = 2
-offset_left = 21.0
-offset_top = 152.0
-offset_right = 91.0
-offset_bottom = 222.0
-equipment_slot = "Hand"
-
-[node name="Slot" parent="Ui/EquipmentSlots" instance=ExtResource("1_u36e3")]
-layout_mode = 2
-offset_left = 115.0
-offset_top = 153.0
-offset_right = 185.0
-offset_bottom = 223.0
-equipment_slot = "Body"
+offset_left = 119.0
+offset_top = 281.0
+offset_right = 189.0
+offset_bottom = 351.0
+scale = Vector2(0.8, 0.8)
+equipment_slot = "Feet"
 
 [connection signal="equip" from="Ui/Hotbar" to="." method="_on_hotbar_equip"]
 [connection signal="pressed" from="Ui/Pause_Menu/Resume" to="." method="_on_resume_pressed"]

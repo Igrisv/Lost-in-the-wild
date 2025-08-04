@@ -5,13 +5,13 @@
 
 [resource]
 script = ExtResource("1_bsdsy")
-max_stack = 1
+max_stack = 5
 id = "BotasDeCuero"
 name = "BotasDeCuero"
 icon = ExtResource("1_vny3d")
 item_type = 0
 is_equippable = true
-equipment_slot = ""
+equipment_slot = "Feet"
 durability = 20
 protection = 20
 comfort = 15

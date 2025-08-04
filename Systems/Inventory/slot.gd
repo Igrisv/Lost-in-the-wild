@@ -3,23 +3,30 @@ extends Panel
 @export var item: Item = null:
 	set(value):
 		item = value
-		if value == null:
-			$Icon.texture = null
-			$Amount.text = ""
-			return
-		$Icon.texture = value.icon
-		var slot_size = custom_minimum_size if custom_minimum_size != Vector2.ZERO else size
-		$Icon.size = slot_size * 0.6
-		$Icon.position = (slot_size - $Icon.size) / 2
-		$Icon.queue_redraw()
-		print("Ítem asignado: ", value.name, ", Slot size: ", slot_size, ", Icon size: ", $Icon.size)
+		if is_inside_tree():
+			if value == null:
+				$Icon.texture = null
+				$Amount.text = ""
+			else:
+				$Icon.texture = value.icon
+				var slot_size = custom_minimum_size if custom_minimum_size != Vector2.ZERO else size
+				$Icon.size = slot_size * 0.6
+				$Icon.position = (slot_size - $Icon.size) / 2
+				$Icon.queue_redraw()
+				$Amount.text = str(amount) if amount > 0 else ""
+			queue_redraw()
+			print("Ítem asignado: ", value.name if value else "null", ", Icon size: ", $Icon.size)
 
 @export var amount: int = 0:
 	set(value):
-		amount = value
-		$Amount.text = str(value)
-		if amount <= 0:
-			item = null
+		amount = max(0, value)
+		if is_inside_tree():
+			$Amount.text = str(amount) if amount > 0 else ""
+			if amount <= 0 and item != null:
+				item = null
+				$Icon.texture = null
+			queue_redraw()
+			print("Cantidad actualizada: ", amount)
 
 @export var equipment_slot: String = ""
 @export var is_safe_slot: bool = false
@@ -29,11 +36,34 @@ var _drag_data_cache = null
 signal item_equipped(item, slot)
 signal item_unequipped(item, slot)
 
+func _ready():
+	add_to_group("slots")
+
 func set_amount(value: int):
 	amount = value
 
 func add_amount(value: int):
-	amount += value
+	set_amount(amount + value)
+
+func update_from_group():
+	if item == null:
+		$Icon.texture = null
+		$Amount.text = ""
+	else:
+		$Icon.texture = item.icon
+		var slot_size = custom_minimum_size if custom_minimum_size != Vector2.ZERO else size
+		$Icon.size = slot_size * 0.6
+		$Icon.position = (slot_size - $Icon.size) / 2
+		$Icon.queue_redraw()
+		$Amount.text = str(amount) if amount > 0 else ""
+	queue_redraw()
+	print("Slot actualizado desde grupo: ", name, ", item: ", item.name if item else "null", ", amount: ", amount, ", caller: ", get_caller_info())
+func get_caller_info() -> String:
+	var stack = get_stack()
+	if stack.size() > 1:
+		var info = stack[1]
+		return "%s() in %s:%s" % [info.get("function", "unknown"), info.get("source", "unknown"), info.get("line", "??")]
+	return "unknown"
 
 func _can_drop_data(_at_position, data):
 	if "item" in data:
@@ -50,26 +80,28 @@ func _drop_data(_at_position, data):
 	var source_slot = data.get("source_slot", null)
 
 	if source_slot and source_slot.equipment_slot != "" and source_slot != self:
-		inventory.unequip_item(source_slot.item, source_slot.equipment_slot)
+		if not inventory.unequip_item(source_slot.item, source_slot.equipment_slot):
+			print("No se pudo desequipar desde slot de origen: ", source_slot.equipment_slot)
+			return
 		emit_signal("item_unequipped", source_slot.item, source_slot)
 		print("Desequipado de slot de origen: ", source_slot.equipment_slot)
+		# No asignar directamente al slot de destino; dejar que add_item lo maneje
+		return
 
 	if item == null:
 		if equipment_slot != "" and data.item.is_equippable and data.item.equipment_slot == equipment_slot:
-			if inventory.equip_item(data.item, self):
+			if inventory.equip_item(data.item, source_slot if source_slot else self):
 				print("Ítem equipado en slot: ", equipment_slot)
-				source_slot.item = null
-				source_slot.amount = 0
+				if source_slot:
+					source_slot.item = null
+					source_slot.amount = 0
 			return
 		elif equipment_slot == "":
-			item = data.item
-			amount = data.amount
-			data.item = null
-			data.amount = 0
-			if source_slot and source_slot != self:
+			# Solo mover el ítem sin duplicarlo; la redistribución ya se hizo en unequip_item
+			if source_slot:
 				source_slot.item = null
 				source_slot.amount = 0
-			print("Ítem asignado a slot normal, amount: ", amount)
+			print("Ítem movido a slot normal, amount: ", data.amount)
 		return
 
 	if equipment_slot != "":
@@ -82,15 +114,14 @@ func _drop_data(_at_position, data):
 
 		if total <= max_stack:
 			amount = total
-			data.item = null
-			data.amount = 0
-			if source_slot and source_slot != self:
+			if source_slot:
 				source_slot.item = null
 				source_slot.amount = 0
 			print("Stacks fusionados, nuevo amount: ", amount)
 		else:
 			amount = max_stack
-			data.amount = total - max_stack
+			if source_slot:
+				source_slot.amount = total - max_stack
 			print("Stack limitado, sobrante: ", data.amount)
 	else:
 		if equipment_slot != "" and not data.item.is_equippable:
@@ -98,15 +129,16 @@ func _drop_data(_at_position, data):
 			var temp_amount = amount
 			item = data.item
 			amount = data.amount
-			data.item = temp_item
-			data.amount = temp_amount
+			if source_slot:
+				source_slot.item = temp_item
+				source_slot.amount = temp_amount
 			if temp_item:
 				emit_signal("item_unequipped", temp_item, self)
 				print("Ítem desequipado de: ", equipment_slot)
 		elif equipment_slot == "" and data.item.is_equippable and data.item.equipment_slot != "":
-			if inventory.equip_item(data.item, self):
+			if inventory.equip_item(data.item, source_slot if source_slot else self):
 				print("Ítem equipado desde slot normal")
-				if source_slot and source_slot != self:
+				if source_slot:
 					source_slot.item = null
 					source_slot.amount = 0
 			return
@@ -115,13 +147,7 @@ func _drop_data(_at_position, data):
 			var temp_amount = amount
 			item = data.item
 			amount = data.amount
-			data.item = temp_item
-			data.amount = temp_amount
-			if source_slot and source_slot.equipment_slot != "":
-				inventory.unequip_item(source_slot.item, source_slot.equipment_slot)
-				emit_signal("item_unequipped", source_slot.item, source_slot)
-				print("Desequipado de slot de origen: ", source_slot.equipment_slot)
-			if source_slot and source_slot != self:
+			if source_slot:
 				source_slot.item = temp_item
 				source_slot.amount = temp_amount
 			print("Intercambio realizado")
@@ -157,6 +183,10 @@ func _notification(what):
 
 		if not drop_successful and not is_safe_slot:
 			_show_destroy_confirmation()
+		elif drop_successful and _drag_data_cache:
+			# Limpiar el slot de origen solo si el drop fue exitoso
+			self.item = null
+			self.amount = 0
 
 		_drag_data_cache = null
 

@@ -220,8 +220,11 @@ func get_hotbar() -> Node:
 		return hotbars[0]
 	return null
 
-func apply_consumable_effect(consumable_data):
+# Reemplaza estas funciones en tu script jugador.gd
+
+func apply_consumable_effect(consumable_data: ConsumableData) -> void:
 	if consumable_data == null:
+		print("Error: ConsumableData es null")
 		return
 
 	for effect in consumable_data.effects:
@@ -230,29 +233,28 @@ func apply_consumable_effect(consumable_data):
 				if needs.hunger < MAX_STAT:
 					needs.hunger = clamp(needs.hunger + effect.value, MIN_STAT, MAX_STAT)
 					activate_cooldown("hunger")
-
+					print("Hambre restaurada: ", needs.hunger)
 			ConsumableData.EffectType.THIRST:
 				if needs.thirst < MAX_STAT:
 					needs.thirst = clamp(needs.thirst + effect.value, MIN_STAT, MAX_STAT)
 					activate_cooldown("thirst")
-
+					print("Sed restaurada: ", needs.thirst)
 			ConsumableData.EffectType.SLEEP:
 				if needs.sleep < MAX_STAT:
 					needs.sleep = clamp(needs.sleep + effect.value, MIN_STAT, MAX_STAT)
 					activate_cooldown("sleep")
-
+					print("Sueño restaurado: ", needs.sleep)
 			ConsumableData.EffectType.STAMINA:
 				if needs.stamina < MAX_STAT:
 					needs.stamina = clamp(needs.stamina + effect.value, MIN_STAT, MAX_STAT)
 					activate_cooldown("stamina")
-
+					print("Estamina restaurada: ", needs.stamina)
 			_:
-				print("Efecto no manejado en consumable:", effect.type)
-
+				print("Efecto no manejado en consumable: ", effect.type)
 
 func should_consume(consumable_data: ConsumableData) -> Dictionary:
 	if consumable_data == null:
-		return { "can_consume": false, "reason": "Sin datos" }
+		return { "can_consume": false, "reason": "Sin datos de consumible" }
 
 	var can_consume = false
 	var reasons = []
@@ -261,25 +263,41 @@ func should_consume(consumable_data: ConsumableData) -> Dictionary:
 		match effect.type:
 			ConsumableData.EffectType.HUNGER:
 				if cooldowns["hunger"] > 0:
-					reasons.append("Estás lleno, espera antes de volver a comer")
+					reasons.append("Estás lleno, espera antes de comer")
 				elif needs.hunger < MAX_STAT:
 					can_consume = true
+				else:
+					reasons.append("Hambre al máximo")
 			ConsumableData.EffectType.THIRST:
 				if cooldowns["thirst"] > 0:
-					reasons.append("Estás saciado, espera antes de volver a beber")
+					reasons.append("Estás saciado, espera antes de beber")
 				elif needs.thirst < MAX_STAT:
 					can_consume = true
-			# ... resto igual ...
-			ConsumableData.EffectType.HALLUCINATION:
-				can_consume = true  # Efecto negativo, siempre permitido
+				else:
+					reasons.append("Sed al máximo")
+			ConsumableData.EffectType.SLEEP:
+				if cooldowns["sleep"] > 0:
+					reasons.append("No necesitas dormir ahora")
+				elif needs.sleep < MAX_STAT:
+					can_consume = true
+				else:
+					reasons.append("Sueño al máximo")
+			ConsumableData.EffectType.STAMINA:
+				if cooldowns["stamina"] > 0:
+					reasons.append("Estamina en cooldown")
+				elif needs.stamina < MAX_STAT:
+					can_consume = true
+				else:
+					reasons.append("Estamina al máximo")
+			_:
+				can_consume = true  # Efectos no relacionados con necesidades siempre permitidos
 
 	if can_consume:
-		return { "can_consume": true }
+		return { "can_consume": true, "reason": "" }
 	elif reasons:
 		return { "can_consume": false, "reason": ", ".join(reasons) }
 	else:
 		return { "can_consume": false, "reason": "No necesitas esto ahora" }
-
 
 # Nueva función para actualizar estadísticas basadas en equipamiento
 func update_equipment_stats():

@@ -1,20 +1,19 @@
-[gd_resource type="Resource" script_class="Item" load_steps=6 format=3 uid="uid://b4df3lev0ghbd"]
+[gd_resource type="Resource" script_class="Item" load_steps=7 format=3 uid="uid://b4df3lev0ghbd"]
 
 [ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="1_hoeuq"]
 [ext_resource type="Script" uid="uid://cvxbxdmmlgrax" path="res://Systems/Needs and effects/Effects/Effect.gd" id="1_lvnx3"]
 [ext_resource type="Script" uid="uid://ben4m56t3jg1l" path="res://Systems/Needs and effects/Data/ConsumableData.gd" id="2_j23xy"]
 [ext_resource type="Texture2D" uid="uid://btkrlr7kupsyx" path="res://Assets/RPG Items/Manzana_Madura.png" id="3_qe8uf"]
 
+[sub_resource type="Resource" id="Resource_lvnx3"]
+script = ExtResource("1_lvnx3")
+type = 0
+value = 10.0
+metadata/_custom_type_script = "uid://cvxbxdmmlgrax"
+
 [sub_resource type="Resource" id="Resource_50xwl"]
 script = ExtResource("2_j23xy")
-effects = Array[ExtResource("1_lvnx3")]([])
-hunger_restore = 10.0
-thirst_restore = 5.0
-sleep_restore = 0.0
-stamina_restore = 0.0
-health_restore = 0.0
-removes_poison = false
-causes_hallucination = false
+effects = Array[ExtResource("1_lvnx3")]([SubResource("Resource_lvnx3")])
 metadata/_custom_type_script = "uid://ben4m56t3jg1l"
 
 [resource]

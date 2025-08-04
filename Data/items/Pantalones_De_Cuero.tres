@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_krfff")
-max_stack = 1
+max_stack = 5
 id = "PantalonesDeCuero"
 name = "PantalonesDeCuero"
 icon = ExtResource("1_8g0ro")

@@ -33,16 +33,31 @@ func _input(event):
 				if slot.get_global_rect().has_point(event.global_position):
 					index = i
 					break
-		if event.button_index == MOUSE_BUTTON_RIGHT:  # Equipar con clic derecho
+		if event.button_index == MOUSE_BUTTON_RIGHT:
 			for i in range(get_child_count()):
 				var slot = get_child(i)
-				if slot.get_global_rect().has_point(event.global_position) and slot.item and slot.item.is_equippable:
-					if Inventory.equip_item(slot.item, slot):
-						update()
+				if slot.get_global_rect().has_point(event.global_position):
+					if slot.item and slot.item.is_equippable:
+						print("Intentando equipar con clic derecho: ", slot.item.name, ", cantidad: ", slot.amount)
+						if Inventory.equip_item(slot.item, slot):
+							update()
+							print("Equipado exitosamente, cantidad restante: ", slot.amount, ", total: ", get_inventory_total(slot.item))
+					elif slot.equipment_slot != "" and slot.item:
+						print("Intentando desequipar con clic derecho: ", slot.item.name)
+						if Inventory.unequip_item(slot.item, slot.equipment_slot):
+							update()
+							print("Desequipado exitosamente, total: ", get_inventory_total(slot.item))
 					break
+
+# Función auxiliar para contar el total de un ítem en el inventario
+func get_inventory_total(item: Item) -> int:
+	var inventory = Inventory
+	return inventory.count_item(item) if inventory else 0
 
 func update():
 	currently_equipped = get_child(index).item
+
+# Reemplaza la función use_current en tu script hotbar.gd
 
 func use_current():
 	var now = Time.get_ticks_msec() / 1000.0
@@ -58,27 +73,12 @@ func use_current():
 
 	match slot.item.item_type:
 		Item.ItemType.CONSUMABLE:
-			print("Usando consumible:", slot.item.name)
-			
-			# Asegurarse de que el item tenga consumable_data
-			if slot.item.consumable_data == null:
-				print("Error: Consumable sin datos")
-				return
-
-			var player = get_tree().get_first_node_in_group("Player")
-			if player == null:
-				print("Error: No se encontró el nodo 'player'")
-				return
-
-			var result = player.should_consume(slot.item.consumable_data)
-
-			if result.can_consume:
-				player.apply_consumable_effect(slot.item.consumable_data)
-				slot.amount -= 1
-				if slot.amount <= 0:
-					slot.item = null
-				update()
-
+			print("Intentando consumir:", slot.item.name)
+			if Inventory.consume_item(slot.item):
+				print("Consumible usado exitosamente:", slot.item.name)
+				slot.queue_redraw()  # Actualizar visualmente el slot
+			else:
+				print("Fallo al consumir:", slot.item.name)
 		Item.ItemType.TOOL:
 			print("Usar herramienta:", slot.item.name)
 		Item.ItemType.WEAPON:
