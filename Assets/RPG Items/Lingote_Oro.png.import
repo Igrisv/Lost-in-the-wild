@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6vp7uayc58hx"
-path="res://.godot/imported/rpgItems-preview.png-4fe38a8eb7ec66b8c9d25bdba2c048cc.ctex"
+uid="uid://d05wp4carg6n5"
+path="res://.godot/imported/Lingote_Oro.png-c59bd5b443e65ad77f4ece70e6546dea.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/RPG Items/rpgItems-preview.png"
-dest_files=["res://.godot/imported/rpgItems-preview.png-4fe38a8eb7ec66b8c9d25bdba2c048cc.ctex"]
+source_file="res://Assets/RPG Items/Lingote_Oro.png"
+dest_files=["res://.godot/imported/Lingote_Oro.png-c59bd5b443e65ad77f4ece70e6546dea.ctex"]
 
 [params]
 

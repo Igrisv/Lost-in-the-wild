@@ -46,10 +46,18 @@ func _drop_data(_at_position, data):
 		print("Datos de arrastre inválidos o ítem nulo")
 		return
 
+	var inventory = get_node("/root/Inventory")
+	var source_slot = data.get("source_slot", null)
+
+	# Desequipar si el ítem viene de un slot de equipamiento
+	if source_slot and source_slot.equipment_slot != "" and source_slot != self:
+		inventory.unequip_item(source_slot.item, source_slot.equipment_slot)
+		emit_signal("item_unequipped", source_slot.item, source_slot)
+		print("Desequipado de slot de origen: ", source_slot.equipment_slot)
+
 	if item == null:
 		if equipment_slot != "" and data.item.is_equippable and data.item.equipment_slot == equipment_slot:
-			var inventory = get_node("/root/Inventory")  # Adjust the path as needed
-			if inventory.equip_item(data.item, data):
+			if inventory.equip_item(data.item, self):
 				print("Ítem equipado en slot: ", equipment_slot)
 			return
 		elif equipment_slot == "":
@@ -60,7 +68,7 @@ func _drop_data(_at_position, data):
 			print("Ítem asignado a slot normal, amount: ", amount)
 		return
 
-	# Si el slot ya tiene un ítem, no permitir apilamiento ni intercambio en slots de equipamiento
+	# Resto del código...
 	if equipment_slot != "":
 		print("Slot de equipamiento ya ocupado, no se permite agregar más ítems")
 		return
@@ -90,8 +98,7 @@ func _drop_data(_at_position, data):
 				emit_signal("item_unequipped", temp_item, self)
 				print("Ítem desequipado de: ", equipment_slot)
 		elif equipment_slot == "" and data.item.is_equippable and data.item.equipment_slot != "":
-			var inventory = get_node("/root/Inventory")  # Adjust the path as needed
-			if inventory.equip_item(data.item, data):
+			if inventory.equip_item(data.item, self):
 				print("Ítem equipado desde slot normal")
 			return
 		else:
@@ -102,13 +109,17 @@ func _drop_data(_at_position, data):
 			data.item = temp_item
 			data.amount = temp_amount
 			print("Intercambio realizado")
+			if source_slot and source_slot.equipment_slot != "":
+				inventory.unequip_item(source_slot.item, source_slot.equipment_slot)
+				emit_signal("item_unequipped", source_slot.item, source_slot)
+				print("Desequipado de slot de origen: ", source_slot.equipment_slot)
 
 func _get_drag_data(_at_position):
 	if not item:
 		print("No hay ítem para arrastrar")
 		return null
 
-	_drag_data_cache = {"item": item, "amount": amount}
+	_drag_data_cache = {"item": item, "amount": amount, "source_slot": self}
 
 	var preview_texture = TextureRect.new()
 	preview_texture.texture = item.icon
@@ -117,7 +128,7 @@ func _get_drag_data(_at_position):
 	var preview = Control.new()
 	preview.add_child(preview_texture)
 	set_drag_preview(preview)
-	return self
+	return _drag_data_cache
 
 func _notification(what):
 	if what == NOTIFICATION_DRAG_END and _drag_data_cache:
@@ -128,7 +139,7 @@ func _notification(what):
 			if slot == self:
 				continue
 			var slot_rect: Rect2 = slot.get_global_rect()
-			var dummy_data = {"item": _drag_data_cache.item, "amount": _drag_data_cache.amount}
+			var dummy_data = {"item": _drag_data_cache.item, "amount": _drag_data_cache.amount, "source_slot": self}
 			if slot_rect.has_point(get_global_mouse_position()) and slot._can_drop_data(Vector2.ZERO, dummy_data):
 				drop_successful = true
 				break
@@ -136,9 +147,6 @@ func _notification(what):
 		# Si no se soltó en un slot válido, mostrar diálogo de confirmación
 		if not drop_successful and not is_safe_slot:
 			_show_destroy_confirmation()
-
-		# Limpiar caché de arrastre
-		_drag_data_cache = null
 
 		# Limpiar caché de arrastre
 		_drag_data_cache = null

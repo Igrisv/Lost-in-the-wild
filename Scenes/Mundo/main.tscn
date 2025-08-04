@@ -188,10 +188,10 @@ script = SubResource("GDScript_bo1nx")
 
 [node name="Inventory" parent="." instance=ExtResource("4_jjvhh")]
 
-[node name="Ui_Movil" parent="." instance=ExtResource("5_aorjo")]
-visible = false
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Ui_Movil" parent="CanvasLayer" instance=ExtResource("5_aorjo")]
+visible = false
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1

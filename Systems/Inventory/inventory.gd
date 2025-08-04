@@ -11,7 +11,8 @@ func _ready():
 	item_map = {
 		"Tronco": preload("res://items/Tronco.tres"),
 		"Comida": preload("res://items/Comida.tres"),
-		"Espada": preload("res://items/Espada.tres")
+		"Espada": preload("res://items/Espada.tres"),
+		"Pechera_De_Cuero": preload("res://items/Pechera_De_Cuero.tres"),
 	}
 	for item_name in item_map.keys():
 		if item_map[item_name] == null:
@@ -159,28 +160,39 @@ func equip_item(item: Item, source_slot):
 func unequip_item(item: Item, equipment_slot):
 	for slot in equipment_slots:
 		if slot.item == item:
+			slot.item = null  # Forzar limpieza del slot
+			slot.amount = 0
 			for target_slot in hotbar_slots + grid_slots:
 				if not target_slot.item:
 					target_slot.item = item
 					target_slot.amount = 1
-					slot.item = null
-					slot.amount = 0
 					emit_signal("item_unequipped", item, target_slot)
 					return true
-			print("Inventario lleno, no se pudo desequipar:", item.name)
-			return false
+			emit_signal("item_unequipped", item, slot)  # Emitir señal aunque no se traslade
+			print("Ítem desequipado pero no trasladado: ", item.name)
+			return true
 	return false
 
 func _on_item_equipped(item, slot):
 	if not item:
 		print("Error: Intento de equipar un ítem nulo en slot:", slot.equipment_slot if slot else "null")
 		return
-	print("Ítem equipado:", item.name, "en slot:", slot.equipment_slot)
-	# Aquí puedes añadir lógica adicional (ej. aplicar efectos al jugador)
+	print("Señal item_equipped recibida para:", item.name, "en slot:", slot.equipment_slot)
+	var jugador = get_jugador()
+	if jugador:
+		print("Actualizando estadísticas del jugador...")
+		jugador.update_equipment_stats()
+	else:
+		print("ERROR: Jugador no encontrado para actualizar estadísticas")
 
 func _on_item_unequipped(item, slot):
-	print("Ítem desequipado:", item.name, "de slot:", slot.equipment_slot)
-	# Aquí puedes añadir lógica adicional (ej. quitar efectos al jugador)
+	print("Señal item_unequipped recibida para:", item.name if item else "null", "de slot:", slot.equipment_slot if slot else "null")
+	var jugador = get_jugador()
+	if jugador:
+		print("Actualizando estadísticas del jugador tras desequipar...")
+		jugador.update_equipment_stats()
+	else:
+		print("ERROR: Jugador no encontrado para actualizar estadísticas tras desequipar")
 
 signal item_equipped(item, slot)
 signal item_unequipped(item, slot)

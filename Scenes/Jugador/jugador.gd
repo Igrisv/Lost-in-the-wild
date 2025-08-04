@@ -31,9 +31,28 @@ var cooldowns = {
 	"stamina": 0.0
 }
 
+# Nuevas variables para estadísticas del equipamiento
+var base_protection := 0.0  # Protección base (sin equipamiento)
+var protection := 0.0       # Protección total (base + equipamiento)
+var movement_speed_bonus := 0.0  # Bonificación a la velocidad por movilidad
+var comfort_bonus := 0.0    # Bonificación a la regeneración de energía por comodidad
+var capacity_bonus := 0.0   # Capacidad adicional de inventario (kg o slots)
+var efficiency_bonus := 0.0 # Bonificación a la eficiencia de acciones
+
 func _ready() -> void:
 	add_to_group("Player")
 	hotbar_node = get_hotbar()
+	var inventory = get_node_or_null("/root/Inventory")
+	if inventory:
+		print("Inventario encontrado: ", inventory.name)
+		# Conectar señales del inventario al jugador
+		if not inventory.is_connected("item_equipped", _on_item_equipped):
+			inventory.connect("item_equipped", Callable(self, "_on_item_equipped"))
+		if not inventory.is_connected("item_unequipped", _on_item_unequipped):
+			inventory.connect("item_unequipped", Callable(self, "_on_item_unequipped"))
+	else:
+		print("ERROR: Inventario no encontrado en /root/Inventory")
+	update_equipment_stats()  # Inicializar estadísticas al empezar
 
 func _physics_process(_delta):
 	# Actualizar necesidades según el tiempo
@@ -46,7 +65,8 @@ func _physics_process(_delta):
 	sueño_bar.value = needs.sleep
 	
 	if velocity.length() < 1:
-		needs.stamina = min(needs.stamina + 0.2 * _delta, MAX_STAT)
+		needs.stamina = min(needs.stamina + (0.2 + comfort_bonus * 0.01) * _delta, MAX_STAT)  # Ajuste por comodidad
+		print("Regeneración de stamina: ", needs.stamina, " (Comfort bonus: ", comfort_bonus, ")")
 	else:
 		needs.stamina = max(needs.stamina - 0.5 * _delta, MIN_STAT)
 	
@@ -58,7 +78,8 @@ func _physics_process(_delta):
 			poisoned_time = 0.0
 			print("Ya no estás envenenado.")
 		else:
-			damage -= 0.1 * _delta
+			damage -= 0.1 * _delta * (1.0 - (protection / 100.0))  # Reducción de daño por protección
+			print("Daño por envenenamiento: ", 0.1 * _delta * (1.0 - (protection / 100.0)), " (Protección: ", protection, "%)")
 
 	# Actualizar los cooldowns en cada frame
 	for key in cooldowns.keys():
@@ -82,28 +103,42 @@ func _physics_process(_delta):
 	var direction = Vector2.ZERO
 	var moving = false
 
+	# Dirección horizontal
 	if Input.is_action_pressed("derecha"):
-		animated_sprite_2d.flip_h = false
-		animated_sprite_2d.play("Moverse_Derecha")
 		direction.x += 1
+		animated_sprite_2d.flip_h = false
 		last_direction = "derecha"
 		moving = true
 	elif Input.is_action_pressed("izquierda"):
-		animated_sprite_2d.flip_h = true
-		animated_sprite_2d.play("Moverse_Derecha")
 		direction.x -= 1
+		animated_sprite_2d.flip_h = true
 		last_direction = "izquierda"
 		moving = true
-	elif Input.is_action_pressed("abajo"):
-		animated_sprite_2d.play("Moverse_Abajo")
+
+	# Dirección vertical
+	if Input.is_action_pressed("abajo"):
 		direction.y += 1
 		last_direction = "abajo"
 		moving = true
 	elif Input.is_action_pressed("arriba"):
-		animated_sprite_2d.play("Moverse_Arriba")
 		direction.y -= 1
 		last_direction = "arriba"
 		moving = true
+
+	# Normalizar para evitar velocidad extra en diagonal
+	direction = direction.normalized()
+
+	# Animaciones según dirección
+	if direction != Vector2.ZERO:
+		if direction.y > 0:
+			animated_sprite_2d.play("Moverse_Abajo")
+		elif direction.y < 0:
+			animated_sprite_2d.play("Moverse_Arriba")
+		else:
+			animated_sprite_2d.play("Moverse_Derecha")  # Se reutiliza izquierda con flip_h
+	else:
+		animated_sprite_2d.stop()
+		moving = false
 
 	if not moving:
 		match last_direction:
@@ -118,7 +153,8 @@ func _physics_process(_delta):
 			"abajo":
 				animated_sprite_2d.play("Idle_Abajo")
 
-	velocity = direction.normalized() * speed
+	velocity = direction.normalized() * (speed + movement_speed_bonus)
+	print("Velocidad actual: ", speed + movement_speed_bonus, " (Movement bonus: ", movement_speed_bonus, ")")
 	move_and_slide()
 
 func reproducir_animacion_ataque():
@@ -245,3 +281,62 @@ func should_consume(consumable_data: ConsumableData) -> Dictionary:
 	else:
 		var reason = ", ".join(reasons) if reasons else "No tienes necesidad de esto ahora"
 		return { "can_consume": false, "reason": reason }
+
+# Nueva función para actualizar estadísticas basadas en equipamiento
+func update_equipment_stats():
+	protection = base_protection
+	movement_speed_bonus = 0.0
+	comfort_bonus = 0.0
+	capacity_bonus = 0.0
+	efficiency_bonus = 0.0
+
+	var inventory = Inventory  # Acceder al Autoload Inventory
+	if inventory and "equipment_slots" in inventory:
+		print("Accediendo a equipment_slots desde Autoload Inventory")
+		var slots = inventory.equipment_slots
+		print("Encontrados ", slots.size(), " slots de equipamiento")
+		for slot in slots:
+			print("Slot analizado: ", slot.name, " - Item: ", slot.item.name if slot.item else "null")
+			if slot.item:
+				print("Propiedades de ", slot.item.name, ": ", slot.item)
+				if "protection" in slot.item:
+					protection += slot.item.protection
+					print("Protección añadida: ", slot.item.protection, " (Total: ", protection, ")")
+				else:
+					print("Propiedad 'protection' no encontrada en ", slot.item.name)
+				if "mobility" in slot.item:
+					movement_speed_bonus += slot.item.mobility
+					print("Movilidad añadida: ", slot.item.mobility, " (Total bonus: ", movement_speed_bonus, ")")
+				else:
+					print("Propiedad 'mobility' no encontrada en ", slot.item.name)
+				if "comfort" in slot.item:
+					comfort_bonus += slot.item.comfort
+					print("Comodidad añadida: ", slot.item.comfort, " (Total bonus: ", comfort_bonus, ")")
+				else:
+					print("Propiedad 'comfort' no encontrada en ", slot.item.name)
+				if "capacity" in slot.item:
+					capacity_bonus += slot.item.capacity
+					print("Capacidad añadida: ", slot.item.capacity, " (Total bonus: ", capacity_bonus, ")")
+				else:
+					print("Propiedad 'capacity' no encontrada en ", slot.item.name)
+				if "efficiency" in slot.item:
+					efficiency_bonus += slot.item.efficiency
+					print("Eficiencia añadida: ", slot.item.efficiency, " (Total bonus: ", efficiency_bonus, ")")
+				else:
+					print("Propiedad 'efficiency' no encontrada en ", slot.item.name)
+			else:
+				print("Slot ", slot.name, " está vacío")
+	else:
+		print("ERROR: No se pudo acceder al Autoload Inventory o equipment_slots no está definido")
+
+	print("Estadísticas actualizadas - Protección: ", protection, ", Velocidad bonus: ", movement_speed_bonus,
+		  ", Comodidad: ", comfort_bonus, ", Capacidad: ", capacity_bonus, ", Eficiencia: ", efficiency_bonus)
+
+# Nuevos métodos para manejar las señales
+func _on_item_equipped(item, slot):
+	print("Ítem equipado detectado: ", item.name, " en slot: ", slot.equipment_slot)
+	update_equipment_stats()
+
+func _on_item_unequipped(item, slot):
+	print("Ítem desequipado detectado: ", item.name, " de slot: ", slot.equipment_slot)
+	update_equipment_stats()

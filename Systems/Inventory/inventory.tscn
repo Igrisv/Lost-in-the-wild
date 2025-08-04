@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://dv1731vfxas6n" path="res://Systems/Inventory/hotbar.gd" id="2_ulfck"]
 [ext_resource type="Script" uid="uid://0hsj45238ufi" path="res://Systems/Inventory/Recipe_Button.gd" id="4_u4th5"]
 
-[node name="Inventory" type="Control"]
+[node name="Inventory" type="Control" groups=["Inventario_Equip"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -212,13 +212,6 @@ offset_top = 153.0
 offset_right = 185.0
 offset_bottom = 223.0
 equipment_slot = "Body"
-
-[node name="Slot" parent="Ui" instance=ExtResource("1_u36e3")]
-offset_left = 448.0
-offset_top = 216.0
-offset_right = 518.0
-offset_bottom = 286.0
-scale = Vector2(0.3, 0.3)
 
 [connection signal="equip" from="Ui/Hotbar" to="." method="_on_hotbar_equip"]
 [connection signal="pressed" from="Ui/Pause_Menu/Resume" to="." method="_on_resume_pressed"]

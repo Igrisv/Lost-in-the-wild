@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cww4a1eugp8r5"
-path="res://.godot/imported/rpgItems.png-cc960a2c1567f39d455fe6ec97c1f9b3.ctex"
+uid="uid://ba1aamvfs1fd3"
+path="res://.godot/imported/Botas_De_Cuero.png-5b8c8cfa43ce92a027d212ae04297926.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/RPG Items/rpgItems.png"
-dest_files=["res://.godot/imported/rpgItems.png-cc960a2c1567f39d455fe6ec97c1f9b3.ctex"]
+source_file="res://Assets/RPG Items/Botas_De_Cuero.png"
+dest_files=["res://.godot/imported/Botas_De_Cuero.png-5b8c8cfa43ce92a027d212ae04297926.ctex"]
 
 [params]
 
