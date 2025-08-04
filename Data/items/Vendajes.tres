@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="Item" load_steps=6 format=3 uid="uid://4t8ejx4wumn4"]
+
+[ext_resource type="Texture2D" uid="uid://dniffs53vutps" path="res://Assets/Items/bandaids.webp" id="1_11ymy"]
+[ext_resource type="Script" uid="uid://cvxbxdmmlgrax" path="res://Systems/Needs and effects/Effects/Effect.gd" id="1_264nl"]
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="1_latjp"]
+[ext_resource type="Script" uid="uid://ben4m56t3jg1l" path="res://Systems/Needs and effects/Data/ConsumableData.gd" id="2_345oi"]
+
+[sub_resource type="Resource" id="Resource_vifq0"]
+script = ExtResource("2_345oi")
+effects = Array[ExtResource("1_264nl")]([])
+hunger_restore = 0.0
+thirst_restore = 0.0
+sleep_restore = 0.0
+stamina_restore = 0.0
+health_restore = 20.0
+removes_poison = false
+causes_hallucination = false
+metadata/_custom_type_script = "uid://ben4m56t3jg1l"
+
+[resource]
+script = ExtResource("1_latjp")
+max_stack = 2
+id = "Vendajes"
+name = "Vendajes"
+icon = ExtResource("1_11ymy")
+item_type = 0
+consumable_data = SubResource("Resource_vifq0")
+is_equippable = false
+equipment_slot = ""
+durability = 0
+protection = 0
+comfort = 0
+mobility = 0
+metadata/_custom_type_script = "uid://b2jetr72aoe3x"

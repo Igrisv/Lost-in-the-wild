@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="Item" load_steps=6 format=3 uid="uid://d2ra8a7ib3tsv"]
+
+[ext_resource type="Texture2D" uid="uid://bfeu4gb7y66cd" path="res://Assets/RPG Items/Pocion_Sueño.png" id="1_lo5i6"]
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="1_lrcr0"]
+[ext_resource type="Script" uid="uid://cvxbxdmmlgrax" path="res://Systems/Needs and effects/Effects/Effect.gd" id="1_vbs5x"]
+[ext_resource type="Script" uid="uid://ben4m56t3jg1l" path="res://Systems/Needs and effects/Data/ConsumableData.gd" id="2_n7ko6"]
+
+[sub_resource type="Resource" id="Resource_frs5t"]
+script = ExtResource("2_n7ko6")
+effects = Array[ExtResource("1_vbs5x")]([])
+hunger_restore = 0.0
+thirst_restore = 0.0
+sleep_restore = 20.0
+stamina_restore = 0.0
+health_restore = 0.0
+removes_poison = false
+causes_hallucination = false
+metadata/_custom_type_script = "uid://ben4m56t3jg1l"
+
+[resource]
+script = ExtResource("1_lrcr0")
+max_stack = 2
+id = "PocionDeSueño"
+name = "PocionDeSueño"
+icon = ExtResource("1_lo5i6")
+item_type = 0
+consumable_data = SubResource("Resource_frs5t")
+is_equippable = false
+equipment_slot = ""
+durability = 0
+protection = 0
+comfort = 0
+mobility = 0
+metadata/_custom_type_script = "uid://b2jetr72aoe3x"

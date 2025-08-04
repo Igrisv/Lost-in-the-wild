@@ -59,10 +59,26 @@ func use_current():
 	match slot.item.item_type:
 		Item.ItemType.CONSUMABLE:
 			print("Usando consumible:", slot.item.name)
-			if Inventory.consume_item(slot.item):
+			
+			# Asegurarse de que el item tenga consumable_data
+			if slot.item.consumable_data == null:
+				print("Error: Consumable sin datos")
+				return
+
+			var player = get_tree().get_first_node_in_group("Player")
+			if player == null:
+				print("Error: No se encontró el nodo 'player'")
+				return
+
+			var result = player.should_consume(slot.item.consumable_data)
+
+			if result.can_consume:
+				player.apply_consumable_effect(slot.item.consumable_data)
+				slot.amount -= 1
+				if slot.amount <= 0:
+					slot.item = null
 				update()
-			else:
-				print("No se pudo consumir el ítem.")
+
 		Item.ItemType.TOOL:
 			print("Usar herramienta:", slot.item.name)
 		Item.ItemType.WEAPON:

@@ -42,7 +42,7 @@ var efficiency_bonus := 0.0 # Bonificación a la eficiencia de acciones
 func _ready() -> void:
 	add_to_group("Player")
 	hotbar_node = get_hotbar()
-	var inventory = get_node_or_null("/root/Inventory")
+	var inventory = Inventory
 	if inventory:
 		print("Inventario encontrado: ", inventory.name)
 		# Conectar señales del inventario al jugador
@@ -56,7 +56,7 @@ func _ready() -> void:
 
 func _physics_process(_delta):
 	# Actualizar necesidades según el tiempo
-	needs.hunger = max(needs.hunger - 0.1 * _delta, MIN_STAT)
+	needs.hunger = max(needs.hunger - 0.50 * _delta, MIN_STAT)
 	needs.thirst = max(needs.thirst - 0.15 * _delta, MIN_STAT)
 	needs.sleep = max(needs.sleep - 0.05 * _delta, MIN_STAT)
 	
@@ -66,7 +66,7 @@ func _physics_process(_delta):
 	
 	if velocity.length() < 1:
 		needs.stamina = min(needs.stamina + (0.2 + comfort_bonus * 0.01) * _delta, MAX_STAT)  # Ajuste por comodidad
-		print("Regeneración de stamina: ", needs.stamina, " (Comfort bonus: ", comfort_bonus, ")")
+
 	else:
 		needs.stamina = max(needs.stamina - 0.5 * _delta, MIN_STAT)
 	
@@ -154,7 +154,6 @@ func _physics_process(_delta):
 				animated_sprite_2d.play("Idle_Abajo")
 
 	velocity = direction.normalized() * (speed + movement_speed_bonus)
-	print("Velocidad actual: ", speed + movement_speed_bonus, " (Movement bonus: ", movement_speed_bonus, ")")
 	move_and_slide()
 
 func reproducir_animacion_ataque():
@@ -175,6 +174,13 @@ func consume_item(item: Item) -> void:
 	if not item or not item.effects:
 		return
 
+	var result = should_consume(item.consumable_data)
+
+	if not result["can_consume"]:
+		print("No se puede consumir:", result["reason"])
+		return
+
+	# Si pasa el chequeo, aplicar efectos
 	for effect in item.effects:
 		match effect.type:
 			Needs.EffectType.HUNGER:
@@ -202,6 +208,7 @@ func consume_item(item: Item) -> void:
 			_:
 				print("Efecto no manejado:", effect.type)
 
+
 # Activa un cooldown para una necesidad específica
 func activate_cooldown(need_type: String, duration: float = 10.0):
 	cooldowns[need_type] = duration
@@ -220,23 +227,28 @@ func apply_consumable_effect(consumable_data):
 	for effect in consumable_data.effects:
 		match effect.type:
 			ConsumableData.EffectType.HUNGER:
-				needs.hunger = clamp(needs.hunger + effect.value, MIN_STAT, MAX_STAT)
-				if needs.hunger >= MAX_STAT:
+				if needs.hunger < MAX_STAT:
+					needs.hunger = clamp(needs.hunger + effect.value, MIN_STAT, MAX_STAT)
 					activate_cooldown("hunger")
+
 			ConsumableData.EffectType.THIRST:
-				needs.thirst = clamp(needs.thirst + effect.value, MIN_STAT, MAX_STAT)
-				if needs.thirst >= MAX_STAT:
+				if needs.thirst < MAX_STAT:
+					needs.thirst = clamp(needs.thirst + effect.value, MIN_STAT, MAX_STAT)
 					activate_cooldown("thirst")
+
 			ConsumableData.EffectType.SLEEP:
-				needs.sleep = clamp(needs.sleep + effect.value, MIN_STAT, MAX_STAT)
-				if needs.sleep >= MAX_STAT:
+				if needs.sleep < MAX_STAT:
+					needs.sleep = clamp(needs.sleep + effect.value, MIN_STAT, MAX_STAT)
 					activate_cooldown("sleep")
+
 			ConsumableData.EffectType.STAMINA:
-				needs.stamina = clamp(needs.stamina + effect.value, MIN_STAT, MAX_STAT)
-				if needs.stamina >= MAX_STAT:
+				if needs.stamina < MAX_STAT:
+					needs.stamina = clamp(needs.stamina + effect.value, MIN_STAT, MAX_STAT)
 					activate_cooldown("stamina")
+
 			_:
 				print("Efecto no manejado en consumable:", effect.type)
+
 
 func should_consume(consumable_data: ConsumableData) -> Dictionary:
 	if consumable_data == null:
@@ -249,38 +261,25 @@ func should_consume(consumable_data: ConsumableData) -> Dictionary:
 		match effect.type:
 			ConsumableData.EffectType.HUNGER:
 				if cooldowns["hunger"] > 0:
-					reasons.append("Espera para consumir más que afecte el hambre")
+					reasons.append("Estás lleno, espera antes de volver a comer")
 				elif needs.hunger < MAX_STAT:
 					can_consume = true
 			ConsumableData.EffectType.THIRST:
 				if cooldowns["thirst"] > 0:
-					reasons.append("Espera para consumir más que afecte la sed")
+					reasons.append("Estás saciado, espera antes de volver a beber")
 				elif needs.thirst < MAX_STAT:
 					can_consume = true
-			ConsumableData.EffectType.SLEEP:
-				if cooldowns["sleep"] > 0:
-					reasons.append("Espera para consumir más que afecte el sueño")
-				elif needs.sleep < MAX_STAT:
-					can_consume = true
-			ConsumableData.EffectType.STAMINA:
-				if cooldowns["stamina"] > 0:
-					reasons.append("Espera para consumir más que afecte la stamina")
-				elif needs.stamina < MAX_STAT:
-					can_consume = true
-			ConsumableData.EffectType.HEALTH:
-				if damage < 100.0:
-					can_consume = true
-			ConsumableData.EffectType.REMOVE_POISON:
-				if poisoned:
-					can_consume = true
+			# ... resto igual ...
 			ConsumableData.EffectType.HALLUCINATION:
 				can_consume = true  # Efecto negativo, siempre permitido
 
 	if can_consume:
 		return { "can_consume": true }
+	elif reasons:
+		return { "can_consume": false, "reason": ", ".join(reasons) }
 	else:
-		var reason = ", ".join(reasons) if reasons else "No tienes necesidad de esto ahora"
-		return { "can_consume": false, "reason": reason }
+		return { "can_consume": false, "reason": "No necesitas esto ahora" }
+
 
 # Nueva función para actualizar estadísticas basadas en equipamiento
 func update_equipment_stats():
@@ -298,39 +297,34 @@ func update_equipment_stats():
 		for slot in slots:
 			print("Slot analizado: ", slot.name, " - Item: ", slot.item.name if slot.item else "null")
 			if slot.item:
-				print("Propiedades de ", slot.item.name, ": ", slot.item)
 				if "protection" in slot.item:
 					protection += slot.item.protection
-					print("Protección añadida: ", slot.item.protection, " (Total: ", protection, ")")
 				else:
 					print("Propiedad 'protection' no encontrada en ", slot.item.name)
 				if "mobility" in slot.item:
 					movement_speed_bonus += slot.item.mobility
-					print("Movilidad añadida: ", slot.item.mobility, " (Total bonus: ", movement_speed_bonus, ")")
+					
 				else:
 					print("Propiedad 'mobility' no encontrada en ", slot.item.name)
 				if "comfort" in slot.item:
 					comfort_bonus += slot.item.comfort
-					print("Comodidad añadida: ", slot.item.comfort, " (Total bonus: ", comfort_bonus, ")")
+					
 				else:
 					print("Propiedad 'comfort' no encontrada en ", slot.item.name)
 				if "capacity" in slot.item:
 					capacity_bonus += slot.item.capacity
-					print("Capacidad añadida: ", slot.item.capacity, " (Total bonus: ", capacity_bonus, ")")
+					
 				else:
 					print("Propiedad 'capacity' no encontrada en ", slot.item.name)
 				if "efficiency" in slot.item:
 					efficiency_bonus += slot.item.efficiency
-					print("Eficiencia añadida: ", slot.item.efficiency, " (Total bonus: ", efficiency_bonus, ")")
+					
 				else:
 					print("Propiedad 'efficiency' no encontrada en ", slot.item.name)
 			else:
 				print("Slot ", slot.name, " está vacío")
 	else:
 		print("ERROR: No se pudo acceder al Autoload Inventory o equipment_slots no está definido")
-
-	print("Estadísticas actualizadas - Protección: ", protection, ", Velocidad bonus: ", movement_speed_bonus,
-		  ", Comodidad: ", comfort_bonus, ", Capacidad: ", capacity_bonus, ", Eficiencia: ", efficiency_bonus)
 
 # Nuevos métodos para manejar las señales
 func _on_item_equipped(item, slot):

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://b3ankta14j58l"]
+
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="1_gxvy3"]
+[ext_resource type="Texture2D" uid="uid://ca3go1aohsb70" path="res://Assets/Mundo/Decoracion/Trees_Free/Forage Items/Singles/Forage Items/08_Oak_Log.png" id="1_wwgfu"]
+
+[resource]
+script = ExtResource("1_gxvy3")
+max_stack = 10
+id = "Madera"
+name = "Madera"
+icon = ExtResource("1_wwgfu")
+item_type = 0
+is_equippable = false
+equipment_slot = ""
+durability = 0
+protection = 0
+comfort = 0
+mobility = 0
+metadata/_custom_type_script = "uid://b2jetr72aoe3x"

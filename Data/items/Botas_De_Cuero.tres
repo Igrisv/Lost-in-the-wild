@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://cljcu8d4gorg2"]
+
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="1_bsdsy"]
+[ext_resource type="Texture2D" uid="uid://ba1aamvfs1fd3" path="res://Assets/RPG Items/Botas_De_Cuero.png" id="1_vny3d"]
+
+[resource]
+script = ExtResource("1_bsdsy")
+max_stack = 1
+id = "BotasDeCuero"
+name = "BotasDeCuero"
+icon = ExtResource("1_vny3d")
+item_type = 0
+is_equippable = true
+equipment_slot = ""
+durability = 20
+protection = 20
+comfort = 15
+mobility = 10
+metadata/_custom_type_script = "uid://b2jetr72aoe3x"
