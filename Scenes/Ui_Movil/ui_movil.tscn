@@ -121,7 +121,7 @@ position = Vector2(0, -1)
 scale = Vector2(4, 4)
 texture_normal = ExtResource("12_nxxsn")
 texture_pressed = ExtResource("13_bvp56")
-action = "menu"
+action = "menu_movil"
 
 [node name="Iventario" type="Control" parent="." groups=["editable_ui"]]
 anchors_preset = 0

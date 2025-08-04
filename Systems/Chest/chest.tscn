@@ -49,5 +49,3 @@ layout_mode = 2
 
 [node name="Slot2" parent="ChestUI/slots_container" instance=ExtResource("3_m3fl5")]
 layout_mode = 2
-
-[node name="Camera2D" type="Camera2D" parent="."]

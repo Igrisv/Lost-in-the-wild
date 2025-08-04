@@ -46,7 +46,7 @@ func _process(_delta: float) -> void:
 		btn_seleccionado.text = "Sin selección"
 		ui_movil.visible = ManagerMovil.id_movil
 
-	if Input.is_action_just_pressed("menu"):
+	if Input.is_action_just_pressed("menu_movil"):
 		is_paused = !is_paused
 		pause_menu.visible = is_paused
 

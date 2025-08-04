@@ -233,6 +233,8 @@ scale = Vector2(1.09253, 0.446433)
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
+[node name="ActionManager" type="Node" parent="."]
+
 [node name="Hambre" type="Label" parent="."]
 offset_left = -157.0
 offset_top = -30.0

@@ -1,11 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://bag2l1wvhorit"]
+[gd_scene load_steps=4 format=3 uid="uid://dthegqp6v0opb"]
 
-[ext_resource type="Script" uid="uid://3qq00hkyqqmh" path="res://Scenes/main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://jbb3quf3ec23" path="res://Systems/Animals/conejo.tscn" id="3_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://cwwbkexo7lung" path="res://Systems/Inventory/inventory.tscn" id="4_jjvhh"]
 
+[sub_resource type="GDScript" id="GDScript_bo1nx"]
+script/source = "extends Node2D
+"
+
 [node name="Main" type="Node2D"]
-script = ExtResource("1_0xm2m")
+script = SubResource("GDScript_bo1nx")
 
 [node name="Animal_Base" parent="." instance=ExtResource("3_jjvhh")]
 position = Vector2(330, 394)
