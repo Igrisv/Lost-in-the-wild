@@ -70,10 +70,17 @@ func _can_drop_data(_at_position, data):
 		return is_instance_of(data.item, Item)
 	return false
 
+# Reemplaza esta función en slot.gd
+
 func _drop_data(_at_position, data):
 	print("Drop data iniciado, slot equipment_slot: ", equipment_slot, ", item recibido: ", data.item.name if data and data.item else "null")
 	if not data or not data.item:
 		print("Datos de arrastre inválidos o ítem nulo")
+		if _drag_data_cache and _drag_data_cache.source_slot:
+			_drag_data_cache.source_slot.item = _drag_data_cache.item
+			_drag_data_cache.source_slot.amount = _drag_data_cache.amount
+			_drag_data_cache.source_slot.queue_redraw()
+			print("Ítem restaurado al origen por datos inválidos: ", _drag_data_cache.item.name)
 		return
 
 	var inventory = get_node("/root/Inventory")
@@ -85,27 +92,51 @@ func _drop_data(_at_position, data):
 			return
 		emit_signal("item_unequipped", source_slot.item, source_slot)
 		print("Desequipado de slot de origen: ", source_slot.equipment_slot)
-		# No asignar directamente al slot de destino; dejar que add_item lo maneje
 		return
 
 	if item == null:
-		if equipment_slot != "" and data.item.is_equippable and data.item.equipment_slot == equipment_slot:
-			if inventory.equip_item(data.item, source_slot if source_slot else self):
-				print("Ítem equipado en slot: ", equipment_slot)
-				if source_slot:
-					source_slot.item = null
-					source_slot.amount = 0
+		if equipment_slot != "" and data.item.is_equippable:
+			if data.item.equipment_slot == equipment_slot:
+				if inventory.equip_item(data.item, source_slot if source_slot else self):
+					print("Ítem equipado en slot: ", equipment_slot)
+					if source_slot and source_slot != self:
+						source_slot.item = null
+						source_slot.amount = 0
+						source_slot.queue_redraw()
+				else:
+					# Restaurar si el equipamiento falla (slot incompatible o lleno)
+					if source_slot and source_slot != self:
+						source_slot.item = data.item
+						source_slot.amount = data.amount
+						source_slot.queue_redraw()
+						print("Ítem restaurado al origen por fallo de equipamiento: ", data.item.name)
+			else:
+				# Restaurar si el equipment_slot no coincide
+				if source_slot and source_slot != self:
+					source_slot.item = data.item
+					source_slot.amount = data.amount
+					source_slot.queue_redraw()
+					print("Ítem restaurado al origen por incompatibilidad de equipment_slot: ", data.item.name)
 			return
 		elif equipment_slot == "":
-			# Solo mover el ítem sin duplicarlo; la redistribución ya se hizo en unequip_item
-			if source_slot:
+			item = data.item
+			amount = data.amount
+			if source_slot and source_slot != self:
 				source_slot.item = null
 				source_slot.amount = 0
-			print("Ítem movido a slot normal, amount: ", data.amount)
+				source_slot.queue_redraw()
+			print("Ítem movido a slot normal, amount: ", amount)
+			queue_redraw()
+			return
 		return
 
 	if equipment_slot != "":
 		print("Slot de equipamiento ya ocupado, no se permite agregar más ítems")
+		if source_slot and source_slot != self:
+			source_slot.item = data.item
+			source_slot.amount = data.amount
+			source_slot.queue_redraw()
+			print("Ítem restaurado al origen por slot ocupado: ", data.item.name)
 		return
 
 	if item.id == data.item.id:
@@ -114,14 +145,16 @@ func _drop_data(_at_position, data):
 
 		if total <= max_stack:
 			amount = total
-			if source_slot:
+			if source_slot and source_slot != self:
 				source_slot.item = null
 				source_slot.amount = 0
+				source_slot.queue_redraw()
 			print("Stacks fusionados, nuevo amount: ", amount)
 		else:
 			amount = max_stack
-			if source_slot:
+			if source_slot and source_slot != self:
 				source_slot.amount = total - max_stack
+				source_slot.queue_redraw()
 			print("Stack limitado, sobrante: ", data.amount)
 	else:
 		if equipment_slot != "" and not data.item.is_equippable:
@@ -129,28 +162,40 @@ func _drop_data(_at_position, data):
 			var temp_amount = amount
 			item = data.item
 			amount = data.amount
-			if source_slot:
+			if source_slot and source_slot != self:
 				source_slot.item = temp_item
 				source_slot.amount = temp_amount
+				source_slot.queue_redraw()
 			if temp_item:
 				emit_signal("item_unequipped", temp_item, self)
 				print("Ítem desequipado de: ", equipment_slot)
 		elif equipment_slot == "" and data.item.is_equippable and data.item.equipment_slot != "":
 			if inventory.equip_item(data.item, source_slot if source_slot else self):
 				print("Ítem equipado desde slot normal")
-				if source_slot:
+				if source_slot and source_slot != self:
 					source_slot.item = null
 					source_slot.amount = 0
+					source_slot.queue_redraw()
+			else:
+				# Restaurar si el equipamiento falla
+				if source_slot and source_slot != self:
+					source_slot.item = data.item
+					source_slot.amount = data.amount
+					source_slot.queue_redraw()
+					print("Ítem restaurado al origen por fallo de equipamiento desde slot normal: ", data.item.name)
 			return
 		else:
 			var temp_item = item
 			var temp_amount = amount
 			item = data.item
 			amount = data.amount
-			if source_slot:
+			if source_slot and source_slot != self:
 				source_slot.item = temp_item
 				source_slot.amount = temp_amount
+				source_slot.queue_redraw()
 			print("Intercambio realizado")
+	queue_redraw()
+
 
 func _get_drag_data(_at_position):
 	if not item:

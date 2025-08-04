@@ -57,7 +57,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("7_anx1v")
 }],
-"loop": true,
+"loop": false,
 "name": &"Atacar_Abajo",
 "speed": 5.0
 }, {
@@ -80,7 +80,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("13_1x5ql")
 }],
-"loop": true,
+"loop": false,
 "name": &"Atacar_Arriba",
 "speed": 5.0
 }, {
@@ -100,7 +100,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("6_2dm6x")
 }],
-"loop": true,
+"loop": false,
 "name": &"Atacar_Derecha",
 "speed": 5.0
 }, {
@@ -198,7 +198,7 @@ script = ExtResource("1_40dyg")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_761u7")
-animation = &"Idle_Abajo"
+animation = &"Atacar_Derecha"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 2.5)

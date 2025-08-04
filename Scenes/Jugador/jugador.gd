@@ -53,6 +53,8 @@ func _ready() -> void:
 	else:
 		print("ERROR: Inventario no encontrado en /root/Inventory")
 	update_equipment_stats()  # Inicializar estadísticas al empezar
+	# Conectar la señal animation_finished para manejar el fin de las animaciones
+	animated_sprite_2d.connect("animation_finished", Callable(self, "_on_animation_finished"))
 
 func _physics_process(_delta):
 	# Actualizar necesidades según el tiempo
@@ -66,7 +68,6 @@ func _physics_process(_delta):
 	
 	if velocity.length() < 1:
 		needs.stamina = min(needs.stamina + (0.2 + comfort_bonus * 0.01) * _delta, MAX_STAT)  # Ajuste por comodidad
-
 	else:
 		needs.stamina = max(needs.stamina - 0.5 * _delta, MIN_STAT)
 	
@@ -88,12 +89,14 @@ func _physics_process(_delta):
 			if cooldowns[key] < 0:
 				cooldowns[key] = 0.0
 
-	# --- Código original de movimiento y animaciones ---
-	if Input.is_action_pressed("interactuar"):
-		reproducir_animacion_ataque()
-		velocity = Vector2.ZERO
-		move_and_slide()
-		return
+	# --- Código de movimiento y animaciones ---
+	if Input.is_action_just_pressed("interactuar"):
+		# Solo reproducir la animación si no está ya reproduciendo una animación de ataque
+		if not animated_sprite_2d.is_playing() or not animated_sprite_2d.animation.begins_with("Atacar_"):
+			reproducir_animacion_ataque()
+			velocity = Vector2.ZERO
+			move_and_slide()
+			return
 	
 	if Input.is_action_just_pressed("usar_item"):
 		print("Input detectado")
@@ -128,35 +131,38 @@ func _physics_process(_delta):
 	# Normalizar para evitar velocidad extra en diagonal
 	direction = direction.normalized()
 
-	# Animaciones según dirección
-	if direction != Vector2.ZERO:
-		if direction.y > 0:
-			animated_sprite_2d.play("Moverse_Abajo")
-		elif direction.y < 0:
-			animated_sprite_2d.play("Moverse_Arriba")
+	# Animaciones según dirección (solo si no está reproduciendo una animación de ataque)
+	if not animated_sprite_2d.is_playing() or not animated_sprite_2d.animation.begins_with("Atacar_"):
+		if direction != Vector2.ZERO:
+			if direction.y > 0:
+				animated_sprite_2d.play("Moverse_Abajo")
+			elif direction.y < 0:
+				animated_sprite_2d.play("Moverse_Arriba")
+			else:
+				animated_sprite_2d.play("Moverse_Derecha")  # Se reutiliza izquierda con flip_h
 		else:
-			animated_sprite_2d.play("Moverse_Derecha")  # Se reutiliza izquierda con flip_h
-	else:
-		animated_sprite_2d.stop()
-		moving = false
-
-	if not moving:
-		match last_direction:
-			"derecha":
-				animated_sprite_2d.flip_h = false
-				animated_sprite_2d.play("Idle_Derecha")
-			"izquierda":
-				animated_sprite_2d.flip_h = true
-				animated_sprite_2d.play("Idle_Derecha")
-			"arriba":
-				animated_sprite_2d.play("Idle_Arriba")
-			"abajo":
-				animated_sprite_2d.play("Idle_Abajo")
+			# Solo pasar a Idle si no está en movimiento
+			if not moving:
+				match last_direction:
+					"derecha":
+						animated_sprite_2d.flip_h = false
+						animated_sprite_2d.play("Idle_Derecha")
+					"izquierda":
+						animated_sprite_2d.flip_h = true
+						animated_sprite_2d.play("Idle_Derecha")
+					"arriba":
+						animated_sprite_2d.play("Idle_Arriba")
+					"abajo":
+						animated_sprite_2d.play("Idle_Abajo")
 
 	velocity = direction.normalized() * (speed + movement_speed_bonus)
 	move_and_slide()
 
 func reproducir_animacion_ataque():
+	# Solo reproducir si no está ya reproduciendo una animación de ataque
+	if animated_sprite_2d.is_playing() and animated_sprite_2d.animation.begins_with("Atacar_"):
+		return
+	
 	match last_direction:
 		"derecha":
 			animated_sprite_2d.flip_h = false
@@ -168,6 +174,21 @@ func reproducir_animacion_ataque():
 			animated_sprite_2d.play("Atacar_Arriba")
 		"abajo":
 			animated_sprite_2d.play("Atacar_Abajo")
+
+func _on_animation_finished():
+	# Cuando termina una animación de ataque, pasar a la animación de reposo
+	if animated_sprite_2d.animation.begins_with("Atacar_"):
+		match last_direction:
+			"derecha":
+				animated_sprite_2d.flip_h = false
+				animated_sprite_2d.play("Idle_Derecha")
+			"izquierda":
+				animated_sprite_2d.flip_h = true
+				animated_sprite_2d.play("Idle_Derecha")
+			"arriba":
+				animated_sprite_2d.play("Idle_Arriba")
+			"abajo":
+				animated_sprite_2d.play("Idle_Abajo")
 
 # Consumir item con efectos, usando Needs.EffectType
 func consume_item(item: Item) -> void:
@@ -208,7 +229,6 @@ func consume_item(item: Item) -> void:
 			_:
 				print("Efecto no manejado:", effect.type)
 
-
 # Activa un cooldown para una necesidad específica
 func activate_cooldown(need_type: String, duration: float = 10.0):
 	cooldowns[need_type] = duration
@@ -219,8 +239,6 @@ func get_hotbar() -> Node:
 	if hotbars.size() > 0:
 		return hotbars[0]
 	return null
-
-# Reemplaza estas funciones en tu script jugador.gd
 
 func apply_consumable_effect(consumable_data: ConsumableData) -> void:
 	if consumable_data == null:
@@ -299,7 +317,6 @@ func should_consume(consumable_data: ConsumableData) -> Dictionary:
 	else:
 		return { "can_consume": false, "reason": "No necesitas esto ahora" }
 
-# Nueva función para actualizar estadísticas basadas en equipamiento
 func update_equipment_stats():
 	protection = base_protection
 	movement_speed_bonus = 0.0
@@ -321,22 +338,18 @@ func update_equipment_stats():
 					print("Propiedad 'protection' no encontrada en ", slot.item.name)
 				if "mobility" in slot.item:
 					movement_speed_bonus += slot.item.mobility
-					
 				else:
 					print("Propiedad 'mobility' no encontrada en ", slot.item.name)
 				if "comfort" in slot.item:
 					comfort_bonus += slot.item.comfort
-					
 				else:
 					print("Propiedad 'comfort' no encontrada en ", slot.item.name)
 				if "capacity" in slot.item:
 					capacity_bonus += slot.item.capacity
-					
 				else:
 					print("Propiedad 'capacity' no encontrada en ", slot.item.name)
 				if "efficiency" in slot.item:
 					efficiency_bonus += slot.item.efficiency
-					
 				else:
 					print("Propiedad 'efficiency' no encontrada en ", slot.item.name)
 			else:
@@ -344,7 +357,6 @@ func update_equipment_stats():
 	else:
 		print("ERROR: No se pudo acceder al Autoload Inventory o equipment_slots no está definido")
 
-# Nuevos métodos para manejar las señales
 func _on_item_equipped(item, slot):
 	print("Ítem equipado detectado: ", item.name, " en slot: ", slot.equipment_slot)
 	update_equipment_stats()

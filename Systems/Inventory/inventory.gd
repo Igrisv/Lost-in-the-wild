@@ -125,8 +125,10 @@ func _connect_signals(slots: Array):
 func count_item(item: Item) -> int:
 	var total = 0
 	for slot in hotbar_slots + grid_slots + equipment_slots + chest_slots:
-		if slot.item != null and slot.item.id == item.id:
+		if slot.item != null and slot.item.has_method("get_id") and slot.item.get_id() == item.get_id():
 			total += slot.amount
+		elif slot.item != null:
+			print("Slot inválido detectado: ", slot.name, ", Item: ", slot.item, " no tiene método get_id")
 	return total
 
 func get_jugador() -> CharacterBody2D:
@@ -134,6 +136,8 @@ func get_jugador() -> CharacterBody2D:
 	if jugadores.size() > 0:
 		return jugadores[0]
 	return null
+
+# Reemplaza esta función en inventario.gd (si no está actualizada)
 
 func equip_item(item: Item, source_slot):
 	if not item or not item.is_equippable:
@@ -144,73 +148,81 @@ func equip_item(item: Item, source_slot):
 		print("Slot de origen inválido")
 		return false
 
+	var original_amount = source_slot.amount  # Declarado al inicio para todo el ámbito
+
 	for slot in equipment_slots:
 		if not slot.item and slot.equipment_slot == item.equipment_slot:
-			var original_amount = source_slot.amount
-			if original_amount < 1:
-				print("No hay suficiente cantidad para equipar: ", item.name)
-				return false
-
-			print("Reduciendo de ", original_amount, " a ", original_amount - 1, " en slot: ", source_slot.name)
-			source_slot.amount = original_amount - 1  # Reducción primero
-
-			print("Asignando a slot: ", slot.equipment_slot)
-			slot.item = item
-			slot.amount = 1
-
-			if source_slot.amount <= 0:
-				print("Limpieza de slot origen: ", source_slot.name)
-				source_slot.item = null
-
-			if original_amount > 1:
-				print("Redistribuyendo ", original_amount - 1, " de ", item.name)
+			# Reducir solo 1 ítem
+			source_slot.amount -= 1
+			
+			# Redistribuir los ítems restantes antes de limpiar el slot
+			if original_amount > 1:  # Si había más de 1 ítem, redistribuir los sobrantes
 				redistribute_item(item, source_slot, original_amount - 1)
 
+			# Limpiar el slot de origen inmediatamente después de la redistribución
+			if source_slot.amount <= 0:
+				source_slot.item = null
+				source_slot.amount = 0
+				source_slot.queue_redraw()  # Actualizar visualmente el slot de origen
+			else:
+				source_slot.queue_redraw()  # Actualizar visualmente si quedan ítems
+
+			# Equipar el ítem en el slot de equipo
+			slot.item = item
+			slot.amount = 1  # Solo 1 ítem por slot de equipo
 			emit_signal("item_equipped", item, slot)
-			print("Ítem equipado exitosamente: ", item.name, " en slot: ", slot.equipment_slot, ", total: ", count_item(item))
-			# Asegurar que update_all_slots se ejecute solo después de todos los cambios
-			call_deferred("update_all_slots")
+			slot.queue_redraw()  # Actualizar visualmente el slot de equipo
+			print("Ítem equipado exitosamente:", item.name, "en slot:", slot.equipment_slot, "Cantidad restante:", source_slot.amount)
 			return true
 		elif slot.item and slot.equipment_slot == item.equipment_slot:
-			print("Slot de equipamiento ya ocupado: ", slot.equipment_slot)
+			print("Slot de equipamiento ya ocupado:", slot.equipment_slot)
 			return false
 
-	print("No hay slot de equipamiento disponible para: ", item.name if item else "null")
+	print("No hay slot de equipamiento disponible para:", item.name if item else "null")
+	# Si no se equipó, restaurar el slot de origen si fue modificado
+	if source_slot.amount < original_amount:
+		source_slot.amount += 1
+		source_slot.queue_redraw()
 	return false
+	print("Estado del slot de origen tras equipar: ", source_slot.item, ", amount: ", source_slot.amount)
+# Reemplaza esta función en inventario.gd (si no está actualizada)
 
 func redistribute_item(item: Item, source_slot, remaining_amount: int):
 	if remaining_amount <= 0:
+		source_slot.item = null
+		source_slot.amount = 0
+		source_slot.queue_redraw()  # Limpiar y actualizar el slot de origen si no hay más
 		return
 
-	var slots_to_check = hotbar_slots + grid_slots
-	for slot in slots_to_check:
-		if slot != source_slot:  # Evitar redistribuir al slot de origen
+	for slot in hotbar_slots + grid_slots:
+		if slot != source_slot:  # Evitar redistribuir al mismo slot de origen
 			if slot.item == null:
-				slot.item = item  # Invoca el setter de item
-				slot.amount = min(remaining_amount, item.max_stack)  # Invoca el setter de amount
+				slot.item = item
+				slot.amount = min(remaining_amount, item.max_stack)
 				remaining_amount -= slot.amount
+				slot.queue_redraw()  # Actualizar visualmente el slot de destino
 				if remaining_amount <= 0:
-					if source_slot.amount <= 0:
-						source_slot.item = null  # Invoca el setter de item
-					break
-			elif slot.item.id == item.id:
-				var space = slot.item.max_stack - slot.amount
+					source_slot.item = null
+					source_slot.amount = 0
+					source_slot.queue_redraw()  # Limpiar el slot de origen
+					return
+			elif slot.item.id == item.id and slot.amount < item.max_stack:
+				var space = item.max_stack - slot.amount
 				var to_add = min(remaining_amount, space)
-				slot.amount += to_add  # Invoca el setter de amount
+				slot.amount += to_add
 				remaining_amount -= to_add
+				slot.queue_redraw()  # Actualizar visualmente el slot de destino
 				if remaining_amount <= 0:
-					if source_slot.amount <= 0:
-						source_slot.item = null  # Invoca el setter de item
-					break
+					source_slot.item = null
+					source_slot.amount = 0
+					source_slot.queue_redraw()  # Limpiar el slot de origen
+					return
 
 	if remaining_amount > 0:
 		print("No hay espacio suficiente en el inventario para redistribuir %.1f de %s" % [remaining_amount, item.name])
-		source_slot.amount = remaining_amount  # Invoca el setter de amount
-		if source_slot.amount <= 0:
-			source_slot.item = null  # Invoca el setter de item
-
-	update_all_slots()  # Actualizar la UI
-
+		source_slot.amount = remaining_amount  # Dejar los sobrantes en el slot de origen
+		source_slot.queue_redraw()  # Actualizar visualmente el slot de origen
+		print("Estado del slot de origen tras redistribuir: ", source_slot.item, ", amount: ", source_slot.amount, ", remaining: ", remaining_amount)
 func unequip_item(item: Item, equipment_slot):
 	for slot in equipment_slots:
 		if slot.item == item and slot.equipment_slot == equipment_slot:
