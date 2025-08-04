@@ -9,14 +9,8 @@ var chest_slots := []  # Slots del cofre
 func _ready():
 	# Cargar recursos de ítems
 	item_map = {
-		"BotasDeCuero": preload("res://Data/items/Botas_De_Cuero.tres"),
-		"AguaEmbotellada": preload("res://Data/items/Agua_Embotellada.tres"),
-		"CascoDeCuero": preload("res://Data/items/Casco_De_Cuero.tres"),
-		"Madera": preload("res://Data/items/Madera.tres"),
-		"Manzana": preload("res://Data/items/Manzana.tres"),
-		"PantalonesDeCuero": preload("res://Data/items/Pantalones_De_Cuero.tres"),
-		"PecheraDeCuero": preload("res://Data/items/Pechera_De_Cuero.tres"),
-		"PocionDeSueño": preload("res://Data/items/Pocion_Sueño.tres"),
+		"Hacha": preload("res://Data/items/Hacha.tres"),
+		"Madera": preload("res://Data/items/Madera.tres")
 	}
 	for item_name in item_map.keys():
 		if item_map[item_name] == null:

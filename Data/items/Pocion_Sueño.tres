@@ -8,13 +8,6 @@
 [sub_resource type="Resource" id="Resource_frs5t"]
 script = ExtResource("2_n7ko6")
 effects = Array[ExtResource("1_vbs5x")]([])
-hunger_restore = 0.0
-thirst_restore = 0.0
-sleep_restore = 20.0
-stamina_restore = 0.0
-health_restore = 0.0
-removes_poison = false
-causes_hallucination = false
 metadata/_custom_type_script = "uid://ben4m56t3jg1l"
 
 [resource]
@@ -31,4 +24,7 @@ durability = 0
 protection = 0
 comfort = 0
 mobility = 0
+efficiency = 1.0
+modifiers = {}
+animation_override = ""
 metadata/_custom_type_script = "uid://b2jetr72aoe3x"

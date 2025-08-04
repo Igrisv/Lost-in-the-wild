@@ -30,4 +30,7 @@ durability = 0
 protection = 0
 comfort = 0
 mobility = 0
+efficiency = 1.0
+modifiers = {}
+animation_override = ""
 metadata/_custom_type_script = "uid://b2jetr72aoe3x"

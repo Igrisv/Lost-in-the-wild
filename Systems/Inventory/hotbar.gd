@@ -71,19 +71,28 @@ func use_current():
 		print("No hay ítem para usar")
 		return
 
+	var player = Inventory.get_jugador()
+	if not player:
+		return
+
 	match slot.item.item_type:
 		Item.ItemType.CONSUMABLE:
-			print("Intentando consumir:", slot.item.name)
 			if Inventory.consume_item(slot.item):
-				print("Consumible usado exitosamente:", slot.item.name)
-				slot.queue_redraw()  # Actualizar visualmente el slot
-			else:
-				print("Fallo al consumir:", slot.item.name)
+				slot.queue_redraw()
 		Item.ItemType.TOOL:
-			print("Usar herramienta:", slot.item.name)
+			var interactables = get_tree().get_nodes_in_group("Interactable")
+			var closest = null
+			var min_distance = player.attack_range
+			for node in interactables:
+				var distance = player.global_position.distance_to(node.global_position)
+				if distance < min_distance:
+					min_distance = distance
+					closest = node
+			if closest and closest.has_method("interact"):
+				closest.interact(player)
 		Item.ItemType.WEAPON:
-			print("Usar arma:", slot.item.name)
+			var action = load("res://Data/actions/attack.tres")
+			Action_Manager.execute_action(action, player)
 		Item.ItemType.PLACEABLE:
-			print("Colocar objeto:", slot.item.name)
-		_:
-			print("Item sin comportamiento definido:", slot.item.name)
+			var action = load("res://Data/actions/place.tres")
+			Action_Manager.execute_action(action, player)

@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 var speed: float = 200.0
@@ -91,7 +92,18 @@ func _physics_process(_delta):
 
 	# --- Código de movimiento y animaciones ---
 	if Input.is_action_just_pressed("interactuar"):
-		# Solo reproducir la animación si no está ya reproduciendo una animación de ataque
+		var interactables = get_tree().get_nodes_in_group("Interactable")
+		var closest = null
+		var min_distance = attack_range
+		for node in interactables:
+			var distance = global_position.distance_to(node.global_position)
+			if distance < min_distance:
+				min_distance = distance
+				closest = node
+		if closest and closest.has_method("interact"):
+			closest.interact(self)
+			return
+		# Fallback a animación de ataque si no hay interactuables
 		if not animated_sprite_2d.is_playing() or not animated_sprite_2d.animation.begins_with("Atacar_"):
 			reproducir_animacion_ataque()
 			velocity = Vector2.ZERO
@@ -175,9 +187,24 @@ func reproducir_animacion_ataque():
 		"abajo":
 			animated_sprite_2d.play("Atacar_Abajo")
 
+func play_animation(animation: String) -> void:
+	if animation and animated_sprite_2d.sprite_frames.has_animation(animation):
+		animated_sprite_2d.play(animation)
+	else:
+		# Fallback a animación de ataque
+		reproducir_animacion_ataque()
+
+func play_sound(sound: AudioStream) -> void:
+	if sound:
+		var audio_player = AudioStreamPlayer.new()
+		audio_player.stream = sound
+		add_child(audio_player)
+		audio_player.play()
+		audio_player.finished.connect(func(): audio_player.queue_free())
+
 func _on_animation_finished():
 	# Cuando termina una animación de ataque, pasar a la animación de reposo
-	if animated_sprite_2d.animation.begins_with("Atacar_"):
+	if animated_sprite_2d.animation.begins_with("Atacar_") or animated_sprite_2d.animation.begins_with("chop"):
 		match last_direction:
 			"derecha":
 				animated_sprite_2d.flip_h = false

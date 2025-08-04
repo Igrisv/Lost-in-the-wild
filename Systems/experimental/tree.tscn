@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://clx6w2mv3vc2s"]
+
+[ext_resource type="Script" uid="uid://bshm8nc5v68c0" path="res://Systems/experimental/Tree.gd" id="1_t1jl3"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_d8x7r"]
+
+[node name="Tree" type="Node2D" groups=["Interactable"]]
+script = ExtResource("1_t1jl3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(6, 7.25)
+scale = Vector2(14, 15.5)
+texture = SubResource("PlaceholderTexture2D_d8x7r")
