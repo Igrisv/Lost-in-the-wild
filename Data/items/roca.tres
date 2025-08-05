@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://bd6cx31pndup1"]
+
+[ext_resource type="Texture2D" uid="uid://c8nninoetx4g2" path="res://Assets/RPG Items/Queso.png" id="1_ims1x"]
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="2_kxu8i"]
+
+[resource]
+script = ExtResource("2_kxu8i")
+max_stack = 5
+id = "roca"
+name = "roca"
+icon = ExtResource("1_ims1x")
+item_type = 0
+is_equippable = false
+equipment_slot = ""
+durability = 100
+protection = 0
+comfort = 0
+mobility = 0
+efficiency = 1.0
+modifiers = {}
+animation_override = ""
+metadata/_custom_type_script = "uid://b2jetr72aoe3x"

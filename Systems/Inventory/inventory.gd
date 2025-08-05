@@ -9,8 +9,9 @@ var chest_slots := []  # Slots del cofre
 func _ready():
 	# Cargar recursos de ítems
 	item_map = {
-		"Hacha": preload("res://Data/items/Hacha.tres"),
-		"Madera": preload("res://Data/items/Madera.tres")
+		"axe": preload("res://Data/items/Hacha.tres"),
+		"Madera": preload("res://Data/items/Madera.tres"),
+		"roca": preload("res://Data/items/roca.tres"),
 	}
 	for item_name in item_map.keys():
 		if item_map[item_name] == null:

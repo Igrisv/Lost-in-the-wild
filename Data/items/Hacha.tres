@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://ivfkp5cx51jp"]
 
 [ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="1_cajk0"]
-[ext_resource type="Texture2D" uid="uid://dnvtiq3c5uhso" path="res://Assets/RPG Items/Hacha_De_Madera.png" id="1_pli7e"]
+[ext_resource type="Texture2D" uid="uid://c6nxmrfd1w5b8" path="res://Assets/RPG Items/Martillo_De_Madera.png" id="1_pli7e"]
 
 [resource]
 script = ExtResource("1_cajk0")
 max_stack = 1
 id = "axe"
-name = "Hacha"
+name = "axe"
 icon = ExtResource("1_pli7e")
 item_type = 1
 is_equippable = true
