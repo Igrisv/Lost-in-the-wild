@@ -6,7 +6,7 @@
 [sub_resource type="Resource" id="Resource_23xlr"]
 script = ExtResource("1_23xlr")
 type = "add_item"
-target = "Player"
+target = "inventory"
 value = ["Madera", 1]
 metadata/_custom_type_script = "uid://uiwu7aq2l3h2"
 
