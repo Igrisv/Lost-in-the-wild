@@ -213,7 +213,7 @@ script = ExtResource("14_irt6n")
 
 [node name="Arbol" parent="." instance=ExtResource("5_fivlv")]
 position = Vector2(547, 304)
-action_id = "talar"
+action_id = "mine_piedra"
 
 [node name="Area2D" parent="." instance=ExtResource("15_oi44u")]
 position = Vector2(-35, 356)

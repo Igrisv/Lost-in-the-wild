@@ -6,8 +6,8 @@
 [resource]
 script = ExtResource("1_cajk0")
 max_stack = 1
-id = "axe"
-name = "axe"
+id = "pico"
+name = "pico"
 icon = ExtResource("1_pli7e")
 item_type = 1
 is_equippable = true

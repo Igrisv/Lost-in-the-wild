@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://b2j6t6w0e2n23"]
+
+[ext_resource type="Texture2D" uid="uid://dy7its6qs3ct5" path="res://Assets/Items/flint.webp" id="1_6ej5m"]
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="1_ffov0"]
+
+[resource]
+script = ExtResource("1_ffov0")
+max_stack = 1
+id = "Piedra"
+name = "Piedra"
+icon = ExtResource("1_6ej5m")
+item_type = 0
+is_equippable = false
+equipment_slot = ""
+durability = 100
+protection = 0
+comfort = 0
+mobility = 0
+efficiency = 1.0
+modifiers = {}
+animation_override = ""
+metadata/_custom_type_script = "uid://b2jetr72aoe3x"
