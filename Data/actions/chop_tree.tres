@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ActionResource" load_steps=4 format=3 uid="uid://dk0q6jbihevwp"]
+[gd_resource type="Resource" script_class="ActionResource" load_steps=4 format=3 uid="uid://kaqweqlk1y8w"]
 
 [ext_resource type="Script" uid="uid://uiwu7aq2l3h2" path="res://Systems/Actions/Outcome.gd" id="1_14hw5"]
 [ext_resource type="Script" uid="uid://cld541w6x2ray" path="res://Systems/Actions/Action_Resource.gd" id="2_looxv"]

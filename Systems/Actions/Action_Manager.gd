@@ -1,16 +1,15 @@
-# action_manager.gd
 class_name ActionManager
 extends Node
 
 signal action_completed(action_id: String)
 
-func execute_action(action: ActionResource, player: Node, target: Node = null) -> bool:
+func execute_action(action: ActionResource, player: Node, target: Node = null, item: Item = null) -> bool:
 	var inventory = Inventory
-	var tool = get_equipped_tool(player, action.required_tool_type)
+	var tool = get_equipped_tool(player, action.required_tool_type) if action.action_id != "consume_item" else item
 	if not can_execute_action(action, player, tool):
 		return false
 
-	# Calcular valores modificados según la herramienta
+	# Calcular valores modificados según la herramienta o ítem
 	var efficiency = tool.efficiency if tool else 1.0
 	var modified_stamina_cost = action.base_stamina_cost * (tool.modifiers.get("stamina_cost", 1.0) if tool else 1.0)
 	var modified_execution_time = action.base_execution_time / efficiency
@@ -22,9 +21,26 @@ func execute_action(action: ActionResource, player: Node, target: Node = null) -
 		return false
 
 	# Reproducir animación y sonido
-	player.play_animation(action.animation if not tool or not tool.animation_override else tool.animation_override)
+	var animation = action.animation
+	if tool and tool.animation_override:
+		animation = tool.animation_override
+	player.play_animation(animation)
 	if action.sound:
-		player.play_sound(action.sound)
+		player.play_sound(action.sound if not tool or not tool.sound_override else tool.sound_override)
+
+	# Especial para acción de consumo
+	if action.action_id == "consume_item" and item and item.item_type == Item.ItemType.CONSUMABLE:
+		if item.consumable_data:
+			player.apply_consumable_effect(item.consumable_data)
+			if inventory.consume_item(item):
+				emit_signal("action_completed", action.action_id)
+				return true
+			else:
+				print("Error al consumir el ítem del inventario: ", item.name)
+				return false
+		else:
+			print("Error: ConsumableData es null para: ", item.name)
+			return false
 
 	# Esperar el tiempo de ejecución
 	await get_tree().create_timer(modified_execution_time).timeout
@@ -33,8 +49,8 @@ func execute_action(action: ActionResource, player: Node, target: Node = null) -
 	for outcome in action.outcomes:
 		apply_outcome(outcome, player, tool, target)
 
-	# Reducir durabilidad de la herramienta
-	if tool and tool.durability > 0:
+	# Reducir durabilidad de la herramienta (si no es un consumible)
+	if tool and tool.durability > 0 and action.action_id != "consume_item":
 		tool.durability -= 1
 		if tool.durability <= 0:
 			inventory.unequip_item(tool, tool.equipment_slot)
@@ -48,6 +64,19 @@ func can_execute_action(action: ActionResource, player: Node, tool: Item) -> boo
 	var modified_stamina_cost = action.base_stamina_cost * (tool.modifiers.get("stamina_cost", 1.0) if tool else 1.0)
 	if player.needs.stamina < modified_stamina_cost:
 		return false
+
+	if action.action_id == "consume_item":
+		if not tool or tool.item_type != Item.ItemType.CONSUMABLE:
+			print("El ítem no es consumible: ", tool.name if tool else "null")
+			return false
+		if tool.consumable_data:
+			var check = player.should_consume(tool.consumable_data)
+			if not check.can_consume:
+				print("No se puede consumir el ítem: ", check.reason)
+				return false
+		else:
+			print("Error: ConsumableData es null para: ", tool.name if tool else "null")
+			return false
 
 	if action.required_tool_type and (not tool or tool.id != action.required_tool_type):
 		return false

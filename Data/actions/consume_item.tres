@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ActionResource" load_steps=3 format=3 uid="uid://be1gyl80sv0u"]
+
+[ext_resource type="Script" uid="uid://uiwu7aq2l3h2" path="res://Systems/Actions/Outcome.gd" id="1_5xwbf"]
+[ext_resource type="Script" uid="uid://cld541w6x2ray" path="res://Systems/Actions/Action_Resource.gd" id="2_3xm7b"]
+
+[resource]
+script = ExtResource("2_3xm7b")
+action_id = "consume_item"
+display_name = "consume"
+required_tool_type = ""
+base_stamina_cost = 0.0
+base_execution_time = 0.0
+animation = ""
+outcomes = Array[ExtResource("1_5xwbf")]([])
+metadata/_custom_type_script = "uid://cld541w6x2ray"

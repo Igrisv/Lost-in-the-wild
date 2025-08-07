@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bag2l1wvhorit"]
+[gd_scene load_steps=24 format=3 uid="uid://bag2l1wvhorit"]
 
 [ext_resource type="PackedScene" uid="uid://cwwbkexo7lung" path="res://Systems/Inventory/inventory.tscn" id="4_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://bm03qstksvuqk" path="res://Scenes/Ui_Movil/ui_movil.tscn" id="5_aorjo"]
@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://dhac2t4fe01pd" path="res://Assets/Mundo/Tileset/Props/Bush.png" id="10_irt6n"]
 [ext_resource type="Texture2D" uid="uid://b3wm64cftogqf" path="res://Assets/Mundo/Tileset/Props/Grass.png" id="11_oi44u"]
 [ext_resource type="PackedScene" uid="uid://csw6m1li7jjgf" path="res://Scenes/Mundo/Arboles/arbol_goty.tscn" id="13_ba2ea"]
-[ext_resource type="Script" uid="uid://bshm8nc5v68c0" path="res://Systems/experimental/Tree.gd" id="13_rq36j"]
 [ext_resource type="Script" uid="uid://de1vscje7cvhh" path="res://Scenes/Mundo/Ciclo_Dia_Noche.gd" id="14_irt6n"]
 [ext_resource type="PackedScene" uid="uid://cokyqa1sqmon0" path="res://Scenes/Jugador/Jugador.tscn" id="14_oi44u"]
 [ext_resource type="PackedScene" uid="uid://bdppn0m7srw1l" path="res://Systems/Chest/chest.tscn" id="15_oi44u"]
@@ -209,15 +208,9 @@ script = ExtResource("14_irt6n")
 
 [node name="Arbol" parent="." groups=["Interactable"] instance=ExtResource("5_fivlv")]
 position = Vector2(529, 192)
-script = ExtResource("13_rq36j")
-action_id = "chop_tree"
-health = 100.0
 
 [node name="Arbol2" parent="." groups=["Interactable"] instance=ExtResource("5_fivlv")]
 position = Vector2(615, 227)
-script = ExtResource("13_rq36j")
-action_id = "chop_tree"
-health = 100.0
 
 [node name="Area2D" parent="." instance=ExtResource("15_oi44u")]
 position = Vector2(-35, 356)
