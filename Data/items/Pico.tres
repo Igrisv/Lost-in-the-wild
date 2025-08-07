@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://ctu8wdmpol5yv"]
+
+[ext_resource type="Texture2D" uid="uid://dv7sldbd2c4hp" path="res://Assets/RPG Items/Pico_De_Hierro.png" id="1_dglgc"]
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="2_7qo4w"]
+
+[resource]
+script = ExtResource("2_7qo4w")
+max_stack = 1
+id = "Pico"
+name = "Pico"
+icon = ExtResource("1_dglgc")
+item_type = 1
+is_equippable = true
+equipment_slot = "Hand"
+durability = 100
+protection = 0
+comfort = 0
+mobility = 0
+efficiency = 1.0
+modifiers = {}
+animation_override = ""
+metadata/_custom_type_script = "uid://b2jetr72aoe3x"

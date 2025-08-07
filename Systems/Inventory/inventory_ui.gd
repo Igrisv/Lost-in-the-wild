@@ -37,7 +37,11 @@ func _input(event):
 	elif event is InputEventKey and event.is_pressed():
 		match event.keycode:
 			KEY_SPACE:
+				
 				var item_keys = inventory_manager.item_map.keys()
+				if item_keys.is_empty():
+					print("Item map vacío. ¿Cargaste los ítems?")
+					return
 				var random_item = inventory_manager.item_map[item_keys[randi() % item_keys.size()]]
 				inventory_manager.add_item(random_item, 5)
 

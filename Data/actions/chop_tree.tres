@@ -7,14 +7,14 @@
 script = ExtResource("1_14hw5")
 type = "add_item"
 target = "inventory"
-value = ["Madera", 1]
+value = ["Piedra", 1]
 metadata/_custom_type_script = "uid://uiwu7aq2l3h2"
 
 [resource]
 script = ExtResource("2_looxv")
-action_id = "chop_tree"
-display_name = "Cortar arbol"
-required_tool_type = "axe"
+action_id = "mine_piedra"
+display_name = "Minar roca"
+required_tool_type = "Pico"
 base_stamina_cost = 10.0
 base_execution_time = 2.0
 animation = ""

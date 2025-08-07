@@ -1,7 +1,7 @@
 [gd_scene load_steps=44 format=3 uid="uid://boe6am4db1cv8"]
 
 [ext_resource type="PackedScene" uid="uid://b8i1drhl2d12v" path="res://Systems/Animals/animal_base.tscn" id="1_bm0yf"]
-[ext_resource type="Texture2D" uid="uid://p1k7cqq6q65m" path="res://Assets/Animals_Outline/MiniBear.png" id="2_5exlp"]
+[ext_resource type="Texture2D" uid="uid://p1k7cqq6q65m" path="res://Assets/Mundo/Animales/MiniBear.png" id="2_5exlp"]
 [ext_resource type="Script" uid="uid://dn51n3appjrj0" path="res://Systems/Animals/Animal_Interaction.gd" id="2_5ou23"]
 [ext_resource type="Resource" uid="uid://1diujwuvvd1q" path="res://Systems/Animals/Interacciones/Presas_Lobo.tres" id="3_kkd08"]
 
@@ -317,4 +317,4 @@ texture_filter = 1
 position = Vector2(9.53674e-07, -7)
 scale = Vector2(1.10156, 1.10156)
 sprite_frames = SubResource("SpriteFrames_xfolf")
-animation = &"Parado"
+animation = &"Wander"
