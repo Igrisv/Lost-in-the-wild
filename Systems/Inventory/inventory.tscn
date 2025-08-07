@@ -248,6 +248,21 @@ offset_bottom = 351.0
 scale = Vector2(0.8, 0.8)
 equipment_slot = "Feet"
 
+[node name="TooltipPanel" type="Panel" parent="Ui"]
+offset_left = 458.0
+offset_top = 635.0
+offset_right = 458.0
+offset_bottom = 635.0
+
+[node name="TooltipText" type="RichTextLabel" parent="Ui/TooltipPanel"]
+layout_mode = 0
+offset_left = -8.0
+offset_top = -76.0
+offset_right = 151.0
+offset_bottom = -48.0
+bbcode_enabled = true
+fit_content = true
+
 [connection signal="equip" from="Ui/Hotbar" to="." method="_on_hotbar_equip"]
 [connection signal="pressed" from="Ui/Pause_Menu/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Ui/Pause_Menu/To_menu" to="." method="_on_to_menu_pressed"]

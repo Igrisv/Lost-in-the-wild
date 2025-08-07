@@ -35,9 +35,20 @@ var _drag_data_cache = null
 
 signal item_equipped(item, slot)
 signal item_unequipped(item, slot)
+signal mouse_entered_slot(slot)
+signal mouse_exited_slot(slot)
 
 func _ready():
 	add_to_group("slots")
+	# Conectar señales de mouse
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
+
+func _on_mouse_entered():
+	emit_signal("mouse_entered_slot", self)
+
+func _on_mouse_exited():
+	emit_signal("mouse_exited_slot", self)
 
 func set_amount(value: int):
 	amount = value
@@ -58,6 +69,7 @@ func update_from_group():
 		$Amount.text = str(amount) if amount > 0 else ""
 	queue_redraw()
 	print("Slot actualizado desde grupo: ", name, ", item: ", item.name if item else "null", ", amount: ", amount, ", caller: ", get_caller_info())
+
 func get_caller_info() -> String:
 	var stack = get_stack()
 	if stack.size() > 1:
@@ -69,8 +81,6 @@ func _can_drop_data(_at_position, data):
 	if "item" in data:
 		return is_instance_of(data.item, Item)
 	return false
-
-# Reemplaza esta función en slot.gd
 
 func _drop_data(_at_position, data):
 	print("Drop data iniciado, slot equipment_slot: ", equipment_slot, ", item recibido: ", data.item.name if data and data.item else "null")
@@ -195,7 +205,6 @@ func _drop_data(_at_position, data):
 				source_slot.queue_redraw()
 			print("Intercambio realizado")
 	queue_redraw()
-
 
 func _get_drag_data(_at_position):
 	if not item:
