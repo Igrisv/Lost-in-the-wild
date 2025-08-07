@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+class_name  animal
 # Enums para valores cualitativos
 enum Level { MINIMO, BAJO, MEDIO, ALTO, EXTREMO }
 enum BehaviorType { AGRESIVO, NEUTRAL, PASIVO }
@@ -474,52 +475,52 @@ func _process(delta):
 	if target and is_instance_valid(target):
 		queue_redraw()
 
-func _mouse_entered():
-	print("Mouse entró en %s, nodo: %s" % [animal_name, name])
-	if not has_node("MouseDetectionArea"):
-		print("Error: MouseDetectionArea no existe en %s" % animal_name)
-		return
-	var area = $MouseDetectionArea
-	if not area.input_pickable:
-		print("Error: MouseDetectionArea no tiene input_pickable activado en %s" % animal_name)
-		return
-	var collision = area.get_node_or_null("CollisionShape2D")
-	if not collision:
-		print("Error: CollisionShape2D no encontrado en MouseDetectionArea de %s" % animal_name)
-		return
-	print("Área detectada, revisando interacciones para %s" % animal_name)
-	if is_dead:
-		print("Ignorado: %s está muerto" % animal_name)
-		return
-	
-	var interactions = get_interactions()
-	if interactions.is_empty():
-		print("No hay interacciones disponibles para %s" % animal_name)
-		return
-	
-	if not $InteractionContainer:
-		print("Error: InteractionContainer no encontrado en %s" % animal_name)
-		return
-	
-	$InteractionContainer.visible = true
-	print("Mostrando InteractionContainer para %s con %d interacciones" % [animal_name, interactions.size()])
-	
-	for child in $InteractionContainer/VBoxContainer.get_children():
-		child.queue_free()
-	
-	var button_scene = preload("res://Systems/Botones_Interactuables/Boton_Interaccion.tscn")
-	if not button_scene:
-		print("Error: No se pudo preload Boton_Interaccion.tscn en %s" % animal_name)
-		return
-	
-	for action in interactions:
-		var button = button_scene.instantiate()
-		if button:
-			$InteractionContainer/VBoxContainer.add_child(button)
-			button.setup(action["name"], self, action.get("condition", ""))
-			print("Añadido botón %s para %s" % [action["name"], animal_name])
-		else:
-			print("Error: No se pudo instanciar botón para %s" % animal_name)
+#func _mouse_entered():
+	#print("Mouse entró en %s, nodo: %s" % [animal_name, name])
+	#if not has_node("MouseDetectionArea"):
+		#print("Error: MouseDetectionArea no existe en %s" % animal_name)
+		#return
+	#var area = $MouseDetectionArea
+	#if not area.input_pickable:
+		#print("Error: MouseDetectionArea no tiene input_pickable activado en %s" % animal_name)
+		#return
+	#var collision = area.get_node_or_null("CollisionShape2D")
+	#if not collision:
+		#print("Error: CollisionShape2D no encontrado en MouseDetectionArea de %s" % animal_name)
+		#return
+	#print("Área detectada, revisando interacciones para %s" % animal_name)
+	#if is_dead:
+		#print("Ignorado: %s está muerto" % animal_name)
+		#return
+	#
+	#var interactions = get_interactions()
+	#if interactions.is_empty():
+		#print("No hay interacciones disponibles para %s" % animal_name)
+		#return
+	#
+	#if not $InteractionContainer:
+		#print("Error: InteractionContainer no encontrado en %s" % animal_name)
+		#return
+	#
+	#$InteractionContainer.visible = true
+	#print("Mostrando InteractionContainer para %s con %d interacciones" % [animal_name, interactions.size()])
+	#
+	#for child in $InteractionContainer/VBoxContainer.get_children():
+		#child.queue_free()
+	#
+	#var button_scene = preload("res://Systems/Botones_Interactuables/Boton_Interaccion.tscn")
+	#if not button_scene:
+		#print("Error: No se pudo preload Boton_Interaccion.tscn en %s" % animal_name)
+		#return
+	#
+	#for action in interactions:
+		#var button = button_scene.instantiate()
+		#if button:
+			#$InteractionContainer/VBoxContainer.add_child(button)
+			#button.setup(action["name"], self, action.get("condition", ""))
+			#print("Añadido botón %s para %s" % [action["name"], animal_name])
+		#else:
+			#print("Error: No se pudo instanciar botón para %s" % animal_name)
 
 func _mouse_exited():
 	$InteractionContainer.visible = false

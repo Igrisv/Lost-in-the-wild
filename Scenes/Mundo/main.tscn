@@ -11,14 +11,11 @@
 [ext_resource type="Texture2D" uid="uid://dhac2t4fe01pd" path="res://Assets/Mundo/Tileset/Props/Bush.png" id="10_irt6n"]
 [ext_resource type="Texture2D" uid="uid://b3wm64cftogqf" path="res://Assets/Mundo/Tileset/Props/Grass.png" id="11_oi44u"]
 [ext_resource type="PackedScene" uid="uid://csw6m1li7jjgf" path="res://Scenes/Mundo/Arboles/arbol_goty.tscn" id="13_ba2ea"]
+[ext_resource type="Script" uid="uid://bshm8nc5v68c0" path="res://Systems/experimental/Tree.gd" id="13_rq36j"]
 [ext_resource type="Script" uid="uid://de1vscje7cvhh" path="res://Scenes/Mundo/Ciclo_Dia_Noche.gd" id="14_irt6n"]
 [ext_resource type="PackedScene" uid="uid://cokyqa1sqmon0" path="res://Scenes/Jugador/Jugador.tscn" id="14_oi44u"]
 [ext_resource type="PackedScene" uid="uid://bdppn0m7srw1l" path="res://Systems/Chest/chest.tscn" id="15_oi44u"]
 [ext_resource type="PackedScene" uid="uid://clx6w2mv3vc2s" path="res://Systems/experimental/tree.tscn" id="15_rq36j"]
-
-[sub_resource type="GDScript" id="GDScript_bo1nx"]
-script/source = "extends Node2D
-"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ugfh3"]
 texture = ExtResource("6_002uo")
@@ -185,7 +182,6 @@ sources/5 = SubResource("TileSetAtlasSource_2x4d3")
 sources/6 = SubResource("TileSetAtlasSource_7g1o7")
 
 [node name="Main" type="Node2D"]
-script = SubResource("GDScript_bo1nx")
 
 [node name="Inventory" parent="." instance=ExtResource("4_jjvhh")]
 
@@ -204,22 +200,30 @@ layer_1/name = "Decoracion"
 layer_1/tile_data = PackedInt32Array(2359337, 65538, 3, 2162710, 65538, 3, 1179663, 65538, 3, 2162698, 65538, 3, 1638422, 65538, 3, 1769485, 65538, 3, 720923, 65538, 3, 524304, 65538, 3, 786451, 65538, 3, 1310727, 65538, 3, 2162695, 65538, 3, 2752519, 65538, 3, 2687030, 65538, 3, 1572922, 65538, 3, 852018, 65538, 3, 1507370, 65538, 3, 458793, 65538, 3, 327748, 65538, 3, 262203, 65538, 3, 1376325, 65538, 3, 852030, 65538, 3, 2293830, 65538, 3, 2687051, 65538, 3, 1769547, 65538, 3, 1703939, 65538, 3, 1835041, 65538, 3, 1114145, 393217, 1, 2621496, 393217, 1, 2555934, 393217, 1, 1310748, 393217, 1, 655368, 393217, 1, 65555, 393217, 1, 65603, 393217, 1, 458826, 393217, 1, 131122, 393217, 1, 196659, 393217, 1, 2424895, 393217, 1, 2162740, 393217, 1, 1703978, 393217, 1, 1507369, 393217, 1, 1900614, 458753, 1, 1048631, 458753, 1, 2293777, 458753, 1, 1441800, 458753, 1, 851974, 458753, 1, 2555920, 458753, 1, 262180, 458753, 1, 2490412, 458753, 1, 2293810, 262145, 1, 1572900, 262145, 1, 262155, 262145, 1, 4, 262145, 1, 393217, 262145, 1, 2555907, 262145, 1, 2883600, 262145, 1, 1376333, 262145, 1, 852039, 262145, 1, 2359339, 65539, 0, 2359305, 65539, 0, 393226, 65539, 0, 589891, 131075, 0, 393241, 131075, 0, 2555955, 131075, 0, 1704007, 131075, 2, 1245231, 131075, 2, 1638470, 131075, 2, 1638471, 131075, 2, 1638472, 131075, 2, 1704006, 131075, 2, 1769543, 131075, 2, 1704008, 196611, 1, 1769542, 196611, 1, 1769544, 196611, 2, 1638432, 131076, 0, 1703968, 131076, 1, 1638433, 196612, 0, 1703969, 196612, 1, 458814, 131076, 0, 524350, 131076, 1, 458815, 196612, 0, 524351, 196612, 1, 2162691, 131076, 0, 2228227, 131076, 1, 2162692, 196612, 0, 2228228, 196612, 1, 1703970, 262148, 1, 2162690, 262148, 1, 458816, 262148, 1, 524352, 262148, 0, 2228226, 262148, 0, 327707, 65541, 1, 1179658, 65541, 1, 2752537, 65541, 1, 1900562, 65541, 1, 2818091, 65541, 1, 1835061, 65541, 1, 589873, 65541, 1, 1048639, 65541, 1, 1179709, 196614, 0, 589835, 196614, 1, 2490402, 196614, 1, 1245254, 196614, 1, 786470, 196614, 2, 262177, 196614, 2, 2097178, 196614, 0, 2752546, 196614, 0)
 
 [node name="Arbol_Goty" parent="." instance=ExtResource("13_ba2ea")]
-position = Vector2(256, 41)
+position = Vector2(740, 242)
 resource_type = "Madera"
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 position = Vector2(-1, 1)
 script = ExtResource("14_irt6n")
 
-[node name="Arbol" parent="." instance=ExtResource("5_fivlv")]
-position = Vector2(547, 304)
-action_id = "mine_piedra"
+[node name="Arbol" parent="." groups=["Interactable"] instance=ExtResource("5_fivlv")]
+position = Vector2(529, 192)
+script = ExtResource("13_rq36j")
+action_id = "chop_tree"
+health = 100.0
+
+[node name="Arbol2" parent="." groups=["Interactable"] instance=ExtResource("5_fivlv")]
+position = Vector2(615, 227)
+script = ExtResource("13_rq36j")
+action_id = "chop_tree"
+health = 100.0
 
 [node name="Area2D" parent="." instance=ExtResource("15_oi44u")]
 position = Vector2(-35, 356)
 
 [node name="Player" parent="." instance=ExtResource("14_oi44u")]
-position = Vector2(512, 354)
+position = Vector2(626, 399)
 
 [node name="Tree" parent="." instance=ExtResource("15_rq36j")]
-position = Vector2(719, 176)
+position = Vector2(612, 287)

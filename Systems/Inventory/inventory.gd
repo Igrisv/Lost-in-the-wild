@@ -7,15 +7,7 @@ var equipment_slots := []
 var chest_slots := []  # Slots del cofre
 
 func _ready():
-	# Cargar recursos de ítems
-	item_map = {
-		"pico": preload("res://Data/items/Hacha.tres"),
-		"Madera": preload("res://Data/items/Madera.tres"),
-		"Piedra": preload("res://Data/items/Piedra.tres"),
-	}
-	for item_name in item_map.keys():
-		if item_map[item_name] == null:
-			push_error("Error: No se pudo cargar el ítem %s" % item_name)
+	_load_items()
 
 func add_item(item: Item, amount: float = 1.0):
 	if not item or not item_map.has(item.name):
@@ -132,7 +124,23 @@ func get_jugador() -> CharacterBody2D:
 		return jugadores[0]
 	return null
 
-# Reemplaza esta función en inventario.gd (si no está actualizada)
+func _load_items():
+	var dir = DirAccess.open("res://Data/items")
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".tres") and not dir.current_is_dir():
+				var item: Item = load("res://Data/items/" + file_name)
+				if item and item.id != "":
+					if item_map.has(item.id):
+						push_warning("Ítem duplicado: %s" % item.id)
+					item_map[item.id] = item
+			file_name = dir.get_next()
+		dir.list_dir_end()
+
+func get_item(id: String) -> Item:
+	return item_map.get(id)
 
 func equip_item(item: Item, source_slot):
 	if not item or not item.is_equippable:
@@ -180,7 +188,7 @@ func equip_item(item: Item, source_slot):
 		source_slot.queue_redraw()
 	return false
 	print("Estado del slot de origen tras equipar: ", source_slot.item, ", amount: ", source_slot.amount)
-# Reemplaza esta función en inventario.gd (si no está actualizada)
+
 
 func redistribute_item(item: Item, source_slot, remaining_amount: int):
 	if remaining_amount <= 0:
@@ -218,6 +226,7 @@ func redistribute_item(item: Item, source_slot, remaining_amount: int):
 		source_slot.amount = remaining_amount  # Dejar los sobrantes en el slot de origen
 		source_slot.queue_redraw()  # Actualizar visualmente el slot de origen
 		print("Estado del slot de origen tras redistribuir: ", source_slot.item, ", amount: ", source_slot.amount, ", remaining: ", remaining_amount)
+
 func unequip_item(item: Item, equipment_slot):
 	for slot in equipment_slots:
 		if slot.item == item and slot.equipment_slot == equipment_slot:
