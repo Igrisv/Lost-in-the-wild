@@ -49,15 +49,12 @@ func _input(event):
 							print("Desequipado exitosamente, total: ", get_inventory_total(slot.item))
 					break
 
-# Función auxiliar para contar el total de un ítem en el inventario
 func get_inventory_total(item: Item) -> int:
 	var inventory = Inventory
 	return inventory.count_item(item) if inventory else 0
 
 func update():
 	currently_equipped = get_child(index).item
-
-# Reemplaza la función use_current en tu script hotbar.gd
 
 func use_current():
 	var now = Time.get_ticks_msec() / 1000.0
@@ -73,12 +70,14 @@ func use_current():
 
 	var player = Inventory.get_jugador()
 	if not player:
+		print("Jugador no encontrado")
 		return
 
 	match slot.item.item_type:
 		Item.ItemType.CONSUMABLE:
-			if Inventory.consume_item(slot.item):
-				slot.queue_redraw()
+			var action = load("res://Data/actions/consume.tres")
+			if Action_Manager.await.execute_action(action, player, slot.item):
+				slot.queue_redraw()  # Actualizar el slot visualmente
 		Item.ItemType.TOOL:
 			var interactables = get_tree().get_nodes_in_group("Interactable")
 			var closest = null
@@ -92,7 +91,7 @@ func use_current():
 				closest.interact(player)
 		Item.ItemType.WEAPON:
 			var action = load("res://Data/actions/attack.tres")
-			Action_Manager.execute_action(action, player)
+			Action_Manager.execute_action(action, player, slot.item)
 		Item.ItemType.PLACEABLE:
 			var action = load("res://Data/actions/place.tres")
-			Action_Manager.execute_action(action, player)
+			Action_Manager.execute_action(action, player, slot.item)

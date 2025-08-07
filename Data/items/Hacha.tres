@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_cajk0")
 max_stack = 1
-id = "axe"
+id = "Hacha"
 name = "Hacha"
 icon = ExtResource("1_pli7e")
 item_type = 1

@@ -69,12 +69,27 @@ func apply_outcome(outcome: Outcome, player: Node, tool: Item, target: Node) -> 
 
 	match outcome.type:
 		"add_item":
-			var item = inventory.item_map.get(modified_value[0], null)
+			if modified_value.size() < 2:
+				push_error("❌ [Outcome: add_item] modified_value no tiene los elementos necesarios (esperado: [id, cantidad])")
+
+			var item_id = str(modified_value[0])
+			var item = inventory.item_map.get(item_id, null)
+
 			if item:
-				inventory.add_item(item, modified_value[1])
+				inventory.add_item(item, int(modified_value[1]))
+				print("✅ Item agregado:", item.name, "x", modified_value[1])
+			else:
+				push_error("❌ [Outcome: add_item] No se encontró el ítem con id: '%s'" % item_id)
+
 		"damage_tool":
 			# La durabilidad se maneja en execute_action
 			pass
+
 		"damage_target":
-			if target and target.has_method("take_damage"):
+			if not target:
+				push_error("❌ [Outcome: damage_target] Target es nulo.")
+			elif not target.has_method("take_damage"):
+				push_error("❌ [Outcome: damage_target] Target no tiene el método 'take_damage'.")
+			else:
 				target.take_damage(outcome.value)
+				print("✅ Target recibió daño:", outcome.value)
