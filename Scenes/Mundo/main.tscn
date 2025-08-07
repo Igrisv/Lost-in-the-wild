@@ -216,10 +216,22 @@ position = Vector2(92, 27)
 resource_type = "Madera"
 
 [node name="Area2D" parent="." instance=ExtResource("15_oi44u")]
-position = Vector2(-35, 356)
+position = Vector2(-110, 414)
 
 [node name="Player" parent="." instance=ExtResource("14_oi44u")]
 position = Vector2(512, 354)
 
 [node name="Tree" parent="." instance=ExtResource("15_rq36j")]
 position = Vector2(612, 287)
+action_id = "chop_tree"
+
+[node name="Tree3" parent="." instance=ExtResource("15_rq36j")]
+position = Vector2(612, 409)
+
+[node name="Tree4" parent="." instance=ExtResource("15_rq36j")]
+position = Vector2(417, 411)
+action_id = "cosechar_trigo"
+
+[node name="Tree2" parent="." instance=ExtResource("15_rq36j")]
+position = Vector2(377, 276)
+action_id = "quitar_arbusto"

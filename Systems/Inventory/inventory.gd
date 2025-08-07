@@ -10,8 +10,11 @@ func _ready():
 	# Cargar recursos de ítems
 	item_map = {
 		"Hacha": preload("res://Data/items/Hacha.tres"),
-		"Madera": preload("res://Data/items/Madera.tres")
-	}
+		"Madera": preload("res://Data/items/Madera.tres"), 
+		"Fibra_vegetal": preload("res://Data/items/Fibra_vegetal.tres"),
+		"Palos": preload("res://Data/items/Palos.tres"),
+		"Trigo": preload("res://Data/items/Trigo.tres")
+	} 
 	for item_name in item_map.keys():
 		if item_map[item_name] == null:
 			push_error("Error: No se pudo cargar el ítem %s" % item_name)

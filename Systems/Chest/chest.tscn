@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bdppn0m7srw1l"]
 
-[ext_resource type="Texture2D" uid="uid://vcpn5wyqasqn" path="res://Assets/Mundo/Decoracion/Chest.png" id="1_0gb2i"]
 [ext_resource type="Script" uid="uid://jua71bec5mh8" path="res://Systems/Chest/chest.gd" id="1_lgi05"]
+[ext_resource type="Texture2D" uid="uid://l7d77kymtfjq" path="res://Scenes/Mundo/chest.png" id="2_m3fl5"]
 [ext_resource type="PackedScene" uid="uid://dhlu67wniw7vv" path="res://Systems/Inventory/slot.tscn" id="3_m3fl5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nmvns"]
@@ -16,9 +16,10 @@ shape = SubResource("CircleShape2D_nmvns")
 [node name="Chest" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
 position = Vector2(0, 1)
-scale = Vector2(1, 0.78125)
-texture = ExtResource("1_0gb2i")
+scale = Vector2(1.17, 0.914)
+texture = ExtResource("2_m3fl5")
 
 [node name="ChestUI" type="Control" parent="."]
 layout_mode = 3
@@ -31,12 +32,12 @@ offset_bottom = -27.0
 [node name="slots_container" type="GridContainer" parent="ChestUI"]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 0
-offset_left = 27.0
-offset_top = 41.0
-offset_right = 171.0
-offset_bottom = 185.0
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 298.0
+offset_bottom = 225.0
 scale = Vector2(0.3, 0.3)
-columns = 2
+columns = 4
 
 [node name="Slot" parent="ChestUI/slots_container" instance=ExtResource("3_m3fl5")]
 layout_mode = 2
@@ -48,4 +49,28 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Slot2" parent="ChestUI/slots_container" instance=ExtResource("3_m3fl5")]
+layout_mode = 2
+
+[node name="Slot5" parent="ChestUI/slots_container" instance=ExtResource("3_m3fl5")]
+layout_mode = 2
+
+[node name="Slot6" parent="ChestUI/slots_container" instance=ExtResource("3_m3fl5")]
+layout_mode = 2
+
+[node name="Slot7" parent="ChestUI/slots_container" instance=ExtResource("3_m3fl5")]
+layout_mode = 2
+
+[node name="Slot8" parent="ChestUI/slots_container" instance=ExtResource("3_m3fl5")]
+layout_mode = 2
+
+[node name="Slot9" parent="ChestUI/slots_container" instance=ExtResource("3_m3fl5")]
+layout_mode = 2
+
+[node name="Slot10" parent="ChestUI/slots_container" instance=ExtResource("3_m3fl5")]
+layout_mode = 2
+
+[node name="Slot11" parent="ChestUI/slots_container" instance=ExtResource("3_m3fl5")]
+layout_mode = 2
+
+[node name="Slot12" parent="ChestUI/slots_container" instance=ExtResource("3_m3fl5")]
 layout_mode = 2

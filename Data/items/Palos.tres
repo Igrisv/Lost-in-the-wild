@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://cgupndqfygt62"]
+
+[ext_resource type="Texture2D" uid="uid://b3dwybv4ikjap" path="res://Assets/Items/bunch-of-sticks.webp" id="1_cjpqy"]
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="1_dgpye"]
+
+[resource]
+script = ExtResource("1_dgpye")
+max_stack = 25
+id = "Palos"
+name = "Palos"
+icon = ExtResource("1_cjpqy")
+item_type = 0
+is_equippable = false
+equipment_slot = ""
+durability = 100
+protection = 0
+comfort = 0
+mobility = 0
+efficiency = 1.0
+modifiers = {}
+animation_override = ""
+metadata/_custom_type_script = "uid://b2jetr72aoe3x"

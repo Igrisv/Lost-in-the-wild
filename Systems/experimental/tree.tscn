@@ -1,13 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://clx6w2mv3vc2s"]
 
 [ext_resource type="Script" uid="uid://bshm8nc5v68c0" path="res://Systems/experimental/Tree.gd" id="1_t1jl3"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_d8x7r"]
+[ext_resource type="Texture2D" uid="uid://lxu7g711qoha" path="res://Data/items/sticks.webp" id="2_gulrc"]
 
 [node name="Tree" type="Node2D" groups=["Interactable"]]
 script = ExtResource("1_t1jl3")
+action_id = "recoger_palos"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
 position = Vector2(6, 7.25)
-scale = Vector2(14, 15.5)
-texture = SubResource("PlaceholderTexture2D_d8x7r")
+scale = Vector2(0.745, 0.825)
+texture = ExtResource("2_gulrc")
