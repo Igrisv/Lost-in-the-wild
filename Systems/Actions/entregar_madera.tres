@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Outcome" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://System/Outcomes.gd" id="1_46v1y"]
+
+[resource]
+script = ExtResource("1_46v1y")
+outcome_type = 0
+target = "Player"
+outcome_value = ["Madera", 1.0]

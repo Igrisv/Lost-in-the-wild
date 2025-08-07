@@ -6,6 +6,7 @@
 
 [node name="Tree" type="Node2D" groups=["Interactable"]]
 script = ExtResource("1_t1jl3")
+action_id = "mine_rock"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(6, 7.25)
