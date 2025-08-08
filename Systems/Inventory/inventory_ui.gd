@@ -65,9 +65,9 @@ func _on_mouse_exited_slot(slot: Node):
 
 func _on_tooltip_timer_timeout():
 	if hovered_slot and hovered_slot.item:
-		show_tooltip(hovered_slot.item, hovered_slot.get_global_rect().position)
+		show_tooltip(hovered_slot.item, hovered_slot.get_global_rect().position, hovered_slot.size)
 
-func show_tooltip(item: Item, position: Vector2):
+func show_tooltip(item: Item, position: Vector2, slot_size: Vector2):
 	if not item:
 		tooltip_panel.visible = false
 		return
@@ -75,41 +75,39 @@ func show_tooltip(item: Item, position: Vector2):
 	var text = "[b]%s[/b]\n" % item.name
 	text += "Tipo: %s\n" % Item.ItemType.keys()[item.item_type]
 
-	# Estadísticas generales con verificación de errores
-	if item.is_equippable:
-		if item.protection != null and item.protection > 0:
-			text += "Protección: %d\n" % item.protection
-		else:
-			print("Advertencia: 'protection' es null o <= 0 para el ítem: ", item.name)
-		if item.mobility != null and item.mobility > 0:
-			text += "Movilidad: %d\n" % item.mobility
-		else:
-			print("Advertencia: 'mobility' es null o <= 0 para el ítem: ", item.name)
-		if item.comfort != null and item.comfort > 0:
-			text += "Confort: %d\n" % item.comfort
-		else:
-			print("Advertencia: 'comfort' es null o <= 0 para el ítem: ", item.name)
-		# Nota: 'capacity' no está definida en Item.gd, se omite
-		if item.efficiency != null and item.efficiency != 1.0:
-			text += "Eficiencia: %.2f\n" % item.efficiency
-		else:
-			print("Advertencia: 'efficiency' es null o igual a 1.0 para el ítem: ", item.name)
-		if item.durability != null and item.durability > 0:
-			text += "Durabilidad: %d\n" % item.durability
-		else:
-			print("Advertencia: 'durability' es null o <= 0 para el ítem: ", item.name)
+	# Estadísticas generales para todos los ítems
+	if item.protection != null and item.protection > 0:
+		text += "Protección: %d\n" % item.protection
+	else:
+		print("Advertencia: 'protection' es null o <= 0 para el ítem: ", item.name)
+	if item.mobility != null and item.mobility > 0:
+		text += "Movilidad: %d\n" % item.mobility
+	else:
+		print("Advertencia: 'mobility' es null o <= 0 para el ítem: ", item.name)
+	if item.comfort != null and item.comfort > 0:
+		text += "Confort: %d\n" % item.comfort
+	else:
+		print("Advertencia: 'comfort' es null o <= 0 para el ítem: ", item.name)
+	if item.efficiency != null and item.efficiency != 1.0:
+		text += "Eficiencia: %.2f\n" % item.efficiency
+	else:
+		print("Advertencia: 'efficiency' es null o igual a 1.0 para el ítem: ", item.name)
+	if item.durability != null and item.durability > 0:
+		text += "Durabilidad: %d\n" % item.durability
+	else:
+		print("Advertencia: 'durability' es null o <= 0 para el ítem: ", item.name)
 
 	# Efectos de consumibles
 	if item.item_type == Item.ItemType.CONSUMABLE and item.consumable_data:
 		for effect in item.consumable_data.effects:
 			match effect.type:
-				ConsumableData.EffectType.HUNGER:
+				ConsumableData.EffectType.Hunger:
 					text += "Restaura Hambre: %.1f\n" % effect.value
-				ConsumableData.EffectType.THIRST:
+				ConsumableData.EffectType.Thirst:
 					text += "Restaura Sed: %.1f\n" % effect.value
-				ConsumableData.EffectType.SLEEP:
+				ConsumableData.EffectType.Sleep:
 					text += "Restaura Sueño: %.1f\n" % effect.value
-				ConsumableData.EffectType.STAMINA:
+				ConsumableData.EffectType.Stamina:
 					text += "Restaura Estamina: %.1f\n" % effect.value
 
 	# Modificadores adicionales
@@ -117,6 +115,7 @@ func show_tooltip(item: Item, position: Vector2):
 		text += "Modificadores:\n"
 		for key in item.modifiers.keys():
 			text += "- %s: %.2f\n" % [key.capitalize(), item.modifiers[key]]
+
 
 	_tooltip_text.text = text
 	tooltip_panel.position = position + Vector2(10, 10) # Desplazamiento para no cubrir el slot

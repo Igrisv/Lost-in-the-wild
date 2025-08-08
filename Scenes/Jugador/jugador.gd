@@ -274,22 +274,22 @@ func apply_consumable_effect(consumable_data: ConsumableData) -> void:
 
 	for effect in consumable_data.effects:
 		match effect.type:
-			ConsumableData.EffectType.HUNGER:
+			ConsumableData.EffectType.Hunger:
 				if needs.hunger < MAX_STAT:
 					needs.hunger = clamp(needs.hunger + effect.value, MIN_STAT, MAX_STAT)
 					activate_cooldown("hunger")
 					print("Hambre restaurada: ", needs.hunger)
-			ConsumableData.EffectType.THIRST:
+			ConsumableData.EffectType.Thirst:
 				if needs.thirst < MAX_STAT:
 					needs.thirst = clamp(needs.thirst + effect.value, MIN_STAT, MAX_STAT)
 					activate_cooldown("thirst")
 					print("Sed restaurada: ", needs.thirst)
-			ConsumableData.EffectType.SLEEP:
+			ConsumableData.EffectType.Sleep:
 				if needs.sleep < MAX_STAT:
 					needs.sleep = clamp(needs.sleep + effect.value, MIN_STAT, MAX_STAT)
 					activate_cooldown("sleep")
 					print("Sueño restaurado: ", needs.sleep)
-			ConsumableData.EffectType.STAMINA:
+			ConsumableData.EffectType.Stamina:
 				if needs.stamina < MAX_STAT:
 					needs.stamina = clamp(needs.stamina + effect.value, MIN_STAT, MAX_STAT)
 					activate_cooldown("stamina")
@@ -306,28 +306,28 @@ func should_consume(consumable_data: ConsumableData) -> Dictionary:
 
 	for effect in consumable_data.effects:
 		match effect.type:
-			ConsumableData.EffectType.HUNGER:
+			ConsumableData.EffectType.Hunger:
 				if cooldowns["hunger"] > 0:
 					reasons.append("Estás lleno, espera antes de comer")
 				elif needs.hunger < MAX_STAT:
 					can_consume = true
 				else:
 					reasons.append("Hambre al máximo")
-			ConsumableData.EffectType.THIRST:
+			ConsumableData.EffectType.Thirst:
 				if cooldowns["thirst"] > 0:
 					reasons.append("Estás saciado, espera antes de beber")
 				elif needs.thirst < MAX_STAT:
 					can_consume = true
 				else:
 					reasons.append("Sed al máximo")
-			ConsumableData.EffectType.SLEEP:
+			ConsumableData.EffectType.Sleep:
 				if cooldowns["sleep"] > 0:
 					reasons.append("No necesitas dormir ahora")
 				elif needs.sleep < MAX_STAT:
 					can_consume = true
 				else:
 					reasons.append("Sueño al máximo")
-			ConsumableData.EffectType.STAMINA:
+			ConsumableData.EffectType.Stamina:
 				if cooldowns["stamina"] > 0:
 					reasons.append("Estamina en cooldown")
 				elif needs.stamina < MAX_STAT:

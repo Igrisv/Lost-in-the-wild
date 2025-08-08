@@ -112,10 +112,10 @@ func _connect_signals(slots: Array):
 func count_item(item: Item) -> int:
 	var total = 0
 	for slot in hotbar_slots + grid_slots + equipment_slots + chest_slots:
-		if slot.item != null and slot.item.has_method("get_id") and slot.item.get_id() == item.get_id():
+		if slot.item != null and slot.item.id and slot.item.id == item.id:
 			total += slot.amount
 		elif slot.item != null:
-			print("Slot inválido detectado: ", slot.name, ", Item: ", slot.item, " no tiene método get_id")
+			print("Slot inválido detectado: ", slot.name, ", Item: ", slot.item)
 	return total
 
 func get_jugador() -> CharacterBody2D:

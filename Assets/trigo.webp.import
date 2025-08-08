@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lxu7g711qoha"
-path="res://.godot/imported/sticks.webp-8232d9d92c27f71ce48f9cadbac31e6f.ctex"
+uid="uid://cul2fk1rrci8y"
+path="res://.godot/imported/trigo.webp-82958021b073dddbc89aee16d2b76428.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Data/items/sticks.webp"
-dest_files=["res://.godot/imported/sticks.webp-8232d9d92c27f71ce48f9cadbac31e6f.ctex"]
+source_file="res://Assets/trigo.webp"
+dest_files=["res://.godot/imported/trigo.webp-82958021b073dddbc89aee16d2b76428.ctex"]
 
 [params]
 

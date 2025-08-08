@@ -11,7 +11,7 @@ func populate_recipes():
 	for recipe in CraftingManager.recipe_list:
 		var button = Button.new()
 		button.text = recipe.result.name
-		button.disabled = false#button.disabled = not CraftingManager.can_craft(recipe)
+		button.disabled = false
 		button.pressed.connect(func():
 			try_craft(recipe)
 		)

@@ -22,6 +22,7 @@ Inventory="*res://Systems/Inventory/inventory.gd"
 CraftingManager="*res://Systems/Crafteo/Crafting_Manager.gd"
 ManagerMovil="*res://Scenes/Main_Menu/Manager_Movil.gd"
 Action_Manager="*res://Systems/Actions/Action_Manager.gd"
+WeatherManager="*res://Systems/Climas/WeatherManager.gd"
 
 [display]
 

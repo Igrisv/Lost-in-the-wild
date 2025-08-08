@@ -1,5 +1,6 @@
-[gd_scene load_steps=24 format=3 uid="uid://bag2l1wvhorit"]
+[gd_scene load_steps=26 format=3 uid="uid://bag2l1wvhorit"]
 
+[ext_resource type="Script" uid="uid://3qq00hkyqqmh" path="res://Scenes/Mundo/main.gd" id="1_rq36j"]
 [ext_resource type="PackedScene" uid="uid://cwwbkexo7lung" path="res://Systems/Inventory/inventory.tscn" id="4_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://bm03qstksvuqk" path="res://Scenes/Ui_Movil/ui_movil.tscn" id="5_aorjo"]
 [ext_resource type="PackedScene" uid="uid://rgo1mwodebg7" path="res://Scenes/Mundo/Arboles/Arbol.tscn" id="5_fivlv"]
@@ -15,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cokyqa1sqmon0" path="res://Scenes/Jugador/Jugador.tscn" id="14_oi44u"]
 [ext_resource type="PackedScene" uid="uid://bdppn0m7srw1l" path="res://Systems/Chest/chest.tscn" id="15_oi44u"]
 [ext_resource type="PackedScene" uid="uid://clx6w2mv3vc2s" path="res://Systems/experimental/tree.tscn" id="15_rq36j"]
+[ext_resource type="Script" uid="uid://b1hnhk21wsf6r" path="res://Systems/Climas/WeatherManager.gd" id="17_5v27u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ugfh3"]
 texture = ExtResource("6_002uo")
@@ -181,13 +183,21 @@ sources/5 = SubResource("TileSetAtlasSource_2x4d3")
 sources/6 = SubResource("TileSetAtlasSource_7g1o7")
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_rq36j")
 
 [node name="Inventory" parent="." instance=ExtResource("4_jjvhh")]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Ui" type="CanvasLayer" parent="."]
 
-[node name="Ui_Movil" parent="CanvasLayer" instance=ExtResource("5_aorjo")]
+[node name="weather_manager" type="Node2D" parent="Ui"]
+z_index = -1
+script = ExtResource("17_5v27u")
+
+[node name="Ui_Movil" parent="Ui" instance=ExtResource("5_aorjo")]
 visible = false
+top_level = true
+z_index = 1
+y_sort_enabled = true
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
@@ -216,7 +226,7 @@ position = Vector2(615, 227)
 position = Vector2(-35, 356)
 
 [node name="Player" parent="." instance=ExtResource("14_oi44u")]
-position = Vector2(626, 399)
+position = Vector2(139, 54)
 
 [node name="Tree" parent="." instance=ExtResource("15_rq36j")]
 position = Vector2(612, 287)

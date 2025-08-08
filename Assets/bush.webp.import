@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cul2fk1rrci8y"
-path="res://.godot/imported/trigo.webp-c3c2cb3738a9bf140cd0da1ca7b56a06.ctex"
+uid="uid://db0ihp2gtww4r"
+path="res://.godot/imported/bush.webp-5533b80079294dc3e40a375107307629.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Data/items/trigo.webp"
-dest_files=["res://.godot/imported/trigo.webp-c3c2cb3738a9bf140cd0da1ca7b56a06.ctex"]
+source_file="res://Assets/bush.webp"
+dest_files=["res://.godot/imported/bush.webp-5533b80079294dc3e40a375107307629.ctex"]
 
 [params]
 

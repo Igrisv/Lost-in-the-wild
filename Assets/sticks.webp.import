@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://w7j7111wc655"
-path="res://.godot/imported/piedra-picable.png-b2b15624216546fbc683ec7138f67865.ctex"
+uid="uid://lxu7g711qoha"
+path="res://.godot/imported/sticks.webp-3ce86315b7eca9dad6158e4336d7895e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Data/items/piedra-picable.png"
-dest_files=["res://.godot/imported/piedra-picable.png-b2b15624216546fbc683ec7138f67865.ctex"]
+source_file="res://Assets/sticks.webp"
+dest_files=["res://.godot/imported/sticks.webp-3ce86315b7eca9dad6158e4336d7895e.ctex"]
 
 [params]
 

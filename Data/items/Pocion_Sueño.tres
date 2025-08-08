@@ -12,7 +12,7 @@ metadata/_custom_type_script = "uid://ben4m56t3jg1l"
 
 [resource]
 script = ExtResource("1_lrcr0")
-max_stack = 2
+max_stack = 20
 id = "PocionDeSueño"
 name = "PocionDeSueño"
 icon = ExtResource("1_lo5i6")
