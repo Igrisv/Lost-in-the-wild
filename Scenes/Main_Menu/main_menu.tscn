@@ -1,17 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://c5n02nfk3vas1"]
 
 [ext_resource type="Script" uid="uid://bopfal4ataqia" path="res://Scenes/Main_Menu/main_menu.gd" id="1_e582s"]
-[ext_resource type="AudioStream" uid="uid://cf4fs2w4fc2r3" path="res://Musics/LW Intro theme.mp3" id="2_ev4p5"]
+[ext_resource type="AudioStream" uid="uid://dlljb4oonkwro" path="res://Musics/Intro Full.mp3" id="2_ev4p5"]
 
 [node name="Main_Menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 121.0
-offset_top = -158.0
-offset_right = 121.0
-offset_bottom = -158.0
+offset_top = 4.0
+offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_e582s")
@@ -45,7 +43,6 @@ offset_bottom = 628.0
 text = "Atras"
 
 [node name="Opciones" type="Control" parent="."]
-visible = false
 anchors_preset = 0
 offset_right = 1153.0
 offset_bottom = 648.0
@@ -59,7 +56,16 @@ offset_right = 81.0
 offset_bottom = 628.0
 text = "Atras"
 
-[node name="Movil_" type="Label" parent="Opciones"]
+[node name="Controles_mp" type="Control" parent="Opciones"]
+visible = false
+anchors_preset = 0
+offset_left = 148.0
+offset_top = -5.0
+offset_right = 889.0
+offset_bottom = 646.0
+mouse_filter = 2
+
+[node name="Movil_" type="Label" parent="Opciones/Controles_mp"]
 layout_mode = 0
 offset_left = 148.0
 offset_top = 106.0
@@ -67,7 +73,7 @@ offset_right = 246.0
 offset_bottom = 129.0
 text = "Desactivado"
 
-[node name="Label" type="Label" parent="Opciones"]
+[node name="Label" type="Label" parent="Opciones/Controles_mp"]
 layout_mode = 0
 offset_left = 54.0
 offset_top = 58.0
@@ -75,7 +81,7 @@ offset_right = 311.0
 offset_bottom = 81.0
 text = "Activar/Desactivar modo ui movil"
 
-[node name="Label2" type="Label" parent="Opciones"]
+[node name="Label2" type="Label" parent="Opciones/Controles_mp"]
 layout_mode = 0
 offset_left = 37.0
 offset_top = 147.0
@@ -83,7 +89,7 @@ offset_right = 331.0
 offset_bottom = 170.0
 text = "Activar/Desactivar controles editables"
 
-[node name="Id_Movil" type="Button" parent="Opciones"]
+[node name="Id_Movil" type="Button" parent="Opciones/Controles_mp"]
 layout_mode = 0
 offset_left = 72.0
 offset_top = 102.0
@@ -91,7 +97,7 @@ offset_right = 124.0
 offset_bottom = 133.0
 text = "Mode"
 
-[node name="Editar_activar" type="Button" parent="Opciones"]
+[node name="Editar_activar" type="Button" parent="Opciones/Controles_mp"]
 layout_mode = 0
 offset_left = 47.0
 offset_top = 194.0
@@ -99,7 +105,7 @@ offset_right = 178.0
 offset_bottom = 225.0
 text = "Activar"
 
-[node name="Editar_desactivar" type="Button" parent="Opciones"]
+[node name="Editar_desactivar" type="Button" parent="Opciones/Controles_mp"]
 layout_mode = 0
 offset_left = 198.0
 offset_top = 191.0
@@ -107,6 +113,86 @@ offset_right = 329.0
 offset_bottom = 222.0
 text = "Desactivar
 "
+
+[node name="Video" type="Control" parent="Opciones"]
+visible = false
+anchors_preset = 0
+offset_right = 1282.0
+offset_bottom = 719.0
+mouse_filter = 2
+
+[node name="Fullscreen" type="Label" parent="Opciones/Video"]
+layout_mode = 0
+offset_left = 198.0
+offset_top = 63.0
+offset_right = 277.0
+offset_bottom = 86.0
+text = "Fullscreen"
+
+[node name="Fullscreen_button" type="Button" parent="Opciones/Video"]
+layout_mode = 0
+offset_left = 289.0
+offset_top = 63.0
+offset_right = 322.0
+offset_bottom = 94.0
+text = "Off"
+
+[node name="Audio" type="Control" parent="Opciones"]
+anchors_preset = 0
+offset_right = 1282.0
+offset_bottom = 719.0
+mouse_filter = 2
+
+[node name="Music_label" type="Label" parent="Opciones/Audio"]
+layout_mode = 0
+offset_left = 191.0
+offset_top = 66.0
+offset_right = 237.0
+offset_bottom = 89.0
+text = "Music"
+
+[node name="Sound_label" type="Label" parent="Opciones/Audio"]
+layout_mode = 0
+offset_left = 189.0
+offset_top = 98.0
+offset_right = 238.0
+offset_bottom = 121.0
+text = "Sound"
+
+[node name="Music_slider" type="HSlider" parent="Opciones/Audio"]
+layout_mode = 0
+offset_left = 290.0
+offset_top = 71.0
+offset_right = 384.0
+offset_bottom = 87.0
+value = 100.0
+
+[node name="Sfx_slider" type="HSlider" parent="Opciones/Audio"]
+layout_mode = 0
+offset_left = 290.0
+offset_top = 104.0
+offset_right = 384.0
+offset_bottom = 120.0
+value = 100.0
+
+[node name="Opcion_Buttons" type="VBoxContainer" parent="Opciones"]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 54.0
+offset_right = 127.0
+offset_bottom = 155.0
+
+[node name="Controles_opciones" type="Button" parent="Opciones/Opcion_Buttons"]
+layout_mode = 2
+text = "Controles"
+
+[node name="Video_opciones" type="Button" parent="Opciones/Opcion_Buttons"]
+layout_mode = 2
+text = "Video"
+
+[node name="Audio_opciones" type="Button" parent="Opciones/Opcion_Buttons"]
+layout_mode = 2
+text = "Audio"
 
 [node name="Creditos" type="Control" parent="."]
 visible = false
@@ -124,6 +210,7 @@ offset_bottom = 628.0
 text = "Atras"
 
 [node name="Main_Menu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -146,10 +233,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -748.0
-offset_top = 103.0
-offset_right = -298.0
-offset_bottom = 390.0
+offset_left = -272.0
+offset_top = -33.0
+offset_right = 178.0
+offset_bottom = 254.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -170,15 +257,22 @@ layout_mode = 2
 text = "Salir
 "
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="Music_menu" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_ev4p5")
 autoplay = true
+bus = &"Music"
+
+[node name="Sfx_menu" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="pressed" from="Nueva_Partida/Nueva_partida" to="." method="_on_nueva_partida_pressed"]
 [connection signal="pressed" from="Nueva_Partida/Atras_Nueva_Partida" to="." method="_on_atras_nueva_partida_pressed"]
 [connection signal="pressed" from="Opciones/Atras_Opciones" to="." method="_on_atras_opciones_pressed"]
-[connection signal="pressed" from="Opciones/Id_Movil" to="." method="_on_id_movil_pressed"]
-[connection signal="pressed" from="Opciones/Editar_activar" to="." method="_on_edit_pressed"]
+[connection signal="pressed" from="Opciones/Controles_mp/Id_Movil" to="." method="_on_id_movil_pressed"]
+[connection signal="pressed" from="Opciones/Controles_mp/Editar_activar" to="." method="_on_edit_pressed"]
+[connection signal="value_changed" from="Opciones/Audio/Music_slider" to="." method="_on_music_slider_value_changed"]
+[connection signal="pressed" from="Opciones/Opcion_Buttons/Controles_opciones" to="." method="_on_controles_opciones_pressed"]
+[connection signal="pressed" from="Opciones/Opcion_Buttons/Video_opciones" to="." method="_on_video_opciones_pressed"]
+[connection signal="pressed" from="Opciones/Opcion_Buttons/Audio_opciones" to="." method="_on_audio_opciones_pressed"]
 [connection signal="pressed" from="Creditos/Atras_Creditos" to="." method="_on_atras_creditos_pressed"]
 [connection signal="pressed" from="Main_Menu/VBoxContainer/Nueva_partida_Menu" to="." method="_on_nueva_partida_menu_pressed"]
 [connection signal="pressed" from="Main_Menu/VBoxContainer/Opciones" to="." method="_on_opciones_pressed"]
