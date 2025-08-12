@@ -52,10 +52,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Arbol" instance=ExtResource("1_6nha6")]
+[node name="Arbol" groups=["ResourceNode"] instance=ExtResource("1_6nha6")]
 script = ExtResource("2_8mbfd")
 action_id = "chop_tree"
 health = 100.0
+max_drop_amount = 20
 
 [node name="Sprite2D" parent="." index="0"]
 position = Vector2(-1.00001, -24)

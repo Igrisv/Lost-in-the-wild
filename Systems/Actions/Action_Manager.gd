@@ -2,6 +2,7 @@ class_name ActionManager
 extends Node
 
 signal action_completed(action_id: String)
+signal loot_dropped(value,value1)
 
 func execute_action(action: ActionResource, player: Node, target: Node = null, item: Item = null) -> bool:
 	var inventory = Inventory
@@ -99,16 +100,50 @@ func apply_outcome(outcome: Outcome, player: Node, tool: Item, target: Node) -> 
 	match outcome.type:
 		"add_item":
 			if modified_value.size() < 2:
-				push_error("❌ [Outcome: add_item] modified_value no tiene los elementos necesarios (esperado: [id, cantidad])")
-
+				push_error(" [Outcome: add_item] modified_value no tiene los elementos necesarios (esperado: [id, cantidad])")
+				return
+			
 			var item_id = str(modified_value[0])
+			var base_amount = int(modified_value[1])  # Cantidad base del outcome, si se usa como fallback
 			var item = inventory.item_map.get(item_id, null)
 
-			if item:
-				inventory.add_item(item, int(modified_value[1]))
-				print("✅ Item agregado:", item.name, "x", modified_value[1])
+			if not item:
+				push_error(" [Outcome: add_item] No se encontró el ítem con id: '%s'" % item_id)
+				return
+
+		# Calcular amount dinámicamente si hay una tool equipada y target válido
+			var amount = base_amount
+			if tool and tool.item_type == Item.ItemType.TOOL and target and "health" in target:
+				var damage = tool.resource_damage  # Daño base de la tool
+				var total_health = target.health if target.health > 0 else 100.0  # Vida del target antes del daño
+				var max_drop = target.max_drop_amount if target and "max_drop_amount" in target else tool.max_yield  # Límite máximo
+				var damage_ratio = min(1.0, damage / total_health)  # Proporción de daño (máx 1)
+				var is_critical = randf() < tool.critical_chance
+				var yield_base = randi_range(tool.min_yield, tool.max_yield)
+				var yield_bonus = damage_ratio * tool.yield_per_damage * max_drop
+				amount = yield_base + int(yield_bonus)
+				if is_critical:
+					amount = int(amount * 1.5)  # Multiplicador por crítico
+				amount = clamp(amount, 1, max_drop)  # Limita entre 1 y max_drop
+			elif not tool:
+				amount = clamp(base_amount, 1, target.max_drop_amount if target and "max_drop_amount" in target else base_amount)
+
+		# Determinar si el ítem debe dropearse en el suelo o añadirse al inventario
+			if target and target.is_in_group("ResourceNode"):  # Ejemplo: árboles, rocas, etc.
+				var drop_scene = load("res://Systems/Inventory/item_drop.tscn")  # Ruta a tu escena ItemDrop
+				var drop = drop_scene.instantiate()
+				var dispersion_radius = 20.0  # Radio de dispersión en píxeles (ajusta según necesidad)
+				var offset = Vector2(randf_range(-dispersion_radius, dispersion_radius), randf_range(-dispersion_radius, dispersion_radius))
+				drop.item = item
+				drop.amount = amount
+				drop.global_position = target.global_position + offset
+				target.get_parent().add_child(drop)
+				print("Ítem dropeado: ", item.name, " x", amount, " en ", target.global_position)
+				emit_signal("loot_dropped", target, amount)
 			else:
-				push_error("❌ [Outcome: add_item] No se encontró el ítem con id: '%s'" % item_id)
+				# Para criaturas u otros casos, añadir directamente al inventario
+				inventory.add_item(item, amount)
+				print("Ítem dropeado: ", item.name, " x", amount, " en ", target.global_position)
 
 		"damage_tool":
 			# La durabilidad se maneja en execute_action
@@ -116,9 +151,9 @@ func apply_outcome(outcome: Outcome, player: Node, tool: Item, target: Node) -> 
 
 		"damage_target":
 			if not target:
-				push_error("❌ [Outcome: damage_target] Target es nulo.")
+				push_error(" [Outcome: damage_target] Target es nulo.")
 			elif not target.has_method("take_damage"):
-				push_error("❌ [Outcome: damage_target] Target no tiene el método 'take_damage'.")
+				push_error(" [Outcome: damage_target] Target no tiene el método 'take_damage'.")
 			else:
 				target.take_damage(outcome.value)
-				print("✅ Target recibió daño:", outcome.value)
+				print(" Target recibió daño:", outcome.value)

@@ -19,6 +19,13 @@ extends Resource
 @export var animation_override: String = "" # Nueva: animación específica
 @export var sound_override: AudioStream = null # Nueva: sonido específico
 
+# Sección especializada para herramientas (item_type == TOOL): variables de recolección
+@export var min_yield: int = 1  # Mínimo de loot por golpe/extracción exitosa
+@export var max_yield: int = 5  # Máximo de loot por golpe/extracción exitosa
+@export var resource_damage: float = 10.0  # Daño base causado al recurso (ej. vida del árbol)
+@export var critical_chance: float = 0.1  # Probabilidad (0-1) de golpe crítico para yield extra
+@export var yield_per_damage: float = 0.5  # Multiplicador de loot por unidad de daño causado
+
 enum ItemType {
 	CONSUMABLE,
 	TOOL,

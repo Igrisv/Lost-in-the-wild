@@ -1,29 +1,30 @@
 class_name Player
 extends CharacterBody2D
 
-var speed: float = 200.0
+#region Player_stats
+@export var speed := 200.0
 var damage: float = 50.0
 var attack_range: float = 50.0
 var player_name: String = "Jugador"
+var current_speed := speed
+var stamina_drain_mult := 1.0
+var hunger_drain_mult := 1.0
+var damage_over_time := 0.0
+#endregion
 
+#region Onready
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var needs: Needs = Needs.new() # Instancia del sistema Needs
 @onready var hambre_bar: ProgressBar = $Hambre_Bar
 @onready var sueño_bar: ProgressBar = $Sueño_Bar
 @onready var sed_bar: ProgressBar = $Sed_Bar
+#endregion
 
 var last_direction: String = "abajo"
 
 const MAX_STAT := 100.0
 const MIN_STAT := 0.0
-
-# Estados alterados
-var poisoned := false
-var poisoned_time := 0.0
-const POISON_DURATION := 5.0
-
 var hotbar_node = null
-
 # Diccionario para los cooldowns de cada necesidad (en segundos)
 var cooldowns = {
 	"hunger": 0.0,
@@ -32,6 +33,7 @@ var cooldowns = {
 	"stamina": 0.0
 }
 
+#region Equipment
 # Nuevas variables para estadísticas del equipamiento
 var base_protection := 0.0  # Protección base (sin equipamiento)
 var protection := 0.0       # Protección total (base + equipamiento)
@@ -39,9 +41,28 @@ var movement_speed_bonus := 0.0  # Bonificación a la velocidad por movilidad
 var comfort_bonus := 0.0    # Bonificación a la regeneración de energía por comodidad
 var capacity_bonus := 0.0   # Capacidad adicional de inventario (kg o slots)
 var efficiency_bonus := 0.0 # Bonificación a la eficiencia de acciones
+#endregion
 
 func _ready() -> void:
 	add_to_group("Player")
+#region Climas
+	if WeatherManager:
+		var weather_callable = Callable(self, "_on_weather_changed")
+		if WeatherManager.weather_changed.is_connected(weather_callable):
+			print("Señal weather_changed ya conectada para Player: ", self)
+		else:
+			WeatherManager.weather_changed.connect(weather_callable, CONNECT_ONE_SHOT if WeatherManager.weather_changed.is_connected(weather_callable) else 0)
+			print("Señal weather_changed conectada exitosamente para Player: ", self, " con callable: ", weather_callable)
+		if WeatherManager.current_weather != "":
+			_on_weather_changed(WeatherManager.current_weather) # Aplicar efectos iniciales
+			print("Clima inicial aplicado: ", WeatherManager.current_weather)
+		else:
+			print("ERROR: WeatherManager.current_weather no está inicializado")
+	else:
+		print("ERROR: WeatherManager no encontrado")
+#endregion
+#region Inventory
+
 	hotbar_node = get_hotbar()
 	var inventory = Inventory
 	if inventory:
@@ -56,6 +77,7 @@ func _ready() -> void:
 	update_equipment_stats()  # Inicializar estadísticas al empezar
 	# Conectar la señal animation_finished para manejar el fin de las animaciones
 	animated_sprite_2d.connect("animation_finished", Callable(self, "_on_animation_finished"))
+#endregion
 
 func _physics_process(_delta):
 	# Actualizar necesidades según el tiempo
@@ -72,16 +94,6 @@ func _physics_process(_delta):
 	else:
 		needs.stamina = max(needs.stamina - 0.5 * _delta, MIN_STAT)
 	
-	# Manejo envenenamiento
-	if poisoned:
-		poisoned_time += _delta
-		if poisoned_time >= POISON_DURATION:
-			poisoned = false
-			poisoned_time = 0.0
-			print("Ya no estás envenenado.")
-		else:
-			damage -= 0.1 * _delta * (1.0 - (protection / 100.0))  # Reducción de daño por protección
-			print("Daño por envenenamiento: ", 0.1 * _delta * (1.0 - (protection / 100.0)), " (Protección: ", protection, "%)")
 
 	# Actualizar los cooldowns en cada frame
 	for key in cooldowns.keys():
@@ -167,8 +179,11 @@ func _physics_process(_delta):
 					"abajo":
 						animated_sprite_2d.play("Idle_Abajo")
 
-	velocity = direction.normalized() * (speed + movement_speed_bonus)
+	velocity = direction.normalized() * (current_speed + movement_speed_bonus)
 	move_and_slide()
+
+
+#region Animation_func
 
 func reproducir_animacion_ataque():
 	# Solo reproducir si no está ya reproduciendo una animación de ataque
@@ -216,8 +231,10 @@ func _on_animation_finished():
 				animated_sprite_2d.play("Idle_Arriba")
 			"abajo":
 				animated_sprite_2d.play("Idle_Abajo")
+#endregion
 
-# Consumir item con efectos, usando Needs.EffectType
+#region Inventory_func
+
 func consume_item(item: Item) -> void:
 	if not item or not item.effects:
 		return
@@ -247,16 +264,9 @@ func consume_item(item: Item) -> void:
 				needs.stamina = clamp(needs.stamina + effect.value, MIN_STAT, MAX_STAT)
 				if needs.stamina >= MAX_STAT:
 					activate_cooldown("stamina")
-			Needs.EffectType.POISON:
-				poisoned = true
-				poisoned_time = 0.0
-			Needs.EffectType.CURE_POISON:
-				poisoned = false
-				poisoned_time = 0.0
 			_:
 				print("Efecto no manejado:", effect.type)
 
-# Activa un cooldown para una necesidad específica
 func activate_cooldown(need_type: String, duration: float = 10.0):
 	cooldowns[need_type] = duration
 	print("Cooldown activado para %s por %.1f segundos" % [need_type, duration])
@@ -391,3 +401,57 @@ func _on_item_equipped(item, slot):
 func _on_item_unequipped(item, slot):
 	print("Ítem desequipado detectado: ", item.name, " de slot: ", slot.equipment_slot)
 	update_equipment_stats()
+#endregion
+
+func _on_weather_changed(weather: String) -> void:
+	print("DEBUG: _on_weather_changed ejecutado para Player: ", self, " con clima: ", weather)
+	if weather == "":
+		print("ERROR: Clima recibido es vacío o inválido")
+		return
+	
+	reset_weather_effects()
+	match weather:
+		"lluvia":
+			print("Aplicando efectos de lluvia")
+			current_speed = speed * 0.7
+			print("Velocidad ajustada a: ", current_speed)
+			stamina_drain_mult = 1.3
+			if animated_sprite_2d:
+				_apply_visual_tint(Color(0.7, 0.7, 0.9)) # más oscuro y húmedo
+				print("Tinte aplicado: Color(0.7, 0.7, 0.9)")
+			else:
+				print("ERROR: animated_sprite_2d no está asignado")
+			#if $AnimationPlayer and $AnimationPlayer.has_animation("wet"):
+				#_trigger_animation("wet") # animación de caminar más lento
+				#print("Animación 'wet' disparada")
+			#else:
+				#print("ERROR: AnimationPlayer no encontrado o animación 'wet' no existe")
+		_:
+			print("Clima no manejado: ", weather)
+
+		# Más climas en el futuro:
+		# "tormenta_arena":
+		# "nieve":
+		# "niebla_toxica":
+
+func reset_weather_effects():
+	current_speed = speed
+	stamina_drain_mult = 1.0
+	hunger_drain_mult = 1.0
+	damage_over_time = 0.0
+	_apply_visual_tint(Color(1, 1, 1))
+
+func _apply_visual_tint(color: Color):
+	animated_sprite_2d.modulate = color
+
+func _trigger_animation(anim: String):
+	if $AnimationPlayer.has_animation(anim):
+		$AnimationPlayer.play(anim)
+		
+#func _process(delta):
+	#if damage_over_time > 0:
+		#_apply_damage(damage_over_time * delta)
+#
+#func _apply_damage(amount: float):
+	## Lógica para restar vida
+	#pass

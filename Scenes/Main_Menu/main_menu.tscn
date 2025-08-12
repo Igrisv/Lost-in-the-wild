@@ -43,6 +43,7 @@ offset_bottom = 628.0
 text = "Atras"
 
 [node name="Opciones" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 offset_right = 1153.0
 offset_bottom = 648.0
@@ -138,6 +139,7 @@ offset_bottom = 94.0
 text = "Off"
 
 [node name="Audio" type="Control" parent="Opciones"]
+visible = false
 anchors_preset = 0
 offset_right = 1282.0
 offset_bottom = 719.0
@@ -210,7 +212,6 @@ offset_bottom = 628.0
 text = "Atras"
 
 [node name="Main_Menu" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

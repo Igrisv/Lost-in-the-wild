@@ -1,13 +1,4 @@
-extends Node
-
-signal weather_changed(new_weather: String)
-
-var current_weather: String = "despejado"
-var weather_effect: Node2D = null
-const WEATHER_SCENES := {
-	"lluvia": preload("res://Systems/Climas/Scenes/rain.tscn"),
-	"despejado": preload("res://Systems/Climas/Scenes/despejado.tscn"),
-}
+extends WeatherManager
 
 func set_weather(weather_name: String) -> void:
 	if weather_name == "" or weather_name == current_weather:
@@ -35,15 +26,3 @@ func set_weather(weather_name: String) -> void:
 	current_weather = weather_name
 	emit_signal("weather_changed", current_weather)
 	print("Señal weather_changed emitida para: ", current_weather)
-
-	# Actualizar nodo en el grupo "nodo_clima"
-	var climate_nodes = get_tree().get_nodes_in_group("nodo_clima")
-	if climate_nodes.size() > 0:
-		var climate_node = climate_nodes[0]  # Tomar el primer nodo del grupo
-		if climate_node.has_method("set_weather"):
-			climate_node.set_weather(current_weather)
-			print("Clima actualizado en nodo_clima: ", current_weather)
-		else:
-			push_error("ERROR: Nodo en grupo 'nodo_clima' no tiene método set_weather")
-	else:
-		push_error("ERROR: No se encontraron nodos en el grupo 'nodo_clima'")

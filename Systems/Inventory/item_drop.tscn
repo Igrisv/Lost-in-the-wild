@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2dfrwaqpr1kq"]
+
+[ext_resource type="Script" uid="uid://bl1084u0joba8" path="res://Systems/Inventory/item_drop.gd" id="1_nhhfg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tufp4"]
+
+[node name="Item_drop" type="CharacterBody2D" groups=["Pickupable"]]
+script = ExtResource("1_nhhfg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_tufp4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
