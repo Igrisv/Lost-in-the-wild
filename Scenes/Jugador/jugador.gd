@@ -4,7 +4,7 @@ extends CharacterBody2D
 #region Player_stats
 @export var speed := 200.0
 var damage: float = 50.0
-var attack_range: float = 50.0
+var attack_range: float = 70.0
 var player_name: String = "Jugador"
 var current_speed := speed
 var stamina_drain_mult := 1.0
@@ -235,37 +235,37 @@ func _on_animation_finished():
 
 #region Inventory_func
 
-func consume_item(item: Item) -> void:
-	if not item or not item.effects:
-		return
-
-	var result = should_consume(item.consumable_data)
-
-	if not result["can_consume"]:
-		print("No se puede consumir:", result["reason"])
-		return
-
-	# Si pasa el chequeo, aplicar efectos
-	for effect in item.effects:
-		match effect.type:
-			Needs.EffectType.HUNGER:
-				needs.hunger = clamp(needs.hunger + effect.value, MIN_STAT, MAX_STAT)
-				if needs.hunger >= MAX_STAT:
-					activate_cooldown("hunger")
-			Needs.EffectType.THIRST:
-				needs.thirst = clamp(needs.thirst + effect.value, MIN_STAT, MAX_STAT)
-				if needs.thirst >= MAX_STAT:
-					activate_cooldown("thirst")
-			Needs.EffectType.SLEEP:
-				needs.sleep = clamp(needs.sleep + effect.value, MIN_STAT, MAX_STAT)
-				if needs.sleep >= MAX_STAT:
-					activate_cooldown("sleep")
-			Needs.EffectType.STAMINA:
-				needs.stamina = clamp(needs.stamina + effect.value, MIN_STAT, MAX_STAT)
-				if needs.stamina >= MAX_STAT:
-					activate_cooldown("stamina")
-			_:
-				print("Efecto no manejado:", effect.type)
+#func consume_item(item: Item) -> void:
+	#if not item or not item.effects:
+		#return
+#
+	#var result = should_consume(item.consumable_data)
+#
+	#if not result["can_consume"]:
+		#print("No se puede consumir:", result["reason"])
+		#return
+#
+	## Si pasa el chequeo, aplicar efectos
+	#for effect in item.effects:
+		#match effect.type:
+			#Needs.EffectType.HUNGER:
+				#needs.hunger = clamp(needs.hunger + effect.value, MIN_STAT, MAX_STAT)
+				#if needs.hunger >= MAX_STAT:
+					#activate_cooldown("hunger")
+			#Needs.EffectType.THIRST:
+				#needs.thirst = clamp(needs.thirst + effect.value, MIN_STAT, MAX_STAT)
+				#if needs.thirst >= MAX_STAT:
+					#activate_cooldown("thirst")
+			#Needs.EffectType.SLEEP:
+				#needs.sleep = clamp(needs.sleep + effect.value, MIN_STAT, MAX_STAT)
+				#if needs.sleep >= MAX_STAT:
+					#activate_cooldown("sleep")
+			#Needs.EffectType.STAMINA:
+				#needs.stamina = clamp(needs.stamina + effect.value, MIN_STAT, MAX_STAT)
+				#if needs.stamina >= MAX_STAT:
+					#activate_cooldown("stamina")
+			#_:
+				#print("Efecto no manejado:", effect.type)
 
 func activate_cooldown(need_type: String, duration: float = 10.0):
 	cooldowns[need_type] = duration

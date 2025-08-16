@@ -6,10 +6,10 @@
 [resource]
 script = ExtResource("2_3xm7b")
 action_id = "consume_item"
-display_name = "consume"
+display_name = "consume_item"
 required_tool_type = ""
-base_stamina_cost = 0.0
-base_execution_time = 0.0
+base_stamina_cost = 10.0
+base_execution_time = 1.0
 animation = ""
 outcomes = Array[ExtResource("1_5xwbf")]([])
 metadata/_custom_type_script = "uid://cld541w6x2ray"

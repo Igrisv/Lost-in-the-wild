@@ -51,32 +51,40 @@ func use_stackable_item(item: Item, amount: int) -> bool:
 				return true
 	return remaining <= 0
 
-func consume_item(item: Item) -> bool:
-	if item == null or item.item_type != Item.ItemType.CONSUMABLE:
-		print("Este ítem no es consumible o es null: ", item.name if item else "null")
+func consume_item(slot: Slot, player: CharacterBody2D) -> bool:
+	if not slot or not slot.item or slot.item.item_type != Item.ItemType.CONSUMABLE or slot.amount <= 0:
+		print("Ítem no consumible o cantidad inválida: ", slot.item.name if slot and slot.item else "null")
 		return false
 
-	if item.consumable_data == null:
-		print("Consumible sin datos definidos para: ", item.name)
+	var item = slot.item
+	if not item.consumable_data:
+		print("Error: ConsumableData es null para: ", item.name)
 		return false
 
-	var jugador = get_jugador()
-	if not jugador:
-		print("Jugador no encontrado. No se pueden aplicar efectos.")
+	# Obtener jugador desde grupo si el pasado es null
+	var player_instance = player if player else get_jugador()
+	if not player_instance:
+		print("Error: No se encontró jugador en grupo 'Player'")
 		return false
 
-	var check = jugador.should_consume(item.consumable_data)
+	# Verificar si se puede consumir (sin bloquear reducción)
+	var check = player_instance.should_consume(item.consumable_data)
 	if not check.can_consume:
-		print("No se consumió %s: %s" % [item.name, check.reason])
-		return false
+		print("No se aplicaron efectos: ", check.reason)
+	else:
+		player_instance.apply_consumable_effect(item.consumable_data)
+		print("Efectos aplicados para: ", item.name)
 
-	print("Consumiendo: %s" % item.name)
-	jugador.apply_consumable_effect(item.consumable_data)
-
-	var success = use_stackable_item(item, 1)
-	if not success:
-		print("Error al consumir ítem: no se encontró suficiente cantidad en el inventario.")
-		return false
+	# Reducir cantidad siempre que se intente consumir
+	if slot.amount > 1:
+		slot.amount -= 1
+		slot.queue_redraw()
+		print("Consumido 1 de ", item.name, " - Cantidad restante: ", slot.amount)
+	else:
+		slot.item = null
+		slot.amount = 0
+		slot.queue_redraw()
+		print("Consumido ", item.name, " - Slot vaciado")
 
 	return true
 

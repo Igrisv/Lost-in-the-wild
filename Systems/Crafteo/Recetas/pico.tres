@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Recipe" load_steps=6 format=3 uid="uid://cssk4ul7iidbc"]
+
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="1_navv7"]
+[ext_resource type="Resource" uid="uid://brskg8uilwu14" path="res://Data/items/Piedra.tres" id="2_jttwd"]
+[ext_resource type="Resource" uid="uid://b3ankta14j58l" path="res://Data/items/Madera.tres" id="3_gva2r"]
+[ext_resource type="Resource" uid="uid://dlfskxjnr7il5" path="res://Data/items/Pico.tres" id="4_gtb5j"]
+[ext_resource type="Script" uid="uid://cpcmrcg1c6qgy" path="res://Systems/Crafteo/Crafting_Recipe.gd" id="5_2rlr8"]
+
+[resource]
+script = ExtResource("5_2rlr8")
+id = "Pico_recipe"
+result = ExtResource("4_gtb5j")
+ingredients = Dictionary[ExtResource("1_navv7"), int]({
+ExtResource("2_jttwd"): 2,
+ExtResource("3_gva2r"): 2
+})
+metadata/_custom_type_script = "uid://cpcmrcg1c6qgy"

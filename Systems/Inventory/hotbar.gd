@@ -77,8 +77,8 @@ func use_current():
 	match slot.item.item_type:
 		Item.ItemType.CONSUMABLE:
 			var action = load("res://Data/actions/consume_item.tres")
-			# Use the singleton instance ActionManager
-			if await action_manager.execute_action(action, player, null, slot.item):
+			var success = await action_manager.execute_action(action, player, null, slot.item, slot)  # Pasa el slot
+			if success:
 				slot.queue_redraw()
 		Item.ItemType.TOOL:
 			var interactables = get_tree().get_nodes_in_group("Interactable")
@@ -93,11 +93,9 @@ func use_current():
 				closest.interact(player)
 		Item.ItemType.WEAPON:
 			var action = load("res://Data/actions/attack.tres")
-			# Use the singleton instance ActionManager
 			if await action_manager.execute_action(action, player):
 				slot.queue_redraw()
 		Item.ItemType.PLACEABLE:
 			var action = load("res://Data/actions/place.tres")
-			# Use the singleton instance ActionManager
 			if await action_manager.execute_action(action, player):
 				slot.queue_redraw()

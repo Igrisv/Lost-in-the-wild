@@ -5,18 +5,23 @@
 
 [resource]
 script = ExtResource("1_dgpye")
-max_stack = 25
-id = "Palos"
-name = "Palos"
+max_stack = 5
+id = "Ramas"
+name = "Ramas"
 icon = ExtResource("1_cjpqy")
 item_type = 0
 is_equippable = false
 equipment_slot = ""
-durability = 100
+durability = 0
 protection = 0
 comfort = 0
 mobility = 0
 efficiency = 1.0
 modifiers = {}
 animation_override = ""
+min_yield = 1
+max_yield = 5
+resource_damage = 10.0
+critical_chance = 0.1
+yield_per_damage = 0.5
 metadata/_custom_type_script = "uid://b2jetr72aoe3x"

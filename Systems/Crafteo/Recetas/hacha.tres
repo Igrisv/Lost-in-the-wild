@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Recipe" load_steps=6 format=3 uid="uid://b8po1sln8wrxk"]
+
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="1_kbkoq"]
+[ext_resource type="Script" uid="uid://cpcmrcg1c6qgy" path="res://Systems/Crafteo/Crafting_Recipe.gd" id="2_5xvf1"]
+[ext_resource type="Resource" uid="uid://brskg8uilwu14" path="res://Data/items/Piedra.tres" id="3_1f7bd"]
+[ext_resource type="Resource" uid="uid://cgupndqfygt62" path="res://Data/items/Ramas.tres" id="3_lai4a"]
+[ext_resource type="Resource" uid="uid://ivfkp5cx51jp" path="res://Data/items/Hacha.tres" id="4_hl1qs"]
+
+[resource]
+script = ExtResource("2_5xvf1")
+id = "Hacha_recipe"
+result = ExtResource("4_hl1qs")
+ingredients = Dictionary[ExtResource("1_kbkoq"), int]({
+ExtResource("3_1f7bd"): 2,
+ExtResource("3_lai4a"): 2
+})
+metadata/_custom_type_script = "uid://cpcmrcg1c6qgy"

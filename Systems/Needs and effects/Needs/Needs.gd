@@ -10,6 +10,7 @@ enum EffectType {
 	CURE_POISON
 }
 
+var health: float = 100.0
 var hunger: float = 100.0
 var thirst: float = 100.0
 var sleep: float = 100.0

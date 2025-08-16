@@ -4,7 +4,7 @@ extends Node
 signal action_completed(action_id: String)
 signal loot_dropped(value,value1)
 
-func execute_action(action: ActionResource, player: Node, target: Node = null, item: Item = null) -> bool:
+func execute_action(action: ActionResource, player: Node, target: Node = null, item: Item = null, slot: Node = null) -> bool:
 	var inventory = Inventory
 	var tool = get_equipped_tool(player, action.required_tool_type) if action.action_id != "consume_item" else item
 	if not can_execute_action(action, player, tool):
@@ -15,29 +15,34 @@ func execute_action(action: ActionResource, player: Node, target: Node = null, i
 	var modified_stamina_cost = action.base_stamina_cost * (tool.modifiers.get("stamina_cost", 1.0) if tool else 1.0)
 	var modified_execution_time = action.base_execution_time / efficiency
 
-	# Consumir stamina
-	player.needs.stamina -= modified_stamina_cost
-	if player.needs.stamina < 0:
-		player.needs.stamina = 0
+	# Consumir stamina (usar player pasado si existe, o buscarlo)
+	var player_node = player if player else get_jugador_from_group()
+	if not player_node or player_node.needs.stamina < modified_stamina_cost:
+		if player_node:
+			player_node.needs.stamina = 0
 		return false
 
 	# Reproducir animación y sonido
 	var animation = action.animation
 	if tool and tool.animation_override:
 		animation = tool.animation_override
-	player.play_animation(animation)
+	player_node.play_animation(animation)
 	if action.sound:
-		player.play_sound(action.sound if not tool or not tool.sound_override else tool.sound_override)
+		player_node.play_sound(action.sound if not tool or not tool.sound_override else tool.sound_override)
 
 	# Especial para acción de consumo
 	if action.action_id == "consume_item" and item and item.item_type == Item.ItemType.CONSUMABLE:
 		if item.consumable_data:
-			player.apply_consumable_effect(item.consumable_data)
-			if inventory.consume_item(item):
-				emit_signal("action_completed", action.action_id)
-				return true
+			if slot:
+				var player_instance = get_jugador_from_group()  # Usar función auxiliar
+				if player_instance and Inventory.consume_item(slot, player_instance):
+					emit_signal("action_completed", action.action_id)
+					return true
+				else:
+					print("Error al consumir el ítem del inventario: ", item.name, " - Player instance: ", player_instance)
+					return false
 			else:
-				print("Error al consumir el ítem del inventario: ", item.name)
+				print("Error: Slot no proporcionado para consumo")
 				return false
 		else:
 			print("Error: ConsumableData es null para: ", item.name)
@@ -48,7 +53,7 @@ func execute_action(action: ActionResource, player: Node, target: Node = null, i
 
 	# Aplicar efectos
 	for outcome in action.outcomes:
-		apply_outcome(outcome, player, tool, target)
+		apply_outcome(outcome, player_node, tool, target)
 
 	# Reducir durabilidad de la herramienta (si no es un consumible)
 	if tool and tool.durability > 0 and action.action_id != "consume_item":
@@ -59,6 +64,11 @@ func execute_action(action: ActionResource, player: Node, target: Node = null, i
 
 	emit_signal("action_completed", action.action_id)
 	return true
+
+# Función auxiliar para obtener el jugador desde el grupo
+func get_jugador_from_group() -> CharacterBody2D:
+	var players = get_tree().get_nodes_in_group("Player")
+	return players[0] if players.size() > 0 else null
 
 func can_execute_action(action: ActionResource, player: Node, tool: Item) -> bool:
 	var inventory = Inventory

@@ -1,28 +1,52 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3x8iqpxo30ys"]
+[gd_scene load_steps=5 format=3 uid="uid://bvmp5v4n7ccb2"]
 
-[ext_resource type="Script" uid="uid://c1d6kr3vq1ald" path="res://Systems/Criaturas/Creatures.gd" id="1_4pf5t"]
-[ext_resource type="Texture2D" uid="uid://ceuaogynhsn54" path="res://Assets/icon.svg" id="1_6mlmq"]
+[ext_resource type="Script" uid="uid://c4ybvq6hl5aat" path="res://Systems/Criaturas/pacific_creature.gd" id="1_dv57t"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_7v1vg"]
-radius = 22.1359
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dv57t"]
+size = Vector2(19, 20)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7i6gr"]
-size = Vector2(16, 16)
+[sub_resource type="SpriteFrames" id="SpriteFrames_dv57t"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk_right",
+"speed": 5.0
+}]
 
-[node name="Creature" type="CharacterBody2D"]
-script = ExtResource("1_4pf5t")
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_dv57t"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.140625, 0.125)
-texture = ExtResource("1_6mlmq")
-
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_7v1vg")
+[node name="Creature" type="CharacterBody2D" groups=["Creature"]]
+script = ExtResource("1_dv57t")
+speed = 40.0
+tame_requirements = {
+"item": "Madera",
+"proximity_time": 5.0
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_7i6gr")
+position = Vector2(-4.5, 0)
+shape = SubResource("RectangleShape2D_dv57t")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_dv57t")
+animation = &"walk_right"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-3, 1)
+scale = Vector2(33, 19.5)
+texture = SubResource("PlaceholderTexture2D_dv57t")
+
+[node name="StateTimer" type="Timer" parent="."]
+
+[node name="WanderTimer" type="Timer" parent="."]
+
+[node name="InfoLabel" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="ProximityTimer" type="Timer" parent="."]

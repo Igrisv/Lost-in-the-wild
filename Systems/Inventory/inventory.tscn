@@ -17,6 +17,20 @@ metadata/_edit_lock_ = true
 
 [node name="Ui" type="CanvasLayer" parent="."]
 
+[node name="Equip_button" type="Button" parent="Ui"]
+offset_left = 780.0
+offset_top = 327.0
+offset_right = 832.0
+offset_bottom = 358.0
+text = "Equip"
+
+[node name="Crafting_button" type="Button" parent="Ui"]
+offset_left = 764.0
+offset_top = 363.0
+offset_right = 834.0
+offset_bottom = 394.0
+text = "Crafting"
+
 [node name="Panel_Inventory" type="Panel" parent="Ui"]
 offset_left = 836.0
 offset_top = 74.0
@@ -86,6 +100,12 @@ layout_mode = 2
 [node name="Slot16" parent="Ui/Inventario" instance=ExtResource("1_u36e3")]
 layout_mode = 2
 
+[node name="DeleteSlot" parent="Ui" groups=["DeleteSlot"] instance=ExtResource("1_u36e3")]
+offset_left = 1067.0
+offset_top = 411.0
+offset_right = 1137.0
+offset_bottom = 481.0
+
 [node name="Panel_Hotbar" type="Panel" parent="Ui"]
 offset_left = 354.0
 offset_top = 636.0
@@ -128,6 +148,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="CraftingPanel" type="VBoxContainer" parent="Ui"]
+visible = false
 offset_left = 406.0
 offset_top = 139.0
 offset_right = 452.0
@@ -180,12 +201,14 @@ text = "Exit to menu
 "
 
 [node name="Panel_Equip" type="Panel" parent="Ui"]
+visible = false
 offset_left = 91.0
 offset_top = 106.0
 offset_right = 345.0
 offset_bottom = 389.0
 
 [node name="EquipmentSlots" type="Control" parent="Ui"]
+visible = false
 z_index = 1
 layout_mode = 3
 anchors_preset = 0
@@ -263,6 +286,8 @@ offset_bottom = -48.0
 bbcode_enabled = true
 fit_content = true
 
+[connection signal="pressed" from="Ui/Equip_button" to="." method="_on_equip_button_pressed"]
+[connection signal="pressed" from="Ui/Crafting_button" to="." method="_on_crafting_button_pressed"]
 [connection signal="equip" from="Ui/Hotbar" to="." method="_on_hotbar_equip"]
 [connection signal="pressed" from="Ui/Pause_Menu/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Ui/Pause_Menu/To_menu" to="." method="_on_to_menu_pressed"]

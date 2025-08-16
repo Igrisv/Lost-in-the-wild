@@ -18,7 +18,7 @@ metadata/_custom_type_script = "uid://ben4m56t3jg1l"
 
 [resource]
 script = ExtResource("1_hoeuq")
-max_stack = 5
+max_stack = 10
 id = "Manzana"
 name = "Manzana"
 icon = ExtResource("3_qe8uf")
@@ -33,4 +33,9 @@ mobility = 0
 efficiency = 1.0
 modifiers = {}
 animation_override = ""
+min_yield = 1
+max_yield = 5
+resource_damage = 10.0
+critical_chance = 0.1
+yield_per_damage = 0.5
 metadata/_custom_type_script = "uid://b2jetr72aoe3x"

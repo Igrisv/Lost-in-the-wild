@@ -4,10 +4,18 @@ extends Control
 @onready var hotbar: HBoxContainer = $Ui/Hotbar
 @onready var grid: GridContainer = $Ui/Inventario
 @onready var pause_menu: Control = $Ui/Pause_Menu
-@onready var equipment_slots: Control = $Ui/EquipmentSlots  # Aseguramos que sea un Control con hijos Slot
-@onready var tooltip_panel: Panel = $Ui/TooltipPanel  # Referencia al tooltip
-@onready var _tooltip_text: RichTextLabel = $Ui/TooltipPanel/TooltipText  # Referencia al texto del tooltip
+@onready var equipment_slots: Control = $Ui/EquipmentSlots  
+@onready var tooltip_panel: Panel = $Ui/TooltipPanel 
+@onready var _tooltip_text: RichTextLabel = $Ui/TooltipPanel/TooltipText  
+@onready var crafting_button: Button = $Ui/Crafting_button
+@onready var equip_button: Button = $Ui/Equip_button
+@onready var crafting_panel: VBoxContainer = $Ui/CraftingPanel
+@onready var panel_hotbar: Panel = $Ui/Panel_Hotbar
+@onready var panel_equip: Panel = $Ui/Panel_Equip
+@onready var panel_inventory: Panel = $Ui/Panel_Inventory
 
+var is_crafting_visible: bool = false
+var is_equipment_visible: bool = false
 var is_paused = false
 var inventory_manager
 
@@ -21,6 +29,7 @@ var hovered_slot: Node = null
 const TOOLTIP_HOVER_TIME: float = 0.5 # Tiempo en segundos para mostrar el tooltip
 
 func _ready():
+	Inventory.update_all_slots()
 	# Inicializar todo oculto
 	canvas_layer.visible = false
 	hotbar.visible = false
@@ -128,13 +137,16 @@ func show_tooltip(item: Item, position: Vector2, slot_size: Vector2):
 		tooltip_panel.position.y = position.y - tooltip_size.y - 10
 	tooltip_panel.visible = true
 
+# Reemplaza _input en Inventory.gd
 func _input(event):
 	if event.is_action_pressed("inventario"):
 		if not is_pause_menu_visible:  # Solo abrir inventario si el menú de pausa no está visible
 			toggle_inventory()
 	elif event.is_action_pressed("menu"):
 		if not is_inventory_visible:  # Solo abrir menú de pausa si el inventario no está visible
-			toggle_pause_menu()
+			is_pause_menu_visible = not is_pause_menu_visible
+			is_inventory_visible = false  # Forzar ocultar inventario
+			update_visibility()
 	elif event is InputEventKey and event.is_pressed():
 		match event.keycode:
 			KEY_SPACE:
@@ -142,8 +154,8 @@ func _input(event):
 				if item_keys.is_empty():
 					print("Item map vacío. ¿Cargaste los ítems?")
 					return
-				var random_item = inventory_manager.item_map[item_keys[randi() % item_keys.size()]]
-				inventory_manager.add_item(random_item, 5)
+				#var random_item = inventory_manager.item_map[item_keys[randi() % item_keys.size()]]
+				#inventory_manager.add_item(random_item, 5)
 
 func toggle_inventory():
 	is_inventory_visible = not is_inventory_visible
@@ -160,7 +172,13 @@ func update_visibility():
 	hotbar.visible = is_inventory_visible
 	grid.visible = is_inventory_visible
 	pause_menu.visible = is_pause_menu_visible
-	equipment_slots.visible = is_inventory_visible  # Mostrar equipment_slots junto con el inventario
+	crafting_button.visible = is_inventory_visible
+	equip_button.visible = is_inventory_visible
+	panel_hotbar.visible = is_inventory_visible
+	panel_inventory.visible = is_inventory_visible
+	equipment_slots.visible =  is_equipment_visible
+	crafting_panel.visible = is_crafting_visible
+	panel_equip.visible =  is_equipment_visible
 	# Ocultar tooltip si el inventario no está visible
 	if not is_inventory_visible:
 		tooltip_panel.visible = false
@@ -178,3 +196,15 @@ func _on_to_menu_pressed() -> void:
 func _on_resume_pressed() -> void:
 	is_paused = false
 	pause_menu.visible = is_paused
+
+
+func _on_crafting_button_pressed() -> void:
+	is_crafting_visible = not is_crafting_visible
+	is_equipment_visible = false
+	update_visibility()
+
+
+func _on_equip_button_pressed() -> void:
+	is_equipment_visible = not is_equipment_visible
+	is_crafting_visible = false  # Ocultar crafting al mostrar equipo
+	update_visibility()

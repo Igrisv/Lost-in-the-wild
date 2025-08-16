@@ -21,7 +21,6 @@ func interact(player: Node) -> void:
 		queue_free()
 	
 func _on_loot_dropped(target: Node, dropped_amount: int) -> void:
-	print("Target", target, "Cantidad", dropped_amount)
 	if target == self:
 		total_dropped += dropped_amount
 		if total_dropped >= max_drop_amount:

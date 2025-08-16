@@ -1,74 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://csw6m1li7jjgf"]
+[gd_scene load_steps=3 format=3 uid="uid://csw6m1li7jjgf"]
 
 [ext_resource type="PackedScene" uid="uid://dr5kuuer5oimd" path="res://Systems/Resources-node/resource_node.tscn" id="1_ebsti"]
-[ext_resource type="Texture2D" uid="uid://bvf8gkib8ia0m" path="res://Assets/Mundo/Decoracion/Pixel Tree Animated Pack - Helm3t/Sheets/With Shadow/Tree1_anim_sheet_s.png" id="2_fghnv"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cnu1f"]
-atlas = ExtResource("2_fghnv")
-region = Rect2(0, 0, 48, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_y58fh"]
-atlas = ExtResource("2_fghnv")
-region = Rect2(0, 128, 48, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_acbh0"]
-atlas = ExtResource("2_fghnv")
-region = Rect2(48, 128, 48, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nj0lf"]
-atlas = ExtResource("2_fghnv")
-region = Rect2(96, 128, 48, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_y8mmi"]
-atlas = ExtResource("2_fghnv")
-region = Rect2(144, 128, 48, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rfgmc"]
-atlas = ExtResource("2_fghnv")
-region = Rect2(192, 128, 48, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_wy05j"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cnu1f")
-}],
-"loop": true,
-"name": &"Idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_y58fh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_acbh0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nj0lf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_y8mmi")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rfgmc")
-}],
-"loop": true,
-"name": &"Talar_Derecha",
-"speed": 5.0
-}]
+[ext_resource type="Texture2D" uid="uid://db0ihp2gtww4r" path="res://Assets/bush.webp" id="2_fghnv"]
 
 [node name="Arbol_Goty" instance=ExtResource("1_ebsti")]
 
 [node name="Sprite2D" parent="." index="0"]
-texture = null
+position = Vector2(0, 0.25)
+scale = Vector2(1, 0.982759)
+texture = ExtResource("2_fghnv")
 
 [node name="AnimatedSprite2D" parent="." index="1"]
-sprite_frames = SubResource("SpriteFrames_wy05j")
-animation = &"Idle"
-
-[node name="CollisionShape2D" parent="Area2D" index="0"]
-position = Vector2(0, 12)
+animation = &""
 
 [node name="CollisionShape2D" parent="." index="4"]
-position = Vector2(0.5, 20)
+position = Vector2(0.5, 5.5)

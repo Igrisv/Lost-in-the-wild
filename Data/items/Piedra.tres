@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://brskg8uilwu14"]
 
-[ext_resource type="Texture2D" uid="uid://dy7its6qs3ct5" path="res://Assets/Items/flint.webp" id="1_6ej5m"]
+[ext_resource type="Texture2D" uid="uid://78aqkdlmdclu" path="res://Assets/little-rock.png" id="1_6ej5m"]
 [ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="2_jmrg0"]
 
 [resource]
 script = ExtResource("2_jmrg0")
-max_stack = 10
+max_stack = 5
 id = "Piedra"
 name = "Piedra"
 icon = ExtResource("1_6ej5m")
@@ -19,4 +19,9 @@ mobility = 0
 efficiency = 1.0
 modifiers = {}
 animation_override = ""
+min_yield = 1
+max_yield = 5
+resource_damage = 10.0
+critical_chance = 0.1
+yield_per_damage = 0.5
 metadata/_custom_type_script = "uid://b2jetr72aoe3x"

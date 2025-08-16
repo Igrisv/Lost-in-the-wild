@@ -1,5 +1,7 @@
 extends Panel
 
+class_name  Slot
+
 @export var item: Item = null:
 	set(value):
 		item = value
@@ -84,6 +86,9 @@ func _can_drop_data(_at_position, data):
 
 func _drop_data(_at_position, data):
 	print("Drop data iniciado, slot equipment_slot: ", equipment_slot, ", item recibido: ", data.item.name if data and data.item else "null")
+	if self.is_in_group("DeleteSlot"):
+		_show_delete_confirmation(data.item, data.amount, data.source_slot)
+		return
 	if not data or not data.item:
 		print("Datos de arrastre inválidos o ítem nulo")
 		if _drag_data_cache and _drag_data_cache.source_slot:
@@ -141,12 +146,17 @@ func _drop_data(_at_position, data):
 		return
 
 	if equipment_slot != "":
-		print("Slot de equipamiento ya ocupado, no se permite agregar más ítems")
+		print("Slot de equipamiento ya ocupado, iniciando intercambio")
+		var temp_item = item
+		var temp_amount = amount
+		item = data.item
+		amount = data.amount
 		if source_slot and source_slot != self:
-			source_slot.item = data.item
-			source_slot.amount = data.amount
+			source_slot.item = temp_item
+			source_slot.amount = temp_amount
 			source_slot.queue_redraw()
-			print("Ítem restaurado al origen por slot ocupado: ", data.item.name)
+		print("Intercambio en slot de equipamiento completado")
+		queue_redraw()
 		return
 
 	if item.id == data.item.id:
@@ -167,43 +177,15 @@ func _drop_data(_at_position, data):
 				source_slot.queue_redraw()
 			print("Stack limitado, sobrante: ", data.amount)
 	else:
-		if equipment_slot != "" and not data.item.is_equippable:
-			var temp_item = item
-			var temp_amount = amount
-			item = data.item
-			amount = data.amount
-			if source_slot and source_slot != self:
-				source_slot.item = temp_item
-				source_slot.amount = temp_amount
-				source_slot.queue_redraw()
-			if temp_item:
-				emit_signal("item_unequipped", temp_item, self)
-				print("Ítem desequipado de: ", equipment_slot)
-		elif equipment_slot == "" and data.item.is_equippable and data.item.equipment_slot != "":
-			if inventory.equip_item(data.item, source_slot if source_slot else self):
-				print("Ítem equipado desde slot normal")
-				if source_slot and source_slot != self:
-					source_slot.item = null
-					source_slot.amount = 0
-					source_slot.queue_redraw()
-			else:
-				# Restaurar si el equipamiento falla
-				if source_slot and source_slot != self:
-					source_slot.item = data.item
-					source_slot.amount = data.amount
-					source_slot.queue_redraw()
-					print("Ítem restaurado al origen por fallo de equipamiento desde slot normal: ", data.item.name)
-			return
-		else:
-			var temp_item = item
-			var temp_amount = amount
-			item = data.item
-			amount = data.amount
-			if source_slot and source_slot != self:
-				source_slot.item = temp_item
-				source_slot.amount = temp_amount
-				source_slot.queue_redraw()
-			print("Intercambio realizado")
+		var temp_item = item
+		var temp_amount = amount
+		item = data.item
+		amount = data.amount
+		if source_slot and source_slot != self:
+			source_slot.item = temp_item
+			source_slot.amount = temp_amount
+			source_slot.queue_redraw()
+		print("Intercambio realizado")
 	queue_redraw()
 
 func _get_drag_data(_at_position):
@@ -235,31 +217,22 @@ func _notification(what):
 				drop_successful = true
 				break
 
-		if not drop_successful and not is_safe_slot:
-			_show_destroy_confirmation()
-		elif drop_successful and _drag_data_cache:
-			# Limpiar el slot de origen solo si el drop fue exitoso
-			self.item = null
-			self.amount = 0
-
 		_drag_data_cache = null
 
-func _show_destroy_confirmation():
-	if get_tree().get_nodes_in_group("destroy_dialog").size() > 0:
-		return
-
+func _show_delete_confirmation(dropped_item: Item, dropped_amount: int, source_slot: Node) -> void:
 	var dialog := ConfirmationDialog.new()
-	dialog.add_to_group("destroy_dialog")
-	dialog.title = "Confirmar Destrucción"
-	dialog.dialog_text = "¿Deseas destruir el ítem '" + (_drag_data_cache.item.name if _drag_data_cache.item else "Ítem") + "'?"
-	dialog.ok_button_text = "Destruir"
+	dialog.title = "Confirmar Eliminación"
+	dialog.dialog_text = "¿Deseas eliminar el ítem '" + dropped_item.name + "'?"
+	dialog.ok_button_text = "Eliminar"
 	dialog.cancel_button_text = "Cancelar"
 	dialog.min_size = Vector2(300, 150)
 
 	dialog.confirmed.connect(func():
-		item = null
-		amount = 0
-		print("Ítem destruido: ", _drag_data_cache.item.name if _drag_data_cache.item else "null")
+		if source_slot:
+			source_slot.item = null
+			source_slot.amount = 0
+			source_slot.queue_redraw()
+		print("Ítem eliminado: ", dropped_item.name)
 		dialog.queue_free()
 	)
 

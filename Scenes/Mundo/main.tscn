@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bag2l1wvhorit"]
+[gd_scene load_steps=31 format=3 uid="uid://bag2l1wvhorit"]
 
 [ext_resource type="Script" uid="uid://3qq00hkyqqmh" path="res://Scenes/Mundo/main.gd" id="1_rq36j"]
 [ext_resource type="Script" uid="uid://bggw2twirf78y" path="res://Scenes/Mundo/weather_manager_local.gd" id="3_oi44u"]
@@ -15,6 +15,13 @@
 [ext_resource type="Script" uid="uid://de1vscje7cvhh" path="res://Scenes/Mundo/Ciclo_Dia_Noche.gd" id="14_irt6n"]
 [ext_resource type="PackedScene" uid="uid://cokyqa1sqmon0" path="res://Scenes/Jugador/Jugador.tscn" id="14_oi44u"]
 [ext_resource type="PackedScene" uid="uid://bdppn0m7srw1l" path="res://Systems/Chest/chest.tscn" id="15_oi44u"]
+[ext_resource type="PackedScene" uid="uid://csw6m1li7jjgf" path="res://Scenes/Mundo/Arboles/arbol_goty.tscn" id="16_rq36j"]
+[ext_resource type="PackedScene" uid="uid://bvmp5v4n7ccb2" path="res://Systems/Criaturas/Creature.tscn" id="17_5v27u"]
+[ext_resource type="PackedScene" uid="uid://b2dfrwaqpr1kq" path="res://Systems/Inventory/item_drop.tscn" id="19_s3q18"]
+[ext_resource type="Resource" uid="uid://b4df3lev0ghbd" path="res://Data/items/Manzana.tres" id="20_f02ec"]
+[ext_resource type="Resource" uid="uid://brskg8uilwu14" path="res://Data/items/Piedra.tres" id="20_jy5nr"]
+[ext_resource type="PackedScene" uid="uid://byurhjqur5vrr" path="res://Scenes/Mundo/Arboles/Roca.tscn" id="20_s3q18"]
+[ext_resource type="AudioStream" uid="uid://cf4fs2w4fc2r3" path="res://Musics/LW Intro theme.mp3" id="21_jy5nr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ugfh3"]
 texture = ExtResource("6_002uo")
@@ -196,6 +203,7 @@ visible = false
 top_level = true
 z_index = 1
 y_sort_enabled = true
+mouse_filter = 2
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
@@ -212,27 +220,79 @@ color = Color(0.60933, 0.60933, 0.60933, 1)
 script = ExtResource("14_irt6n")
 
 [node name="Player" parent="." instance=ExtResource("14_oi44u")]
-position = Vector2(139, 54)
+position = Vector2(566, 316)
 
 [node name="Arbol" parent="." groups=["Interactable"] instance=ExtResource("5_fivlv")]
-position = Vector2(529, 192)
-max_drop_amount = 20
+position = Vector2(750, 201)
+max_drop_amount = 10
 
 [node name="Arbol2" parent="." groups=["Interactable"] instance=ExtResource("5_fivlv")]
-position = Vector2(601, 155)
-max_drop_amount = 20
+position = Vector2(703, 293)
+max_drop_amount = 10
 
 [node name="Arbol3" parent="." groups=["Interactable"] instance=ExtResource("5_fivlv")]
-position = Vector2(636, 241)
-max_drop_amount = 20
-
-[node name="Arbol5" parent="." groups=["Interactable"] instance=ExtResource("5_fivlv")]
-position = Vector2(689, 176)
-max_drop_amount = 20
-
-[node name="Arbol4" parent="." groups=["Interactable"] instance=ExtResource("5_fivlv")]
-position = Vector2(561, 277)
-max_drop_amount = 20
+position = Vector2(804, 284)
+max_drop_amount = 10
 
 [node name="Area2D" parent="." instance=ExtResource("15_oi44u")]
 position = Vector2(-35, 356)
+
+[node name="Arbusto" parent="." instance=ExtResource("16_rq36j")]
+position = Vector2(606, 201)
+resource_drops = {
+"Ramas": 1
+}
+
+[node name="Arbusto2" parent="." instance=ExtResource("16_rq36j")]
+position = Vector2(671, 166)
+resource_drops = {
+"Ramas": 1
+}
+
+[node name="Creature" parent="." groups=["Interactable"] instance=ExtResource("17_5v27u")]
+position = Vector2(92, 38)
+interaction_range = 70.0
+
+[node name="Item_drop" parent="." instance=ExtResource("19_s3q18")]
+position = Vector2(625, 377)
+item = ExtResource("20_jy5nr")
+amount = 2
+
+[node name="Item_drop3" parent="." instance=ExtResource("19_s3q18")]
+position = Vector2(669, 450)
+item = ExtResource("20_jy5nr")
+amount = 2
+
+[node name="Item_drop2" parent="." instance=ExtResource("19_s3q18")]
+position = Vector2(597, 426)
+item = ExtResource("20_jy5nr")
+amount = 2
+
+[node name="Item_drop6" parent="." instance=ExtResource("19_s3q18")]
+position = Vector2(444, 386)
+scale = Vector2(1.5, 1.5)
+item = ExtResource("20_f02ec")
+amount = 3
+
+[node name="CollisionShape2D" parent="Item_drop6" index="0"]
+position = Vector2(0.666677, 0)
+
+[node name="Sprite2D" parent="Item_drop6" index="1"]
+scale = Vector2(2, 2)
+
+[node name="Roca" parent="." groups=["Interactable"] instance=ExtResource("20_s3q18")]
+position = Vector2(508, 245)
+action_id = "mine_rock"
+max_drop_amount = 5
+
+[node name="Roca2" parent="." groups=["Interactable"] instance=ExtResource("20_s3q18")]
+position = Vector2(437, 281)
+action_id = "mine_rock"
+max_drop_amount = 5
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("21_jy5nr")
+autoplay = true
+bus = &"Music"
+
+[editable path="Item_drop6"]
