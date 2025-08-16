@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bm03qstksvuqk"]
+[gd_scene load_steps=19 format=3 uid="uid://bm03qstksvuqk"]
 
 [ext_resource type="Texture2D" uid="uid://b8inhxkmu6sup" path="res://Assets/Ui/Controles/Buttons/Random/Arrows/Big/05_Up.png" id="1_o4g3n"]
 [ext_resource type="Script" uid="uid://c7n0hk42s0lqc" path="res://Scenes/Ui_Movil/ui_movil.gd" id="1_pjqd4"]
@@ -13,8 +13,10 @@
 [ext_resource type="Texture2D" uid="uid://d0sec4elarr6j" path="res://Assets/Ui/Controles/Buttons/Random/General/Big/Shoot.png" id="10_f3h1i"]
 [ext_resource type="Texture2D" uid="uid://blpwff0q4602s" path="res://Assets/Ui/Controles/Buttons/Random/General/Big/Shoot_Pressed.png" id="11_p1a6j"]
 [ext_resource type="Texture2D" uid="uid://c7axem3hinde2" path="res://Assets/Ui/Controles/Buttons/Random/Options/Options2.png" id="12_nxxsn"]
+[ext_resource type="Texture2D" uid="uid://bc7tbv0e4g4xm" path="res://Assets/Ui/Controles/Buttons/Random/General/Big/Accelerate.png" id="13_38w68"]
 [ext_resource type="Texture2D" uid="uid://b0jt6icqkaeni" path="res://Assets/Ui/Controles/Buttons/Random/Options/Options2_Pressedpng.png" id="13_bvp56"]
 [ext_resource type="Texture2D" uid="uid://bnmcow7poasw5" path="res://Assets/Ui/Controles/Buttons/Random/Options/Options1.png" id="14_a640b"]
+[ext_resource type="Texture2D" uid="uid://dw0gyvvy01l6m" path="res://Assets/Ui/Controles/Buttons/Random/General/Big/Accelerate_Pressed.png" id="14_moyva"]
 [ext_resource type="Texture2D" uid="uid://diohb7lpfwt4c" path="res://Assets/Ui/Controles/Buttons/Random/Options/Options1_Pressed.png" id="15_ddsco"]
 
 [node name="Ui_Movil" type="Control"]
@@ -106,6 +108,22 @@ scale = Vector2(4, 4)
 texture_normal = ExtResource("10_f3h1i")
 texture_pressed = ExtResource("11_p1a6j")
 action = "interactuar"
+
+[node name="Consume" type="Control" parent="." groups=["editable_ui"]]
+anchors_preset = 0
+offset_left = 1040.0
+offset_top = 436.0
+offset_right = 1109.0
+offset_bottom = 513.0
+script = ExtResource("4_ilh0b")
+
+[node name="Consume" type="TouchScreenButton" parent="Consume"]
+texture_filter = 1
+position = Vector2(1, 2)
+scale = Vector2(4, 4)
+texture_normal = ExtResource("13_38w68")
+texture_pressed = ExtResource("14_moyva")
+action = "usar_item"
 
 [node name="Menu" type="Control" parent="." groups=["editable_ui"]]
 anchors_preset = 0

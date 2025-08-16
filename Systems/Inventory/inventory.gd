@@ -134,18 +134,30 @@ func get_jugador() -> CharacterBody2D:
 
 func _load_items():
 	var dir = DirAccess.open("res://Data/items")
+	print("Intentando abrir directorio: res://Data/items - Resultado: ", "Éxito" if dir else "Fallo")
 	if dir:
 		dir.list_dir_begin()
+		print("Listado de directorio iniciado")
 		var file_name = dir.get_next()
 		while file_name != "":
-			if file_name.ends_with(".tres") and not dir.current_is_dir():
-				var item: Item = load("res://Data/items/" + file_name)
+			print("Archivo encontrado: ", file_name)
+			if file_name.ends_with(".tres") or file_name.ends_with(".tres.remap"):
+				var base_file_name = file_name.trim_suffix(".remap")  # Elimina .remap si existe
+				print("Archivo .tres detectado (base): ", base_file_name)
+				var item: Item = load("res://Data/items/" + base_file_name)
+				print("Cargando ítem desde: res://Data/items/", base_file_name, " - Resultado: ", "Éxito" if item else "Fallo")
 				if item and item.id != "":
 					if item_map.has(item.id):
 						push_warning("Ítem duplicado: %s" % item.id)
 					item_map[item.id] = item
+					print("Ítem añadido al map: ", item.id)
+				else:
+					print("Ítem inválido o sin ID: ", item)
 			file_name = dir.get_next()
 		dir.list_dir_end()
+		print("Listado de directorio finalizado - Total ítems en map: ", item_map.size())
+	else:
+		print("Error: No se pudo abrir el directorio res://Data/items")
 
 func get_item(id: String) -> Item:
 	return item_map.get(id)
