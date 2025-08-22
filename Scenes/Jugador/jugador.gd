@@ -102,6 +102,13 @@ func _physics_process(_delta):
 			if cooldowns[key] < 0:
 				cooldowns[key] = 0.0
 
+# --- Código de ataque ---
+	if Input.is_action_just_pressed("attack"):  # Asume input "attack" configurado en Project Settings
+		var hotbar = get_hotbar()
+		if hotbar and hotbar.currently_equipped and hotbar.currently_equipped.item_type == Item.ItemType.WEAPON:
+			hotbar.use_current()  # Delega al hotbar para ejecutar la acción de ataque
+			return
+	
 	# --- Código de movimiento y animaciones ---
 	if Input.is_action_just_pressed("interactuar"):
 		var interactables = get_tree().get_nodes_in_group("Interactable")

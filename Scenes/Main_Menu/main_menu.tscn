@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c5n02nfk3vas1"]
+[gd_scene load_steps=4 format=3 uid="uid://c5n02nfk3vas1"]
 
 [ext_resource type="Script" uid="uid://bopfal4ataqia" path="res://Scenes/Main_Menu/main_menu.gd" id="1_e582s"]
 [ext_resource type="AudioStream" uid="uid://dlljb4oonkwro" path="res://Musics/Intro Full.mp3" id="2_ev4p5"]
+[ext_resource type="PackedScene" uid="uid://dl73gcq35ijmy" path="res://Modding_tool/Modding_tool.tscn" id="3_fry56"]
 
 [node name="Main_Menu" type="Control"]
 layout_mode = 3
@@ -226,6 +227,14 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_lock_ = true
 
+[node name="Modding" type="Button" parent="Main_Menu"]
+layout_mode = 2
+offset_left = 1097.5
+offset_top = 659.5
+offset_right = 1236.5
+offset_bottom = 690.5
+text = "Modding"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="Main_Menu"]
 custom_minimum_size = Vector2(0, -1.015)
 layout_mode = 1
@@ -265,6 +274,10 @@ bus = &"Music"
 
 [node name="Sfx_menu" type="AudioStreamPlayer2D" parent="."]
 
+[node name="Modding" parent="." instance=ExtResource("3_fry56")]
+visible = false
+layout_mode = 1
+
 [connection signal="pressed" from="Nueva_Partida/Nueva_partida" to="." method="_on_nueva_partida_pressed"]
 [connection signal="pressed" from="Nueva_Partida/Atras_Nueva_Partida" to="." method="_on_atras_nueva_partida_pressed"]
 [connection signal="pressed" from="Opciones/Atras_Opciones" to="." method="_on_atras_opciones_pressed"]
@@ -275,6 +288,7 @@ bus = &"Music"
 [connection signal="pressed" from="Opciones/Opcion_Buttons/Video_opciones" to="." method="_on_video_opciones_pressed"]
 [connection signal="pressed" from="Opciones/Opcion_Buttons/Audio_opciones" to="." method="_on_audio_opciones_pressed"]
 [connection signal="pressed" from="Creditos/Atras_Creditos" to="." method="_on_atras_creditos_pressed"]
+[connection signal="pressed" from="Main_Menu/Modding" to="." method="_on_modding_pressed"]
 [connection signal="pressed" from="Main_Menu/VBoxContainer/Nueva_partida_Menu" to="." method="_on_nueva_partida_menu_pressed"]
 [connection signal="pressed" from="Main_Menu/VBoxContainer/Opciones" to="." method="_on_opciones_pressed"]
 [connection signal="pressed" from="Main_Menu/VBoxContainer/Creditos" to="." method="_on_creditos_pressed"]

@@ -26,6 +26,19 @@ extends Resource
 @export var critical_chance: float = 0.1  # Probabilidad (0-1) de golpe crítico para yield extra
 @export var yield_per_damage: float = 0.5  # Multiplicador de loot por unidad de daño causado
 
+# Sección especializada para armas (item_type == WEAPON): variables de combate
+@export var damage_base: float = 10.0  # Daño base del arma
+@export var attack_range: float = 150.0  # Rango de ataque (para melee o proyectil inicial)
+@export var is_ranged: bool = false  # Si es true, el arma es a distancia (lanza proyectil)
+@export var projectile_speed: float = 400.0
+@export var projectile_scene: PackedScene = null  # Escena del proyectil para armas ranged (ej. flecha, bala)
+@export var attack_speed: float = 1.0  # Velocidad de ataque (modificador para tiempo de ejecución)
+
+# Sección para munición y recarga en armas ranged
+@export var needs_ammo: bool = false  # Si true, el arma requiere munición para disparar
+@export var ammo_type: String = ""  # ID del ítem de munición requerido (ej. "arrow")
+@export var reload_time: float = 2.0  # Tiempo en segundos para recargar/simular carga antes de disparar
+
 enum ItemType {
 	CONSUMABLE,
 	TOOL,

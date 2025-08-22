@@ -93,9 +93,21 @@ func use_current():
 				closest.interact(player)
 		Item.ItemType.WEAPON:
 			var action = load("res://Data/actions/attack.tres")
-			if await action_manager.execute_action(action, player):
+			var closest_enemy = find_closest_enemy(player)  # Función auxiliar para target opcional
+			if await action_manager.execute_action(action, player, closest_enemy, slot.item):
 				slot.queue_redraw()
 		Item.ItemType.PLACEABLE:
 			var action = load("res://Data/actions/place.tres")
 			if await action_manager.execute_action(action, player):
 				slot.queue_redraw()
+
+func find_closest_enemy(player: Node) -> Node:
+	var enemies = get_tree().get_nodes_in_group("Enemy")
+	var closest = null
+	var min_distance = INF
+	for enemy in enemies:
+		var distance = player.global_position.distance_to(enemy.global_position)
+		if distance < min_distance:
+			min_distance = distance
+			closest = enemy
+	return closest if min_distance < player.attack_range else null

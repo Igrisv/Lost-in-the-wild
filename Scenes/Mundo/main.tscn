@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bag2l1wvhorit"]
+[gd_scene load_steps=33 format=3 uid="uid://bag2l1wvhorit"]
 
 [ext_resource type="Script" uid="uid://3qq00hkyqqmh" path="res://Scenes/Mundo/main.gd" id="1_rq36j"]
 [ext_resource type="Script" uid="uid://bggw2twirf78y" path="res://Scenes/Mundo/weather_manager_local.gd" id="3_oi44u"]
@@ -18,10 +18,11 @@
 [ext_resource type="PackedScene" uid="uid://csw6m1li7jjgf" path="res://Scenes/Mundo/Arboles/arbol_goty.tscn" id="16_rq36j"]
 [ext_resource type="PackedScene" uid="uid://bvmp5v4n7ccb2" path="res://Systems/Criaturas/Creature.tscn" id="17_5v27u"]
 [ext_resource type="PackedScene" uid="uid://b2dfrwaqpr1kq" path="res://Systems/Inventory/item_drop.tscn" id="19_s3q18"]
-[ext_resource type="Resource" uid="uid://b4df3lev0ghbd" path="res://Data/items/Manzana.tres" id="20_f02ec"]
+[ext_resource type="Resource" uid="uid://dcgbgd27vy3el" path="res://Data/items/espada.tres" id="20_f02ec"]
 [ext_resource type="Resource" uid="uid://brskg8uilwu14" path="res://Data/items/Piedra.tres" id="20_jy5nr"]
 [ext_resource type="PackedScene" uid="uid://byurhjqur5vrr" path="res://Scenes/Mundo/Arboles/Roca.tscn" id="20_s3q18"]
 [ext_resource type="AudioStream" uid="uid://cf4fs2w4fc2r3" path="res://Musics/LW Intro theme.mp3" id="21_jy5nr"]
+[ext_resource type="Script" uid="uid://drky0qce42f64" path="res://Scenes/Mundo/character_body_2d.gd" id="23_b3rqp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ugfh3"]
 texture = ExtResource("6_002uo")
@@ -187,6 +188,8 @@ sources/4 = SubResource("TileSetAtlasSource_5v27u")
 sources/5 = SubResource("TileSetAtlasSource_2x4d3")
 sources/6 = SubResource("TileSetAtlasSource_7g1o7")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f02ec"]
+
 [node name="Main" type="Node2D"]
 script = ExtResource("1_rq36j")
 
@@ -272,13 +275,6 @@ amount = 2
 position = Vector2(444, 386)
 scale = Vector2(1.5, 1.5)
 item = ExtResource("20_f02ec")
-amount = 3
-
-[node name="CollisionShape2D" parent="Item_drop6" index="0"]
-position = Vector2(0.666677, 0)
-
-[node name="Sprite2D" parent="Item_drop6" index="1"]
-scale = Vector2(2, 2)
 
 [node name="Roca" parent="." groups=["Interactable"] instance=ExtResource("20_s3q18")]
 position = Vector2(508, 245)
@@ -295,4 +291,9 @@ stream = ExtResource("21_jy5nr")
 autoplay = true
 bus = &"Music"
 
-[editable path="Item_drop6"]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." groups=["Enemy"]]
+position = Vector2(617, 315)
+script = ExtResource("23_b3rqp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_f02ec")

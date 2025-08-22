@@ -6,7 +6,7 @@ signal loot_dropped(value,value1)
 
 func execute_action(action: ActionResource, player: Node, target: Node = null, item: Item = null, slot: Node = null) -> bool:
 	var inventory = Inventory
-	var tool = get_equipped_tool(player, action.required_tool_type) if action.action_id != "consume_item" else item
+	var tool = item if action.action_id == "consume_item" or action.action_id == "attack" else get_equipped_tool(player, action.required_tool_type)
 	if not can_execute_action(action, player, tool):
 		return false
 
@@ -47,7 +47,68 @@ func execute_action(action: ActionResource, player: Node, target: Node = null, i
 		else:
 			print("Error: ConsumableData es null para: ", item.name)
 			return false
+		# Especial para acción de ataque
+	if action.action_id == "attack" and tool and tool.item_type == Item.ItemType.WEAPON:
+		modified_execution_time /= tool.attack_speed  # Ajustar tiempo por velocidad de ataque
 
+		# Calcular daño
+		var damage = tool.damage_base
+		if randf() < tool.critical_chance:
+			damage *= 1.5  # Crítico
+		print("atacando", damage)
+
+		if tool.is_ranged:
+			if tool.is_ranged:
+				# Ataque a distancia: verificar munición si es requerida
+				if tool.needs_ammo:
+					if not inventory.has_item_in_hotbar(tool.ammo_type) or inventory.count_item(inventory.get_item(tool.ammo_type)) <= 0:
+						print("Sin munición para: ", tool.name)
+						return false
+					# Consumir munición
+					inventory.use_stackable_item(inventory.get_item(tool.ammo_type), 1)
+
+				# Simular recarga/carga del arma
+				await get_tree().create_timer(tool.reload_time).timeout
+
+				# Instanciar proyectil después de la recarga
+				if tool.projectile_scene:
+					var projectile = tool.projectile_scene.instantiate()
+					projectile.global_position = player_node.global_position
+					projectile.direction = (target.global_position - player_node.global_position).normalized() if target else (player_node.get_global_mouse_position() - player_node.global_position).normalized()
+					projectile.speed = tool.projectile_speed
+					projectile.damage = damage
+					player_node.get_parent().add_child(projectile)
+				else:
+					print("Error: No hay escena de proyectil para arma ranged: ", tool.name)
+					return false
+		else:
+			# Ataque cuerpo a cuerpo: detectar target en rango
+			if target and player_node.global_position.distance_to(target.global_position) <= tool.attack_range and target.has_method("take_damage"):
+				target.take_damage(damage)
+				print("Daño melee aplicado a: ", target.name, " - Daño: ", damage)
+			else:
+				# Raycast fallback si no hay target válido
+				var direction = (player_node.get_global_mouse_position() - player_node.global_position).normalized() if not target else (target.global_position - player_node.global_position).normalized()
+				var space_state = player_node.get_world_2d().direct_space_state
+				var query = PhysicsRayQueryParameters2D.create(player_node.global_position, player_node.global_position + direction * tool.attack_range)
+				var result = space_state.intersect_ray(query)
+				if result and result.collider.is_in_group("Enemy") and result.collider.has_method("take_damage"):
+					result.collider.take_damage(damage)
+					print("Daño melee aplicado via raycast a: ", result.collider.name, " - Daño: ", damage)
+				else:
+					print("No hay target en rango para melee")
+					return false
+
+		# Reducir durabilidad del arma
+		if tool.durability > 0:
+			tool.durability -= 1
+			if tool.durability <= 0:
+				inventory.unequip_item(tool, tool.equipment_slot)
+				inventory.add_item(tool, 0)  # Elimina
+
+		emit_signal("action_completed", action.action_id)
+		return true
+	
 	# Esperar el tiempo de ejecución
 	await get_tree().create_timer(modified_execution_time).timeout
 

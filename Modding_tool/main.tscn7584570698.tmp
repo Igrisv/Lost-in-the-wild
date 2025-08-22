@@ -1,0 +1,186 @@
+[gd_scene load_steps=2 format=3 uid="uid://dl73gcq35ijmy"]
+
+[ext_resource type="Script" uid="uid://d31pov7lsdves" path="res://Main/main.gd" id="1_ig7tw"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ig7tw")
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 31.0
+offset_right = 466.0
+offset_bottom = 373.0
+
+[node name="Nigga" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 29.0
+offset_right = 458.0
+offset_bottom = 367.0
+
+[node name="Setters" type="VBoxContainer" parent="Nigga"]
+layout_mode = 2
+
+[node name="Principal" type="Label" parent="Nigga/Setters"]
+layout_mode = 2
+text = "Modding tool release 1.0"
+
+[node name="name" type="LineEdit" parent="Nigga/Setters"]
+layout_mode = 2
+placeholder_text = "name"
+
+[node name="action_id" type="LineEdit" parent="Nigga/Setters"]
+layout_mode = 2
+placeholder_text = "action_id"
+
+[node name="display_name" type="LineEdit" parent="Nigga/Setters"]
+layout_mode = 2
+placeholder_text = "display_name"
+
+[node name="required_tool_type" type="LineEdit" parent="Nigga/Setters"]
+layout_mode = 2
+placeholder_text = "required_tool_type"
+
+[node name="animation" type="LineEdit" parent="Nigga/Setters"]
+layout_mode = 2
+placeholder_text = "animation"
+
+[node name="base_execution_time" type="SpinBox" parent="Nigga/Setters"]
+layout_mode = 2
+alignment = 2
+
+[node name="base_stamina_cost" type="SpinBox" parent="Nigga/Setters"]
+layout_mode = 2
+alignment = 2
+
+[node name="Edit_Outcomes" type="Button" parent="Nigga/Setters"]
+layout_mode = 2
+text = "Editar Outcomes
+"
+
+[node name="FileDialog" type="FileDialog" parent="Nigga/Setters"]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
+access = 1
+filters = PackedStringArray("*.tres")
+
+[node name="Save" type="Button" parent="Nigga/Setters"]
+layout_mode = 2
+text = "Save"
+
+[node name="Labels" type="VBoxContainer" parent="Nigga"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="name" type="Label" parent="Nigga/Labels"]
+layout_mode = 2
+text = "Nombre del archivo . tres"
+
+[node name="action_id" type="Label" parent="Nigga/Labels"]
+layout_mode = 2
+text = "Accion a ejecutar"
+
+[node name="display_name" type="Label" parent="Nigga/Labels"]
+layout_mode = 2
+text = "Nombre interno del recurso"
+
+[node name="required_tool_type" type="Label" parent="Nigga/Labels"]
+layout_mode = 2
+text = "Herramienta a necesitar"
+
+[node name="animation" type="Label" parent="Nigga/Labels"]
+layout_mode = 2
+text = "Animacion"
+
+[node name="base_execution_time" type="Label" parent="Nigga/Labels"]
+layout_mode = 2
+text = "Tiempo de ejecucion"
+
+[node name="base_stamina_cost" type="Label" parent="Nigga/Labels"]
+layout_mode = 2
+text = "Coste de estamina"
+
+[node name="edit_outcomes" type="Label" parent="Nigga/Labels"]
+layout_mode = 2
+text = "Editar resultado de la accion"
+
+[node name="cargar" type="Button" parent="."]
+layout_mode = 2
+offset_left = 252.0
+offset_top = 336.0
+offset_right = 359.0
+offset_bottom = 367.0
+text = "Cargar datos"
+
+[node name="Outcomes" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 528.0
+offset_top = 24.0
+offset_right = 775.0
+offset_bottom = 64.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Outcomes"]
+layout_mode = 2
+
+[node name="OutcomesList" type="ItemList" parent="Outcomes/HBoxContainer"]
+layout_mode = 2
+
+[node name="BtnNewOutcome" type="Button" parent="Outcomes/HBoxContainer"]
+layout_mode = 2
+text = "Nuevo"
+
+[node name="BtnDeleteOutcome" type="Button" parent="Outcomes/HBoxContainer"]
+layout_mode = 2
+text = "Eliminar"
+
+[node name="LblEmpty" type="Label" parent="Outcomes/HBoxContainer"]
+layout_mode = 2
+text = "Sin outcomes"
+
+[node name="OutcomePanel" type="Panel" parent="Outcomes"]
+layout_mode = 2
+
+[node name="OBType" type="OptionButton" parent="Outcomes/OutcomePanel"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 20.0
+
+[node name="LETarget" type="LineEdit" parent="Outcomes/OutcomePanel"]
+layout_mode = 0
+offset_right = 68.5625
+offset_bottom = 31.0
+
+[node name="LEValue" type="LineEdit" parent="Outcomes/OutcomePanel"]
+layout_mode = 0
+offset_right = 68.5625
+offset_bottom = 31.0
+
+[node name="BtnSaveOutcome" type="Button" parent="Outcomes/OutcomePanel"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Guardar Outcome"
+
+[node name="BtnCloseOutcome" type="Button" parent="Outcomes/OutcomePanel"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Cerrar"
+
+[connection signal="pressed" from="Nigga/Setters/Edit_Outcomes" to="." method="_on_edit_outcomes_pressed"]
+[connection signal="file_selected" from="Nigga/Setters/FileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="pressed" from="Nigga/Setters/Save" to="." method="_on_btn_guardar_pressed"]
+[connection signal="pressed" from="cargar" to="." method="_on_cargar_pressed"]

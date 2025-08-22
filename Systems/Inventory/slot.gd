@@ -206,7 +206,7 @@ func _get_drag_data(_at_position):
 
 func _notification(what):
 	if what == NOTIFICATION_DRAG_END and _drag_data_cache:
-		var drop_successful := false
+		var _drop_successful := false
 
 		for slot in get_tree().get_nodes_in_group("slots"):
 			if slot == self:
@@ -214,7 +214,7 @@ func _notification(what):
 			var slot_rect: Rect2 = slot.get_global_rect()
 			var dummy_data = {"item": _drag_data_cache.item, "amount": _drag_data_cache.amount, "source_slot": self}
 			if slot_rect.has_point(get_global_mouse_position()) and slot._can_drop_data(Vector2.ZERO, dummy_data):
-				drop_successful = true
+				_drop_successful = true
 				break
 
 		_drag_data_cache = null

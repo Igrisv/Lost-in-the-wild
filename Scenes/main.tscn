@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dthegqp6v0opb"]
+[gd_scene load_steps=4 format=3 uid="uid://doxvokiwgl5ua"]
 
 [ext_resource type="PackedScene" uid="uid://jbb3quf3ec23" path="res://Systems/Animals/conejo.tscn" id="3_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://cwwbkexo7lung" path="res://Systems/Inventory/inventory.tscn" id="4_jjvhh"]

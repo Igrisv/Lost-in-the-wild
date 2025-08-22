@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="Item" load_steps=4 format=3 uid="uid://dcgbgd27vy3el"]
+
+[ext_resource type="Script" uid="uid://b2jetr72aoe3x" path="res://Systems/Inventory/item.gd" id="1_mymtv"]
+[ext_resource type="Texture2D" uid="uid://dplgfu171cxd7" path="res://Assets/Items/Weapons Asset 16x16/001.png" id="1_r7ofo"]
+[ext_resource type="PackedScene" uid="uid://cxnide2tmtrwx" path="res://Proyectil.tscn" id="2_nggdo"]
+
+[resource]
+script = ExtResource("1_mymtv")
+max_stack = 1
+id = "espada"
+name = "espada"
+icon = ExtResource("1_r7ofo")
+item_type = 2
+is_equippable = false
+equipment_slot = ""
+durability = 100
+protection = 0
+comfort = 0
+mobility = 0
+efficiency = 1.0
+modifiers = {}
+animation_override = ""
+min_yield = 1
+max_yield = 5
+resource_damage = 10.0
+critical_chance = 0.1
+yield_per_damage = 0.5
+damage_base = 10.0
+attack_range = 150.0
+is_ranged = true
+projectile_speed = 400.0
+projectile_scene = ExtResource("2_nggdo")
+attack_speed = 5.0
+needs_ammo = true
+ammo_type = "Piedra"
+reload_time = 0.0
+metadata/_custom_type_script = "uid://b2jetr72aoe3x"

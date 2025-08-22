@@ -8,6 +8,7 @@ extends Control
 @onready var controles_mp: Control = $Opciones/Controles_mp
 @onready var video: Control = $Opciones/Video
 @onready var audio: Control = $Opciones/Audio
+@onready var modding: Control = $Modding
 
 
 
@@ -131,3 +132,8 @@ func _on_edit_pressed():
 #endregion
 
 #endregion
+
+func _on_modding_pressed() -> void:
+	main_menu.visible = false
+	modding.visible = true
+	
